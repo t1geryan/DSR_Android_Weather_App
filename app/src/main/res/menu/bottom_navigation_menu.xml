@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@id/locations"
+        android:enabled="true"
+        android:icon="@drawable/icon_location_on_24"
+        android:iconTint="@color/icon_color"
+        android:title="@string/locations" />
+    <item
+        android:id="@id/triggers"
+        android:enabled="true"
+        android:icon="@drawable/icon_bell_24"
+        android:iconTint="@color/icon_color"
+        android:title="@string/triggers" />
+    <item
+        android:id="@id/settings"
+        android:enabled="true"
+        android:icon="@drawable/icon_settings_24"
+        android:iconTint="@color/icon_color"
+        android:title="@string/settings" />
+</menu>

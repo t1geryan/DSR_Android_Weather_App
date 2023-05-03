@@ -1,3 +1,40 @@
 <resources>
+    <!--App Name and Screen Titles-->
     <string name="app_name">Weather App</string>
+    <string name="locations_title">Locations</string>
+    <string name="location_addition_map_title">Location Coordinates</string>
+    <string name="location_addition_name_title">Location Name</string>
+    <string name="location_addition_details_title">Weather Details</string>
+    <string name="weather_details_title">Weather Details</string>
+    <string name="settings_title">Settings</string>
+    <string name="triggers_title">Triggers</string>
+
+    <!--Locations Screen-->
+    <string name="empty_locations_list_message">You don\'t have any added locations.\n Tap the button below to get started.</string>
+
+    <!--Location Addition Screens-->
+    <string name="next">NEXT</string>
+    <string name="finish">Finish</string>
+
+    <!--Location Addition Name Screen-->
+    <string name="input_name_hint">Input Location Name</string>
+    <string name="input_name_helper_text">Required*</string>
+
+    <!--Location Addition Details Screen-->
+    <string name="weather_details_message">Show location weather</string>
+    <string name="confirm_next_day_forecast">with forecast for the next day</string>
+    <string name="deny_next_day_forecast">without forecast for the next day</string>
+
+    <!--Bottom Navigation Items-->
+    <string name="locations">Locations</string>
+    <string name="triggers">Triggers</string>
+    <string name="settings">Settings</string>
+
+    <!--TabLayout Items-->
+    <string name="all">ALL</string>
+    <string name="favorites">FAVORITES</string>
+
+    <!--Content Descriptions -->
+    <string name="favorite_icon">favorite icon</string>
+    <string name="location_adding_button">location adding button</string>
 </resources>

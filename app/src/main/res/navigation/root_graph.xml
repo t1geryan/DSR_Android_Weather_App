@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/bottomNavigationFragment">
+
+    <fragment
+        android:id="@+id/bottomNavigationFragment"
+        android:name="com.example.weatherapp.presenter.ui.bottom_navigation_screen.BottomNavigationFragment"
+        tools:layout="@layout/fragment_bottom_navigation">
+        <action
+            android:id="@+id/action_bottomNavigationFragment_to_locationAdditionMapFragment"
+            app:destination="@id/locationAdditionMapFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_bottomNavigationFragment_to_weatherFragment"
+            app:destination="@id/weatherFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/locationAdditionMapFragment"
+        android:name="com.example.weatherapp.presenter.ui.location_addition_map_screen.LocationAdditionMapFragment"
+        android:label="@string/location_addition_map_title"
+        tools:layout="@layout/fragment_location_addition_map">
+        <action
+            android:id="@+id/action_locationAdditionMapFragment_to_locationAdditionNameFragment"
+            app:destination="@id/locationAdditionNameFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/locationAdditionNameFragment"
+        android:name="com.example.weatherapp.presenter.ui.location_addition_name_screen.LocationAdditionNameFragment"
+        android:label="@string/location_addition_name_title"
+        tools:layout="@layout/fragment_location_addition_name">
+        <action
+            android:id="@+id/action_locationAdditionNameFragment_to_locationAdditionDetailsFragment"
+            app:destination="@id/locationAdditionDetailsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/locationAdditionDetailsFragment"
+        android:name="com.example.weatherapp.presenter.ui.location_addition_details_screen.LocationAdditionDetailsFragment"
+        android:label="@string/location_addition_details_title"
+        tools:layout="@layout/fragment_location_addition_details">
+        <action
+            android:id="@+id/action_locationAdditionDetailsFragment_to_bottomNavigationFragment"
+            app:destination="@id/bottomNavigationFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/bottomNavigationFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/weatherFragment"
+        android:name="com.example.weatherapp.presenter.ui.weather_details_screen.WeatherDetailsFragment"
+        android:label="fragment_weather"
+        tools:layout="@layout/fragment_weather_details">
+        <argument
+            android:name="title"
+            android:defaultValue="@string/weather_details_title"
+            app:argType="reference" />
+        <action
+            android:id="@+id/action_weatherFragment_to_bottomNavigationFragment"
+            app:destination="@id/bottomNavigationFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/bottomNavigationFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+</navigation>
