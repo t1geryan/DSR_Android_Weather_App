@@ -1,8 +1,8 @@
 package com.example.weatherapp.domain.usecases.declaration
 
-import com.example.weatherapp.domain.models.LocationDetails
+import com.example.weatherapp.domain.models.LocationWeather
 
 interface AddLocationToListUseCase {
 
-    suspend operator fun invoke(locationDetails: LocationDetails)
+    suspend operator fun invoke(locationWeather: LocationWeather)
 }

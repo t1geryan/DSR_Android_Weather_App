@@ -5,6 +5,6 @@ package com.example.weatherapp.domain.models
  * @see Location
  * @param location stores base information about location
  */
-data class LocationDetails(
+data class LocationWeather(
     val location: Location,
 )

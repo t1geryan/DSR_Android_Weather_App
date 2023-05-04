@@ -1,24 +1,20 @@
 package com.example.weatherapp.data.repositories
 
 import com.example.weatherapp.domain.models.Location
-import com.example.weatherapp.domain.models.LocationDetails
+import com.example.weatherapp.domain.models.LocationWeather
 import com.example.weatherapp.domain.repositories.LocationListRepository
 import kotlinx.coroutines.flow.Flow
 
 class LocationListRepositoryImpl : LocationListRepository {
-    override suspend fun getAllLocation(onlyFavorites: Boolean): Flow<List<Location>> {
+    override suspend fun getAllLocations(onlyFavorites: Boolean): Flow<List<Location>> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getLocationWithoutDetails(locationId: Int): Flow<Location> {
+    override suspend fun getLocationWeatherById(locationId: Int): Flow<LocationWeather> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getLocationDetailsById(locationId: Int): Flow<LocationDetails> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun addLocationWithDetails(locationDetails: LocationDetails) {
+    override suspend fun addLocationWeather(locationWeather: LocationWeather) {
         TODO("Not yet implemented")
     }
 
