@@ -1,12 +1,12 @@
-package com.example.weatherapp.presenter.ui.all_locations_screen
+package com.example.weatherapp.presenter.ui.all_locations_list_screen
 
 import android.os.Bundle
 import android.view.View
 import com.example.weatherapp.R
-import com.example.weatherapp.presenter.ui.base_locations_screen.BaseLocationsFragment
+import com.example.weatherapp.presenter.ui.base_locations_list_screen.BaseLocationsListFragment
 import com.example.weatherapp.presenter.ui_utls.findTopLevelNavController
 
-class AllLocationsFragment : BaseLocationsFragment() {
+class AllLocationsListFragment : BaseLocationsListFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

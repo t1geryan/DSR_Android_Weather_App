@@ -1,12 +1,12 @@
-package com.example.weatherapp.presenter.ui.favorite_locations_screen
+package com.example.weatherapp.presenter.ui.favorite_locations_list_screen
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.weatherapp.presenter.ui.base_locations_screen.BaseLocationsFragment
+import com.example.weatherapp.presenter.ui.base_locations_list_screen.BaseLocationsListFragment
 
-class FavoriteLocationsFragment : BaseLocationsFragment() {
+class FavoriteLocationsListFragment : BaseLocationsListFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,

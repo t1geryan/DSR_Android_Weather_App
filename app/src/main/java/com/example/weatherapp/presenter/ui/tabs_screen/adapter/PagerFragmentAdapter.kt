@@ -2,8 +2,8 @@ package com.example.weatherapp.presenter.ui.tabs_screen.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.weatherapp.presenter.ui.all_locations_screen.AllLocationsFragment
-import com.example.weatherapp.presenter.ui.favorite_locations_screen.FavoriteLocationsFragment
+import com.example.weatherapp.presenter.ui.all_locations_list_screen.AllLocationsListFragment
+import com.example.weatherapp.presenter.ui.favorite_locations_list_screen.FavoriteLocationsListFragment
 
 
 class PagerFragmentAdapter(parentFragment: Fragment) : FragmentStateAdapter(parentFragment) {
@@ -16,7 +16,7 @@ class PagerFragmentAdapter(parentFragment: Fragment) : FragmentStateAdapter(pare
      * is classes which should to be show from TabsFragment
      */
     override fun createFragment(position: Int): Fragment = when (position) {
-        0 -> AllLocationsFragment()
-        else -> FavoriteLocationsFragment()
+        0 -> AllLocationsListFragment()
+        else -> FavoriteLocationsListFragment()
     }
 }
