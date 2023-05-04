@@ -71,8 +71,9 @@
         tools:layout="@layout/fragment_weather_details">
         <argument
             android:name="title"
-            android:defaultValue="@string/weather_details_title"
-            app:argType="reference" />
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="null" />
         <action
             android:id="@+id/action_weatherFragment_to_bottomNavigationFragment"
             app:destination="@id/bottomNavigationFragment"

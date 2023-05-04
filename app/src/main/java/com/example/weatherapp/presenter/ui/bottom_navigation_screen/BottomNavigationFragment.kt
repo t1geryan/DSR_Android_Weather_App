@@ -9,8 +9,9 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentBottomNavigationBinding
+import com.example.weatherapp.presenter.contract.ScreenContainer
 
-class BottomNavigationFragment : Fragment() {
+class BottomNavigationFragment : Fragment(), ScreenContainer {
 
     private lateinit var binding: FragmentBottomNavigationBinding
 
