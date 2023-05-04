@@ -1,7 +1,12 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+
     id 'androidx.navigation.safeargs.kotlin'
+
+    id 'com.google.dagger.hilt.android'
+
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
@@ -57,14 +62,24 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
-    // Google Map
-    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    // DI
+    // Hilt
+    implementation "com.google.dagger:hilt-android:2.44"
+    kapt "com.google.dagger:hilt-compiler:2.44"
 
     // Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+
+    // Google Map
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
 
     // Test
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}
+
+// Allow references to generated code
+kapt {
+    correctErrorTypes true
 }
