@@ -60,6 +60,9 @@ dependencies {
     // Google Map
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
 
+    // Coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+
     // Test
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
