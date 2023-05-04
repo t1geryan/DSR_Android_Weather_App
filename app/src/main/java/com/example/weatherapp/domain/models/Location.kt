@@ -2,7 +2,6 @@ package com.example.weatherapp.domain.models
 
 /**
  * A class that stores basic information about the location (not detailed)
- *
  * @param id stores a location id to distinguish between them
  * @param name is location name
  * @param isFavorite indicates the presence of a location in the list of favorites
