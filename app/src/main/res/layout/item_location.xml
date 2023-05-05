@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:textColor="?attr/colorOnBackground"
         android:textSize="@dimen/big_text_size"
-        app:layout_constraintEnd_toStartOf="@+id/imageView"
+        app:layout_constraintEnd_toStartOf="@+id/favoriteStatusIV"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Voronezh" />
@@ -26,25 +26,26 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/small_margin"
         android:textSize="@dimen/common_text_size"
-        app:layout_constraintEnd_toStartOf="@+id/imageView"
+        app:layout_constraintEnd_toStartOf="@+id/favoriteStatusIV"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/locationNameTV"
         tools:text="Current temperature: 12 C" />
 
     <TextView
+        android:id="@+id/tomorrowTempTV"
         style="@style/SingleLineTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/small_margin"
         android:textSize="@dimen/common_text_size"
         android:visibility="gone"
-        app:layout_constraintEnd_toStartOf="@+id/imageView"
+        app:layout_constraintEnd_toStartOf="@+id/favoriteStatusIV"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/currentTempTV"
         tools:text="Tomorrow temperature: 12 C" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/favoriteStatusIV"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="?attr/selectableItemBackground"
