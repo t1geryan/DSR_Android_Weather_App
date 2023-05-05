@@ -10,6 +10,6 @@ typealias LocationItem = LocationWeather
  * @param weatherForecast stores list of base weather information for few days that needs to be shown
  */
 data class LocationWeather(
-    val location: Location,
-    val weatherForecast: List<Weather>
+    val location: Location = Location(),
+    val weatherForecast: List<Weather> = listOf(),
 )

@@ -9,14 +9,17 @@ import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ActivityMainBinding
 import com.example.weatherapp.presenter.contract.HasCustomTitleToolbar
 import com.example.weatherapp.presenter.contract.ScreenContainer
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Container for all screens in the app.
  */
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -39,6 +42,13 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater).also {
             setContentView(it.root)
         }
+
+        // first we use the root navigator controller to bind the toolbar,
+        // but later will be used the controller of the current fragment
+        val navHost =
+            supportFragmentManager.findFragmentById(R.id.rootFragmentContainer) as NavHostFragment
+        val navController = navHost.navController
+        binding.materialToolbar.setupWithNavController(navController)
 
         supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentCreateViewListener, true)
     }

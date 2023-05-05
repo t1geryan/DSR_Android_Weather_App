@@ -26,6 +26,9 @@ class LocationsAdapter(
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemLocationBinding.inflate(inflater, parent, false)
 
+        binding.root.setOnClickListener(this)
+        binding.favoriteStatusIV.setOnClickListener(this)
+
         return LocationsViewHolder(binding)
     }
 
@@ -38,6 +41,8 @@ class LocationsAdapter(
 
     /**
      * Add LocationItem to view.tag if want to get it in onClick
+     * Requires adding view.setOnClickListener(this) for view while creating View Holder
+     * @see onCreateViewHolder
      * @see LocationsViewHolder.setTags
      */
     override fun onClick(view: View) {
@@ -51,34 +56,46 @@ class LocationsAdapter(
     class LocationsViewHolder(
         private val binding: ItemLocationBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-
         /**
          * This function sets LocationItem to binding views tags so they can be taken in OnClick
          * @see LocationItem
          */
-        private fun setTags(locationItem: LocationItem) {
+        private fun setTags(data: Any) {
             with(binding) {
-                root.tag = locationItem
-                favoriteStatusIV.tag = locationItem
+                root.tag = data
+                favoriteStatusIV.tag = data
             }
         }
 
         fun bind(locationItem: LocationItem) {
+            setTags(locationItem)
             val context = binding.root.context
             with(binding) {
                 locationNameTV.text = locationItem.location.name
-                currentTempTV.text = context.getString(
-                    R.string.current_temperature,
-                    locationItem.weatherForecast.first().temperature
-                )
+
+                currentTempTV.visibility = View.GONE
+                locationItem.weatherForecast.getOrNull(0)?.let { currentWeather ->
+                    currentTempTV.text = context.getString(
+                        R.string.current_temperature,
+                        currentWeather.temperature.toString()
+                    )
+                    currentTempTV.visibility = View.VISIBLE
+                }
                 tomorrowTempTV.visibility = View.GONE
                 locationItem.weatherForecast.getOrNull(1)?.let { tomorrowWeather ->
                     tomorrowTempTV.text = context.getString(
                         R.string.tomorrow_temperature,
-                        tomorrowWeather.temperature
+                        tomorrowWeather.temperature.toString()
                     )
                     tomorrowTempTV.visibility = View.VISIBLE
                 }
+
+                favoriteStatusIV.setImageResource(
+                    if (locationItem.location.isFavorite)
+                        R.drawable.icon_favorite_24
+                    else
+                        R.drawable.icon_favorite_border_24
+                )
             }
         }
     }

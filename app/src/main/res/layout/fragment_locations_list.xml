@@ -15,6 +15,7 @@
         tools:listitem="@layout/item_location" />
 
     <ProgressBar
+        android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -22,13 +23,15 @@
         android:visibility="gone" />
 
     <TextView
+        android:id="@+id/emptyListMessageTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/empty_locations_list_message"
+        android:gravity="center"
+        android:padding="@dimen/small_textview_padding"
         android:textColor="?attr/colorOnBackground"
         android:textSize="@dimen/big_text_size"
-        android:visibility="gone" />
+        tools:text="@string/empty_locations_list_message" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addLocationFAB"

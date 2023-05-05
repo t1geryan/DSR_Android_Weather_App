@@ -12,6 +12,7 @@ data class Location(
     val id: Int = 0,
     val name: String = "",
     val isFavorite: Boolean = false,
+    val hasNextDayForecast: Boolean = false,
     val lat: Float = 0.0f,
     val long: Float = 0.0f,
 )
