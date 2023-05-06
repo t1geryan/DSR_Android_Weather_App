@@ -8,6 +8,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.R
+import com.example.weatherapp.presenter.contract.PermissionsApi
 import kotlinx.coroutines.launch
 
 /**
@@ -32,3 +33,10 @@ fun Fragment.collectWhenStarted(collectBlock: suspend () -> Unit) =
             collectBlock()
         }
     }
+
+/**
+ * Function for getting [PermissionsApi] from the require Activity
+ * @throws IllegalStateException if Activity doesn't implement [PermissionsApi]
+ */
+fun Fragment.permissionsProvider() = requireActivity() as? PermissionsApi
+    ?: throw IllegalStateException("${requireActivity()} doesn't implement PermissionsApi")

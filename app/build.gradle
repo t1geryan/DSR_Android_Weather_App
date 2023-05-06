@@ -26,8 +26,8 @@ android {
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments += [
-                        "room.schemaLocation":"$projectDir/schemas".toString(),
-                        "room.incremental":"true"
+                        "room.schemaLocation": "$projectDir/schemas".toString(),
+                        "room.incremental"   : "true"
                 ]
             }
         }
@@ -91,6 +91,8 @@ dependencies {
 
     // Google Map
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    // Location
+    implementation "com.google.android.gms:play-services-location:21.0.1"
 
     // Test
     testImplementation 'junit:junit:4.13.2'

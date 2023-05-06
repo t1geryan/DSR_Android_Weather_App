@@ -1,8 +1,11 @@
 package com.example.weatherapp.presenter.ui.main_activity
 
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -13,6 +16,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ActivityMainBinding
 import com.example.weatherapp.presenter.contract.HasCustomTitleToolbar
+import com.example.weatherapp.presenter.contract.PermissionCallback
+import com.example.weatherapp.presenter.contract.PermissionsApi
 import com.example.weatherapp.presenter.contract.ScreenContainer
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,7 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
  * Container for all screens in the app.
  */
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), PermissionsApi {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -36,6 +41,14 @@ class MainActivity : AppCompatActivity() {
             updateToolbar(f)
         }
     }
+
+    private var currentPermissionGrantedCallback: (() -> Unit)? = null
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted)
+                currentPermissionGrantedCallback?.invoke()
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +69,7 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         supportFragmentManager.unregisterFragmentLifecycleCallbacks(fragmentCreateViewListener)
         currentFragmentNavController = null
+        currentPermissionGrantedCallback = null
         super.onDestroy()
     }
     // Navigation
@@ -64,6 +78,39 @@ class MainActivity : AppCompatActivity() {
         if (currentFragmentNavController == navController) return
         currentFragmentNavController = navController
     }
+
+    // Permissions
+
+    override fun requestPermission(
+        permissions: Array<String>,
+        allPermissionsGrantedCallback: PermissionCallback?
+    ) {
+        currentPermissionGrantedCallback = allPermissionsGrantedCallback
+        if (permissions.any { permission ->
+                ActivityCompat.checkSelfPermission(
+                    this,
+                    permission
+                ) == PackageManager.PERMISSION_GRANTED
+            }) {
+            currentPermissionGrantedCallback?.invoke()
+        } else {
+            permissions.forEach { permission ->
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission)
+                ) {
+                    // todo add show request permission rationale block
+                } else {
+                    requestPermissionLauncher.launch(permission)
+                }
+
+            }
+        }
+    }
+
+    override fun hasPermission(permission: String): Boolean =
+        ActivityCompat.checkSelfPermission(
+            this,
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
 
     // UI
 

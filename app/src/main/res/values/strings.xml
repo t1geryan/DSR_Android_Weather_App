@@ -17,6 +17,9 @@
     <string name="next">NEXT</string>
     <string name="finish">Finish</string>
 
+    <!--Location Addition Map Screen-->
+    <string name="current_location_button">current location button</string>
+
     <!--Location Addition Name Screen-->
     <string name="input_name_hint">Input Location Name</string>
     <string name="input_name_helper_text">Required*</string>

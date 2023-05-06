@@ -52,6 +52,12 @@
             android:id="@+id/action_locationAdditionNameFragment_to_locationAdditionMapFragment"
             app:destination="@id/locationAdditionMapFragment"
             app:popUpTo="@id/locationAdditionMapFragment" />
+        <argument
+            android:name="latitude"
+            app:argType="float" />
+        <argument
+            android:name="longitude"
+            app:argType="float" />
     </fragment>
     <fragment
         android:id="@+id/locationAdditionDetailsFragment"
@@ -71,6 +77,15 @@
             android:id="@+id/action_locationAdditionDetailsFragment_to_locationAdditionNameFragment"
             app:destination="@id/locationAdditionNameFragment"
             app:popUpTo="@id/locationAdditionNameFragment" />
+        <argument
+            android:name="latitude"
+            app:argType="float" />
+        <argument
+            android:name="longitude"
+            app:argType="float" />
+        <argument
+            android:name="name"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/weatherFragment"
