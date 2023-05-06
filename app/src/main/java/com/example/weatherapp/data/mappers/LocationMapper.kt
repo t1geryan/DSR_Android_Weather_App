@@ -20,7 +20,8 @@ class LocationMapper @Inject constructor() : BidirectionalMapper<Location, Locat
             name = name,
             lat = lat,
             lon = long,
-            isFavorite = isFavorite
+            isFavorite = isFavorite,
+            hasNextDayForecast = hasNextDayForecast
         )
     }
 
@@ -33,7 +34,8 @@ class LocationMapper @Inject constructor() : BidirectionalMapper<Location, Locat
             name = name,
             lat = lat,
             long = lon,
-            isFavorite = isFavorite
+            isFavorite = isFavorite,
+            hasNextDayForecast = hasNextDayForecast
         )
     }
 }

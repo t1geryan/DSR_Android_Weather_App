@@ -13,4 +13,5 @@ class LocationEntity(
     val lat: Float,
     val lon: Float,
     @ColumnInfo(name = "is_favorite") val isFavorite: Boolean,
+    @ColumnInfo(name = "has_next_day_forecast") val hasNextDayForecast: Boolean,
 )

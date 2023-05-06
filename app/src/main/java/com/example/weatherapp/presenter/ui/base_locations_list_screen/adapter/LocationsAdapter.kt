@@ -82,14 +82,15 @@ class LocationsAdapter(
                     currentTempTV.visibility = View.VISIBLE
                 }
                 tomorrowTempTV.visibility = View.GONE
-                locationItem.weatherForecast.getOrNull(1)?.let { tomorrowWeather ->
-                    tomorrowTempTV.text = context.getString(
-                        R.string.tomorrow_temperature,
-                        tomorrowWeather.temperature.toString()
-                    )
-                    tomorrowTempTV.visibility = View.VISIBLE
+                if (locationItem.location.hasNextDayForecast) {
+                    locationItem.weatherForecast.getOrNull(1)?.let { tomorrowWeather ->
+                        tomorrowTempTV.text = context.getString(
+                            R.string.tomorrow_temperature,
+                            tomorrowWeather.temperature.toString()
+                        )
+                        tomorrowTempTV.visibility = View.VISIBLE
+                    }
                 }
-
                 favoriteStatusIV.setImageResource(
                     if (locationItem.location.isFavorite)
                         R.drawable.icon_favorite_24
