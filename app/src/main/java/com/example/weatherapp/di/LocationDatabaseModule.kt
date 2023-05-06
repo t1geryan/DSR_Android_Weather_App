@@ -2,8 +2,8 @@ package com.example.weatherapp.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.weatherapp.data.databases.location_database.dao.LocationDao
-import com.example.weatherapp.data.databases.location_database.database.LocationDatabase
+import com.example.weatherapp.data.databases.location_database.dao.LocationsDao
+import com.example.weatherapp.data.databases.location_database.database.LocationsDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,11 +19,11 @@ class LocationDatabaseModule {
 
     @Provides
     @Singleton
-    fun provideLocationDatabase(@ApplicationContext context: Context): LocationDatabase =
-        Room.databaseBuilder(context, LocationDatabase::class.java, databaseName).build()
+    fun provideLocationDatabase(@ApplicationContext context: Context): LocationsDatabase =
+        Room.databaseBuilder(context, LocationsDatabase::class.java, databaseName).build()
 
     @Provides
     @Singleton
-    fun provideLocationDao(locationDatabase: LocationDatabase): LocationDao =
-        locationDatabase.getLocationDao()
+    fun provideLocationDao(locationsDatabase: LocationsDatabase): LocationsDao =
+        locationsDatabase.getLocationDao()
 }

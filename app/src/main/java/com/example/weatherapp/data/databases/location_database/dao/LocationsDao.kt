@@ -8,7 +8,7 @@ import com.example.weatherapp.data.databases.location_database.entities.Location
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface LocationDao {
+interface LocationsDao {
 
     @Query("SELECT * FROM locations ORDER BY lower(name)")
     fun getAllLocations(): Flow<List<LocationEntity>>

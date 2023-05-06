@@ -38,9 +38,9 @@ abstract class BaseLocationsListViewModel(
     }
 
     override fun changeFavoriteStatus(locationItem: LocationItem) {
-//        viewModelScope.launch {
-//            locationListRepository.changeLocationFavoriteStatusById(locationItem.location.id)
-//        }
+        viewModelScope.launch {
+            locationListRepository.changeLocationFavoriteStatusById(locationItem.location.id)
+        }
     }
 
     override fun showDetails(locationItem: LocationItem) {

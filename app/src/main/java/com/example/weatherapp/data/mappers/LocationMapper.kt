@@ -10,6 +10,10 @@ import javax.inject.Inject
  * @see BidirectionalMapper
  */
 class LocationMapper @Inject constructor() : BidirectionalMapper<Location, LocationEntity> {
+
+    /**
+     * Maps from [Location] to [LocationEntity]
+     */
     override fun map(valueToMap: Location): LocationEntity = with(valueToMap) {
         LocationEntity(
             id = id,
@@ -20,6 +24,9 @@ class LocationMapper @Inject constructor() : BidirectionalMapper<Location, Locat
         )
     }
 
+    /**
+     * Maps from [LocationEntity] to [Location]
+     */
     override fun reverseMap(valueToMap: LocationEntity): Location = with(valueToMap) {
         Location(
             id = id,
