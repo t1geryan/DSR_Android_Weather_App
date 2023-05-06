@@ -20,7 +20,7 @@ class LocationListRepositoryImpl @Inject constructor() : LocationListRepository 
                     LocationWeather(
                         Location(3, "Moscow"),
                         listOf(Weather(temperature = 12.4f), Weather(temperature = 13.5f))
-                    ),
+                    )
                 )
             )
         }

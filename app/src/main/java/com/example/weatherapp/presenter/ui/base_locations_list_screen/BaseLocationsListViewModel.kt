@@ -1,16 +1,16 @@
 package com.example.weatherapp.presenter.ui.base_locations_list_screen
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.domain.models.LocationItem
 import com.example.weatherapp.domain.repositories.LocationListRepository
 import com.example.weatherapp.presenter.contract.LocationItemClickListener
+import com.example.weatherapp.presenter.event.Event
+import com.example.weatherapp.presenter.event.SingleEvent
 import com.example.weatherapp.presenter.state.UiState
 import com.example.weatherapp.presenter.ui_utls.collectUiState
-import com.example.weatherapp.presenter.ui_utls.viewModelScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 abstract class BaseLocationsListViewModel(
@@ -19,6 +19,10 @@ abstract class BaseLocationsListViewModel(
     private val _locationItems = MutableStateFlow<UiState<List<LocationItem>>>(UiState.Loading())
     val locationItems: StateFlow<UiState<List<LocationItem>>>
         get() = _locationItems.asStateFlow()
+
+    private val _showDetailsEvent = MutableSharedFlow<Event<LocationItem>>()
+    val showDetailsEvent: SharedFlow<Event<LocationItem>>
+        get() = _showDetailsEvent.asSharedFlow()
 
     abstract val isOnlyFavoriteContacts: Boolean
 
@@ -40,11 +44,8 @@ abstract class BaseLocationsListViewModel(
     }
 
     override fun showDetails(locationItem: LocationItem) {
-        TODO(
-            """
-            Should add a SingleEvent class (implements Event) for a one-time call
-             to the navigation method that launches the details screen
-        """.trimIndent()
-        )
+        viewModelScope.launch {
+            _showDetailsEvent.emit(SingleEvent(locationItem))
+        }
     }
 }

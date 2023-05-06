@@ -11,9 +11,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentLocationsListBinding
 import com.example.weatherapp.domain.models.LocationItem
+import com.example.weatherapp.presenter.event.Event
 import com.example.weatherapp.presenter.state.UiState
 import com.example.weatherapp.presenter.ui.base_locations_list_screen.adapter.LocationsAdapter
+import com.example.weatherapp.presenter.ui.bottom_navigation_screen.BottomNavigationFragmentDirections
 import com.example.weatherapp.presenter.ui_utls.collectWhenStarted
+import com.example.weatherapp.presenter.ui_utls.findTopLevelNavController
 
 abstract class BaseLocationsListFragment : Fragment() {
 
@@ -49,18 +52,33 @@ abstract class BaseLocationsListFragment : Fragment() {
 
         collectWhenStarted {
             viewModel.locationItems.collect { locationItems ->
-                collectLocationItemsUiState(locationItems)
+                collectLocationItemListUiState(locationItems)
+            }
+        }
+        collectWhenStarted {
+            viewModel.showDetailsEvent.collect { event ->
+                collectShowDetailsEvent(event)
             }
         }
     }
 
-    private fun collectLocationItemsUiState(uiState: UiState<List<LocationItem>>) {
+    private fun collectLocationItemListUiState(uiState: UiState<List<LocationItem>>) {
         hideSupportingViews()
         when (uiState) {
             is UiState.Loading -> binding.progressBar.visibility = View.VISIBLE
             is UiState.Success -> adapter.locationsWithWeather = uiState.data
             is UiState.EmptyOrNull -> showEmptyListMessage(getString(getEmptyListMessage()))
             is UiState.Error -> showErrorDialog(uiState.message)
+        }
+    }
+
+    private fun collectShowDetailsEvent(event: Event<LocationItem>) {
+        event.getValue()?.let { locationItem ->
+            val destination =
+                BottomNavigationFragmentDirections.actionBottomNavigationFragmentToWeatherFragment(
+                    locationItem.location.name
+                )
+            findTopLevelNavController().navigate(destination)
         }
     }
 
