@@ -7,12 +7,15 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentLocationAdditionNameBinding
 
 class LocationAdditionNameFragment : Fragment() {
 
     private lateinit var binding: FragmentLocationAdditionNameBinding
+
+    private val args: LocationAdditionNameFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,6 +43,21 @@ class LocationAdditionNameFragment : Fragment() {
     }
 
     private fun toNextScreen() {
-        findNavController().navigate(R.id.action_locationAdditionNameFragment_to_locationAdditionDetailsFragment)
+        if (checkEnteredName()) {
+            val destination =
+                LocationAdditionNameFragmentDirections.actionLocationAdditionNameFragmentToLocationAdditionDetailsFragment(
+                    args.latitude,
+                    args.longitude,
+                    binding.nameInputET.text.toString()
+                )
+            findNavController().navigate(destination)
+        } else {
+            binding.nameInputET.error = getString(R.string.empty_field_error)
+        }
+    }
+
+    private fun checkEnteredName(): Boolean {
+        val enteredName = binding.nameInputET.text.toString()
+        return enteredName.isNotBlank()
     }
 }

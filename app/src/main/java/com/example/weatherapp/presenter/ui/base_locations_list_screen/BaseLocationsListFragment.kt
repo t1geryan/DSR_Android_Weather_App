@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentLocationsListBinding
@@ -41,6 +42,10 @@ abstract class BaseLocationsListFragment : Fragment() {
             )
         )
 
+        // Remove default item change animation (reason: annoying blinking)
+        val itemAnimator = binding.locationsRV.itemAnimator
+        if (itemAnimator is DefaultItemAnimator) itemAnimator.supportsChangeAnimations = false
+
         return binding.root
     }
 
@@ -67,7 +72,11 @@ abstract class BaseLocationsListFragment : Fragment() {
         when (uiState) {
             is UiState.Loading -> binding.progressBar.visibility = View.VISIBLE
             is UiState.Success -> adapter.locationsWithWeather = uiState.data
-            is UiState.EmptyOrNull -> showEmptyListMessage(getString(getEmptyListMessage()))
+            is UiState.EmptyOrNull -> {
+                showEmptyListMessage(getString(getEmptyListMessage()))
+                // must be replaced with an empty list, since the replacement occurs only in the Success block
+                adapter.locationsWithWeather = listOf()
+            }
             is UiState.Error -> showErrorDialog(uiState.message)
         }
     }

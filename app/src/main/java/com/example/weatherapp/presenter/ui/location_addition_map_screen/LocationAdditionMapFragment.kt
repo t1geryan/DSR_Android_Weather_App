@@ -39,6 +39,14 @@ class LocationAdditionMapFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        savedInstanceState?.let { bundle ->
+            if (bundle.getBoolean(STATE_KEY_RESULT)) {
+                hasResult = true
+                latitude = bundle.getFloat(STATE_KEY_LATITUDE)
+                longitude = bundle.getFloat(STATE_KEY_LONGITUDE)
+            }
+        }
+
         binding.nextButton.setOnClickListener {
             toNextScreen()
         }
@@ -46,6 +54,14 @@ class LocationAdditionMapFragment : Fragment() {
         binding.getCurrentLocationButton.setOnClickListener {
             getLocation()
         }
+    }
+
+    // save the state using a bundle (for not to write an extra view model class)
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(STATE_KEY_RESULT, hasResult)
+        outState.putFloat(STATE_KEY_LATITUDE, latitude)
+        outState.putFloat(STATE_KEY_LONGITUDE, longitude)
     }
 
     @SuppressLint("MissingPermission")
@@ -60,7 +76,6 @@ class LocationAdditionMapFragment : Fragment() {
                     hasResult = true
                     latitude = location.latitude.toFloat()
                     longitude = location.longitude.toFloat()
-                    println("$latitude $longitude")
                 }
         }
     }
@@ -76,5 +91,11 @@ class LocationAdditionMapFragment : Fragment() {
         } else {
             Toast.makeText(requireContext(), "Dont have location", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    companion object {
+        private const val STATE_KEY_RESULT = "STATE_KEY_RESULT"
+        private const val STATE_KEY_LATITUDE = "STATE_KEY_LATITUDE"
+        private const val STATE_KEY_LONGITUDE = "STATE_KEY_LONGITUDE"
     }
 }

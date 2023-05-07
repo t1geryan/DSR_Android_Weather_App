@@ -35,6 +35,9 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_locationAdditionMapFragment_to_bottomNavigationFragment"
+            app:popUpTo="@id/bottomNavigationFragment" />
     </fragment>
     <fragment
         android:id="@+id/locationAdditionNameFragment"
@@ -48,35 +51,22 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        <action
-            android:id="@+id/action_locationAdditionNameFragment_to_locationAdditionMapFragment"
-            app:destination="@id/locationAdditionMapFragment"
-            app:popUpTo="@id/locationAdditionMapFragment" />
+
         <argument
             android:name="latitude"
             app:argType="float" />
         <argument
             android:name="longitude"
             app:argType="float" />
+        <action
+            android:id="@+id/action_locationAdditionNameFragment_to_locationAdditionMapFragment"
+            app:popUpTo="@id/locationAdditionMapFragment" />
     </fragment>
     <fragment
         android:id="@+id/locationAdditionDetailsFragment"
         android:name="com.example.weatherapp.presenter.ui.location_addition_details_screen.LocationAdditionDetailsFragment"
         android:label="@string/location_addition_details_title"
         tools:layout="@layout/fragment_location_addition_details">
-        <action
-            android:id="@+id/action_locationAdditionDetailsFragment_to_bottomNavigationFragment"
-            app:destination="@id/bottomNavigationFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@id/bottomNavigationFragment"
-            app:popUpToInclusive="false" />
-        <action
-            android:id="@+id/action_locationAdditionDetailsFragment_to_locationAdditionNameFragment"
-            app:destination="@id/locationAdditionNameFragment"
-            app:popUpTo="@id/locationAdditionNameFragment" />
         <argument
             android:name="latitude"
             app:argType="float" />
@@ -86,6 +76,12 @@
         <argument
             android:name="name"
             app:argType="string" />
+        <action
+            android:id="@+id/action_locationAdditionDetailsFragment_to_locationAdditionNameFragment"
+            app:popUpTo="@id/locationAdditionNameFragment" />
+        <action
+            android:id="@+id/action_locationAdditionDetailsFragment_to_bottomNavigationFragment"
+            app:popUpTo="@id/bottomNavigationFragment" />
     </fragment>
     <fragment
         android:id="@+id/weatherFragment"

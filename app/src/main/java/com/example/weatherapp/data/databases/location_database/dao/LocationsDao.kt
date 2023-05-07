@@ -16,6 +16,9 @@ interface LocationsDao {
     @Query("SELECT * FROM locations WHERE is_favorite = 1 ORDER BY lower(name)")
     fun getFavoriteLocations(): Flow<List<LocationEntity>>
 
+    @Query("SELECT * FROM locations WHERE id = :id")
+    fun getLocationById(id: Long): Flow<LocationEntity>
+
     @Query("DELETE FROM locations WHERE id = :id")
     suspend fun deleteLocationById(id: Long)
 

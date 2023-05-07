@@ -1,7 +1,6 @@
 package com.example.weatherapp.presenter.ui.base_locations_list_screen
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.domain.models.LocationItem
 import com.example.weatherapp.domain.repositories.LocationListRepository
 import com.example.weatherapp.presenter.contract.LocationItemClickListener
@@ -9,7 +8,7 @@ import com.example.weatherapp.presenter.event.Event
 import com.example.weatherapp.presenter.event.SingleEvent
 import com.example.weatherapp.presenter.state.UiState
 import com.example.weatherapp.presenter.ui_utls.collectUiState
-import kotlinx.coroutines.Dispatchers
+import com.example.weatherapp.presenter.ui_utls.viewModelScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -24,12 +23,13 @@ abstract class BaseLocationsListViewModel(
     val showDetailsEvent: SharedFlow<Event<LocationItem>>
         get() = _showDetailsEvent.asSharedFlow()
 
-    abstract val isOnlyFavoriteContacts: Boolean
+    // heirs will independently determine how to get the list
+    abstract suspend fun fetchLocationItems(): Flow<List<LocationItem>>
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             collectUiState(
-                locationListRepository.getAllLocationsWeather(isOnlyFavoriteContacts),
+                fetchLocationItems(),
                 _locationItems
             ) {
                 it.isEmpty()

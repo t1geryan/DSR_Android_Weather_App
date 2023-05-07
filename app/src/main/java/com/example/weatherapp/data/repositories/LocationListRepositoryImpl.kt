@@ -25,20 +25,26 @@ class LocationListRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun getLocationWeatherById(locationId: Long): Flow<LocationWeather> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getLocationWeatherById(locationId: Long): Flow<LocationWeather> =
+        locationsDao.getLocationById(locationId).map { entity ->
+            LocationWeather(
+                locationMapper.reverseMap(entity),
+                getWeatherForLocation(entity.lat, entity.lon)
+            )
+        }
 
     override suspend fun addLocation(location: Location) {
-        TODO("Not yet implemented")
+        locationsDao.addLocation(
+            locationMapper.map(location)
+        )
     }
 
     override suspend fun deleteLocationById(locationId: Long) {
-        TODO("Not yet implemented")
+        locationsDao.deleteLocationById(locationId)
     }
 
     override suspend fun changeLocationFavoriteStatusById(locationId: Long) {
-
+        locationsDao.changeLocationFavoriteStatusById(locationId)
     }
 
     // todo: replaced by mock

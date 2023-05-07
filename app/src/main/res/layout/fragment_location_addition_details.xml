@@ -8,6 +8,7 @@
     tools:context=".presenter.ui.location_addition_details_screen.LocationAdditionDetailsFragment">
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/common_margin"
@@ -24,7 +25,7 @@
         android:layout_height="wrap_content"
         android:checkedButton="@id/confirmRB"
         app:layout_constraintBottom_toTopOf="@+id/nextButton"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.radiobutton.MaterialRadioButton

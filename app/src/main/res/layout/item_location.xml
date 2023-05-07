@@ -46,8 +46,8 @@
 
     <ImageView
         android:id="@+id/favoriteStatusIV"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:background="?attr/selectableItemBackground"
         android:contentDescription="@string/favorite_icon"
         app:layout_constraintBottom_toBottomOf="parent"
