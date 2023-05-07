@@ -85,6 +85,7 @@ abstract class BaseLocationsListFragment : Fragment() {
         event.getValue()?.let { locationItem ->
             val destination =
                 BottomNavigationFragmentDirections.actionBottomNavigationFragmentToWeatherFragment(
+                    locationItem.location.id,
                     locationItem.location.name
                 )
             findTopLevelNavController().navigate(destination)

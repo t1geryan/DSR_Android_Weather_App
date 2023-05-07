@@ -89,18 +89,13 @@
         android:label="fragment_weather"
         tools:layout="@layout/fragment_weather_details">
         <argument
-            android:name="title"
-            android:defaultValue="null"
-            app:argType="string"
-            app:nullable="true" />
+            android:name="locationId"
+            app:argType="long" />
         <action
             android:id="@+id/action_weatherFragment_to_bottomNavigationFragment"
-            app:destination="@id/bottomNavigationFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@id/bottomNavigationFragment"
-            app:popUpToInclusive="false" />
+            app:popUpTo="@id/bottomNavigationFragment" />
+        <argument
+            android:name="title"
+            app:argType="string" />
     </fragment>
 </navigation>

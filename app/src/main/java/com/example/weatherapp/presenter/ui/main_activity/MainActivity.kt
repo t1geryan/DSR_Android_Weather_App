@@ -1,11 +1,16 @@
 package com.example.weatherapp.presenter.ui.main_activity
 
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -15,10 +20,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ActivityMainBinding
-import com.example.weatherapp.presenter.contract.HasCustomTitleToolbar
-import com.example.weatherapp.presenter.contract.PermissionCallback
-import com.example.weatherapp.presenter.contract.PermissionsApi
-import com.example.weatherapp.presenter.contract.ScreenContainer
+import com.example.weatherapp.presenter.contract.*
+import com.google.android.material.color.MaterialColors
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -121,5 +124,31 @@ class MainActivity : AppCompatActivity(), PermissionsApi {
         binding.materialToolbar.title =
             customTitle ?: currentFragmentNavController?.currentDestination?.label
                     ?: getString(R.string.app_name)
+
+        // updating custom actions
+        binding.materialToolbar.menu.clear()
+        if (fragment is HasCustomActionToolbar)
+            addCustomToolbarAction(fragment.getCustomAction())
+    }
+
+    private fun addCustomToolbarAction(action: ToolbarAction) {
+        val iconDrawable =
+            DrawableCompat.wrap(
+                ContextCompat.getDrawable(this, action.icon)
+                    ?: throw IllegalStateException("Illegal Drawable Reference in Custom Action")
+            )
+
+        @ColorInt val colorOnPrimary = MaterialColors.getColor(
+            this, com.google.android.material.R.attr.colorOnPrimary, Color.BLACK
+        )
+        iconDrawable.setTint(colorOnPrimary)
+
+        val menuItem = binding.materialToolbar.menu.add(action.title)
+        menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+        menuItem.icon = iconDrawable
+        menuItem.setOnMenuItemClickListener {
+            action.onAction.run()
+            true
+        }
     }
 }
