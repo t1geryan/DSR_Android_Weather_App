@@ -7,9 +7,11 @@ typealias LocationItem = LocationWeather
  * @see Location
  * @see Weather
  * @param location stores base information about location
- * @param weatherForecast stores list of base weather information for few days that needs to be shown
+ * @param currentWeather stores weather information for current days
+ * @param weatherForecast stores list of weather information for few days that needs to be shown
  */
 data class LocationWeather(
     val location: Location = Location(),
+    val currentWeather: Weather,
     val weatherForecast: List<Weather> = listOf(),
 )
