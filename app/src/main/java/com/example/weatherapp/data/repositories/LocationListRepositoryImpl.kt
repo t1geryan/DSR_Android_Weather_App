@@ -2,6 +2,8 @@ package com.example.weatherapp.data.repositories
 
 import com.example.weatherapp.data.databases.location_database.dao.LocationsDao
 import com.example.weatherapp.data.mappers.LocationMapper
+import com.example.weatherapp.data.mappers.WeatherMapper
+import com.example.weatherapp.data.remote.weather.api.WeatherApi
 import com.example.weatherapp.domain.models.Location
 import com.example.weatherapp.domain.models.LocationWeather
 import com.example.weatherapp.domain.models.Weather
@@ -14,6 +16,8 @@ import kotlin.random.Random
 class LocationListRepositoryImpl @Inject constructor(
     private val locationsDao: LocationsDao,
     private val locationMapper: LocationMapper,
+    private val weatherApi: WeatherApi,
+    private val weatherMapper: WeatherMapper,
 ) : LocationListRepository {
     override suspend fun getAllLocationsWeather(onlyFavorites: Boolean): Flow<List<LocationWeather>> =
         getLocationsFromDatabase(onlyFavorites).map { list ->
@@ -52,6 +56,7 @@ class LocationListRepositoryImpl @Inject constructor(
         Weather(temperature = Random.nextFloat() * 10),
         Weather(temperature = Random.nextFloat() * 10),
     )
+    // weatherApi.getLocationWeatherByCoordinates(lat, long, BuildConfig.OPEN_WEATHER_API_KEY)
 
     private fun getLocationsFromDatabase(onlyFavorites: Boolean) =
         if (onlyFavorites) {

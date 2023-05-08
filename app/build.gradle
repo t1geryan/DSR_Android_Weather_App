@@ -55,7 +55,7 @@ dependencies {
     // Base
     implementation 'androidx.core:core-ktx:1.10.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     // Fragment
@@ -85,6 +85,12 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
     // Coroutines + Room
     implementation "androidx.room:room-ktx:$room_version"
+
+    // Remote
+    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.15.1'
