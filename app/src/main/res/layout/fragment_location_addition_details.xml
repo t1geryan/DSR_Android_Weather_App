@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/common_screen_padding"
-    tools:context=".presenter.ui.location_addition_details_screen.LocationAdditionDetailsFragment">
+    tools:context=".presentation.ui.location_addition_details_screen.LocationAdditionDetailsFragment">
 
     <TextView
         android:id="@+id/textView"

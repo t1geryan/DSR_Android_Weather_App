@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/common_screen_padding"
-    tools:context=".presenter.ui.location_addition_name_screen.LocationAdditionNameFragment">
+    tools:context=".presentation.ui.location_addition_name_screen.LocationAdditionNameFragment">
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"

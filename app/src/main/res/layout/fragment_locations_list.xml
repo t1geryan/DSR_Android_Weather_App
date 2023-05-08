@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presenter.ui.base_locations_list_screen.BaseLocationsListFragment">
+    tools:context=".presentation.ui.base_locations_list_screen.BaseLocationsListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/locationsRV"

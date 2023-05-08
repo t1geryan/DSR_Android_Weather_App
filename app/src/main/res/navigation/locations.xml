@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/tabsFragment"
-        android:name="com.example.weatherapp.presenter.ui.tabs_screen.TabsFragment"
+        android:name="com.example.weatherapp.presentation.ui.tabs_screen.TabsFragment"
         android:label="@string/locations_title"
         tools:layout="@layout/fragment_tabs" />
 </navigation>
