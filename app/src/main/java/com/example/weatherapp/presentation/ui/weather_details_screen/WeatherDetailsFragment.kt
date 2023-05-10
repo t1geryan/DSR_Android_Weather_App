@@ -9,9 +9,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentWeatherDetailsBinding
-import com.example.weatherapp.presentation.contract.HasCustomActionToolbar
-import com.example.weatherapp.presentation.contract.HasCustomTitleToolbar
-import com.example.weatherapp.presentation.contract.ToolbarAction
+import com.example.weatherapp.presentation.contract.toolbar.HasCustomActionToolbar
+import com.example.weatherapp.presentation.contract.toolbar.HasCustomTitleToolbar
+import com.example.weatherapp.presentation.contract.toolbar.ToolbarAction
 import com.example.weatherapp.presentation.ui_utils.collectWhenStarted
 import com.example.weatherapp.presentation.ui_utils.viewModelCreator
 import dagger.hilt.android.AndroidEntryPoint

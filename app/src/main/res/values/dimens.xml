@@ -2,6 +2,7 @@
 <resources>
     <dimen name="common_screen_padding">16dp</dimen>
     <dimen name="small_textview_padding">8dp</dimen>
+    <dimen name="small_padding">8dp</dimen>
 
     <dimen name="common_margin">16dp</dimen>
     <dimen name="small_margin">8dp</dimen>
@@ -9,4 +10,6 @@
     <dimen name="common_text_size">16sp</dimen>
     <dimen name="big_text_size">18sp</dimen>
     <dimen name="huge_text_size">22sp</dimen>
+
+    <dimen name="corner_radius">64dp</dimen>
 </resources>

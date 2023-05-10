@@ -4,24 +4,70 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/common_screen_padding"
     tools:context=".presentation.ui.location_addition_map_screen.LocationAdditionMapFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/location_addition_map_title"
+    <com.yandex.mapkit.mapview.MapView
+        android:id="@+id/mapview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/common_margin"
+        app:cardCornerRadius="@dimen/corner_radius"
+        app:cardElevation="@dimen/cardview_default_elevation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="?attr/colorBackgroundFloating"
+            android:gravity="center"
+            android:minHeight="70dp"
+            android:orientation="horizontal"
+            android:padding="@dimen/small_padding">
+
+            <ImageView
+                android:id="@+id/navigateUpButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="@string/navigate_back"
+                android:src="@drawable/icon_arrow_back_24"
+                app:tint="?attr/colorOnBackground" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/locationInputET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/small_margin"
+                android:background="@android:color/transparent"
+                android:hint="@string/search"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:maxLength="30"
+                android:maxLines="1" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.cardview.widget.CardView>
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/nextButton"
         style="@style/LocationAdditionButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/common_margin"
         android:text="@string/next"
+        android:textColor="?attr/colorOnBackground"
+        app:backgroundTint="?attr/colorBackgroundFloating"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -30,11 +76,13 @@
         android:id="@+id/getCurrentLocationButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/small_margin"
+        android:layout_marginEnd="@dimen/common_margin"
         android:layout_marginBottom="@dimen/small_margin"
+        android:backgroundTint="?attr/colorBackgroundFloating"
         android:clickable="true"
         android:contentDescription="@string/current_location_button"
         app:layout_constraintBottom_toTopOf="@+id/nextButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/icon_my_location_24"/>
+        app:srcCompat="@drawable/icon_my_location_24"
+        app:tint="?attr/colorOnBackground" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentTabsBinding
-import com.example.weatherapp.presentation.contract.ScreenContainer
+import com.example.weatherapp.presentation.contract.toolbar.ScreenContainer
 import com.example.weatherapp.presentation.ui.tabs_screen.adapter.PagerFragmentAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 

@@ -1,4 +1,4 @@
-package com.example.weatherapp.presentation.contract
+package com.example.weatherapp.presentation.contract.toolbar
 
 /**
  * if a class (e.g. Fragment) implements this interface,

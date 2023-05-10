@@ -9,7 +9,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentBottomNavigationBinding
-import com.example.weatherapp.presentation.contract.ScreenContainer
+import com.example.weatherapp.presentation.contract.toolbar.ScreenContainer
 
 class BottomNavigationFragment : Fragment(), ScreenContainer {
 

@@ -1,4 +1,4 @@
-package com.example.weatherapp.presentation.contract
+package com.example.weatherapp.presentation.contract.toolbar
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

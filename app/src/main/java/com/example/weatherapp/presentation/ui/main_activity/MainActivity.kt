@@ -20,7 +20,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ActivityMainBinding
-import com.example.weatherapp.presentation.contract.*
+import com.example.weatherapp.presentation.contract.PermissionCallback
+import com.example.weatherapp.presentation.contract.PermissionsApi
+import com.example.weatherapp.presentation.contract.toolbar.*
 import com.google.android.material.color.MaterialColors
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -119,16 +121,23 @@ class MainActivity : AppCompatActivity(), PermissionsApi {
 
     // Updates Toolbar for each Fragment
     private fun updateToolbar(fragment: Fragment) {
-        // if current fragment implements HasCustomTitleToolbar returns its custom title
-        val customTitle: String? = (fragment as? HasCustomTitleToolbar)?.getTitle()
-        binding.materialToolbar.title =
-            customTitle ?: currentFragmentNavController?.currentDestination?.label
-                    ?: getString(R.string.app_name)
+        if (fragment is HasNoActivityToolbar) {
+            binding.materialToolbar.visibility = View.GONE
+        } else {
+            // todo: bug: fix blinking when returning from map fragment to tabs fragment
+            binding.materialToolbar.visibility = View.VISIBLE
 
-        // updating custom actions
-        binding.materialToolbar.menu.clear()
-        if (fragment is HasCustomActionToolbar)
-            addCustomToolbarAction(fragment.getCustomAction())
+            // if current fragment implements HasCustomTitleToolbar returns its custom title
+            val customTitle: String? = (fragment as? HasCustomTitleToolbar)?.getTitle()
+            binding.materialToolbar.title =
+                customTitle ?: currentFragmentNavController?.currentDestination?.label
+                        ?: getString(R.string.app_name)
+
+            // updating custom actions
+            binding.materialToolbar.menu.clear()
+            if (fragment is HasCustomActionToolbar)
+                addCustomToolbarAction(fragment.getCustomAction())
+        }
     }
 
     private fun addCustomToolbarAction(action: ToolbarAction) {

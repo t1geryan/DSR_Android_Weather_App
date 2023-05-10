@@ -52,4 +52,6 @@
     <!--Other -->
     <string name="default_exception_message">An unexpected error occurred</string>
     <string name="empty_field_error">The field is empty</string>
+    <string name="navigate_back">navigate back</string>
+    <string name="search">Search</string>
 </resources>
