@@ -33,9 +33,14 @@ class TabsFragment : Fragment(), ScreenContainer {
         binding.viewPager.adapter = PagerFragmentAdapter(this)
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, pos ->
             when (pos) {
-                0 -> tab.text = getString(R.string.all)
-                1 -> tab.text = getString(R.string.favorites)
+                ALL_LOCATIONS_LIST_FRAGMENT_INDEX -> tab.text = getString(R.string.all)
+                FAVORITE_LOCATIONS_LIST_FRAGMENT_INDEX -> tab.text = getString(R.string.favorites)
             }
         }.attach()
+    }
+
+    companion object {
+        private const val ALL_LOCATIONS_LIST_FRAGMENT_INDEX = 0
+        private const val FAVORITE_LOCATIONS_LIST_FRAGMENT_INDEX = 1
     }
 }

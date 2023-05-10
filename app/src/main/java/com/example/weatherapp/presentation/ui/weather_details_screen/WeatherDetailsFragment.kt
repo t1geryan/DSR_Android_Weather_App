@@ -12,8 +12,8 @@ import com.example.weatherapp.databinding.FragmentWeatherDetailsBinding
 import com.example.weatherapp.presentation.contract.HasCustomActionToolbar
 import com.example.weatherapp.presentation.contract.HasCustomTitleToolbar
 import com.example.weatherapp.presentation.contract.ToolbarAction
-import com.example.weatherapp.presentation.ui_utls.collectWhenStarted
-import com.example.weatherapp.presentation.ui_utls.viewModelCreator
+import com.example.weatherapp.presentation.ui_utils.collectWhenStarted
+import com.example.weatherapp.presentation.ui_utils.viewModelCreator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

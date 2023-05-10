@@ -73,17 +73,17 @@ class LocationsAdapter(
             with(binding) {
                 locationNameTV.text = locationItem.location.name
 
-                currentTempTV.visibility = View.GONE
-                locationItem.weatherForecast.getOrNull(0)?.let { currentWeather ->
-                    currentTempTV.text = context.getString(
-                        R.string.current_temperature,
-                        currentWeather.temperature.toString()
-                    )
-                    currentTempTV.visibility = View.VISIBLE
-                }
+                // show current temperature
+                currentTempTV.text = context.getString(
+                    R.string.current_temperature,
+                    locationItem.currentWeather.temperature.toString()
+                )
+                currentTempTV.visibility = View.VISIBLE
+
+                // show tomorrow's temperature if needed and if it exists
                 tomorrowTempTV.visibility = View.GONE
                 if (locationItem.location.hasNextDayForecast) {
-                    locationItem.weatherForecast.getOrNull(1)?.let { tomorrowWeather ->
+                    locationItem.weatherForecast.firstOrNull()?.let { tomorrowWeather ->
                         tomorrowTempTV.text = context.getString(
                             R.string.tomorrow_temperature,
                             tomorrowWeather.temperature.toString()
@@ -91,6 +91,7 @@ class LocationsAdapter(
                         tomorrowTempTV.visibility = View.VISIBLE
                     }
                 }
+
                 favoriteStatusIV.setImageResource(
                     if (locationItem.location.isFavorite)
                         R.drawable.icon_favorite_24

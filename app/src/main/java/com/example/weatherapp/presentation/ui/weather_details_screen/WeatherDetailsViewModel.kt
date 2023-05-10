@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.domain.models.LocationWeather
 import com.example.weatherapp.domain.repositories.LocationListRepository
 import com.example.weatherapp.presentation.state.UiState
-import com.example.weatherapp.presentation.ui_utls.collectUiState
+import com.example.weatherapp.presentation.ui_utils.collectUiState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

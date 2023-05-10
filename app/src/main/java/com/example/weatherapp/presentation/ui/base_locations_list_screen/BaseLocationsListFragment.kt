@@ -16,8 +16,8 @@ import com.example.weatherapp.presentation.event.Event
 import com.example.weatherapp.presentation.state.UiState
 import com.example.weatherapp.presentation.ui.base_locations_list_screen.adapter.LocationsAdapter
 import com.example.weatherapp.presentation.ui.bottom_navigation_screen.BottomNavigationFragmentDirections
-import com.example.weatherapp.presentation.ui_utls.collectWhenStarted
-import com.example.weatherapp.presentation.ui_utls.findTopLevelNavController
+import com.example.weatherapp.presentation.ui_utils.collectWhenStarted
+import com.example.weatherapp.presentation.ui_utils.findTopLevelNavController
 
 abstract class BaseLocationsListFragment : Fragment() {
 
@@ -92,14 +92,14 @@ abstract class BaseLocationsListFragment : Fragment() {
         }
     }
 
-    private fun hideSupportingViews() {
-        binding.progressBar.visibility = View.GONE
-        binding.emptyListMessageTV.visibility = View.GONE
+    private fun hideSupportingViews() = with(binding) {
+        progressBar.visibility = View.GONE
+        emptyListMessageTV.visibility = View.GONE
     }
 
     private fun showEmptyListMessage(message: String) = with(binding.emptyListMessageTV) {
-        binding.emptyListMessageTV.text = message
-        binding.emptyListMessageTV.visibility = View.VISIBLE
+        text = message
+        visibility = View.VISIBLE
     }
 
     private fun showErrorDialog(message: String?) {

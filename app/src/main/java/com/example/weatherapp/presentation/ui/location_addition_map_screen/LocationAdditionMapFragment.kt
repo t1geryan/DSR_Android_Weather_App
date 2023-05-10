@@ -10,7 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.databinding.FragmentLocationAdditionMapBinding
-import com.example.weatherapp.presentation.ui_utls.permissionsProvider
+import com.example.weatherapp.presentation.ui_utils.permissionsProvider
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint

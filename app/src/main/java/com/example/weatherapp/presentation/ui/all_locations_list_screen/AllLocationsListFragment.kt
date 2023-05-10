@@ -7,7 +7,7 @@ import androidx.fragment.app.viewModels
 import com.example.weatherapp.R
 import com.example.weatherapp.presentation.ui.base_locations_list_screen.BaseLocationsListFragment
 import com.example.weatherapp.presentation.ui.base_locations_list_screen.BaseLocationsListViewModel
-import com.example.weatherapp.presentation.ui_utls.findTopLevelNavController
+import com.example.weatherapp.presentation.ui_utils.findTopLevelNavController
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -24,7 +24,8 @@ class LocationListRepositoryImpl @Inject constructor(
             list.map { entity ->
                 LocationWeather(
                     locationMapper.reverseMap(entity),
-                    getWeatherForLocation(entity.lat, entity.lon)
+                    getLocationCurrentWeather(entity.lat, entity.lon),
+                    getLocationWeatherForecast(entity.lat, entity.lon),
                 )
             }
         }
@@ -33,7 +34,8 @@ class LocationListRepositoryImpl @Inject constructor(
         locationsDao.getLocationById(locationId).map { entity ->
             LocationWeather(
                 locationMapper.reverseMap(entity),
-                getWeatherForLocation(entity.lat, entity.lon)
+                getLocationCurrentWeather(entity.lat, entity.lon),
+                getLocationWeatherForecast(entity.lat, entity.lon)
             )
         }
 
@@ -52,11 +54,16 @@ class LocationListRepositoryImpl @Inject constructor(
     }
 
     // todo: replaced by mock
-    private fun getWeatherForLocation(lat: Float, long: Float): List<Weather> = listOf(
+    private fun getLocationWeatherForecast(lat: Float, long: Float): List<Weather> = listOf(
         Weather(temperature = Random.nextFloat() * 10),
         Weather(temperature = Random.nextFloat() * 10),
     )
     // weatherApi.getLocationWeatherByCoordinates(lat, long, BuildConfig.OPEN_WEATHER_API_KEY)
+
+    // todo: replaced by mock
+    private fun getLocationCurrentWeather(lat: Float, long: Float): Weather = Weather(
+        temperature = Random.nextFloat() * 10
+    )
 
     private fun getLocationsFromDatabase(onlyFavorites: Boolean) =
         if (onlyFavorites) {

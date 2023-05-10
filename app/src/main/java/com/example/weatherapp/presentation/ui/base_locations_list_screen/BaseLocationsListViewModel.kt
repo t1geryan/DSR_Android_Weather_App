@@ -7,8 +7,8 @@ import com.example.weatherapp.presentation.contract.LocationItemClickListener
 import com.example.weatherapp.presentation.event.Event
 import com.example.weatherapp.presentation.event.SingleEvent
 import com.example.weatherapp.presentation.state.UiState
-import com.example.weatherapp.presentation.ui_utls.collectUiState
-import com.example.weatherapp.presentation.ui_utls.viewModelScope
+import com.example.weatherapp.presentation.ui_utils.collectUiState
+import com.example.weatherapp.presentation.ui_utils.viewModelScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 

@@ -1,4 +1,4 @@
-package com.example.weatherapp.presentation.ui_utls
+package com.example.weatherapp.presentation.ui_utils
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels

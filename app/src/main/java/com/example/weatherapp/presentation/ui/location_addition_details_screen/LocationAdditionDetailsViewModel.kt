@@ -3,7 +3,7 @@ package com.example.weatherapp.presentation.ui.location_addition_details_screen
 import androidx.lifecycle.ViewModel
 import com.example.weatherapp.domain.models.Location
 import com.example.weatherapp.domain.repositories.LocationListRepository
-import com.example.weatherapp.presentation.ui_utls.viewModelScope
+import com.example.weatherapp.presentation.ui_utils.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
