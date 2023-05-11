@@ -58,7 +58,6 @@ class LocationListRepositoryImpl @Inject constructor(
         Weather(temperature = Random.nextFloat() * 10),
         Weather(temperature = Random.nextFloat() * 10),
     )
-    // weatherApi.getLocationWeatherByCoordinates(lat, long, BuildConfig.OPEN_WEATHER_API_KEY)
 
     // todo: replaced by mock
     private fun getLocationCurrentWeather(lat: Float, long: Float): Weather = Weather(
