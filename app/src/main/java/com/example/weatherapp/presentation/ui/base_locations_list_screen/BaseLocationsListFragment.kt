@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -12,6 +11,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentLocationsListBinding
 import com.example.weatherapp.domain.models.LocationItem
+import com.example.weatherapp.presentation.contract.sideEffectsProvider
 import com.example.weatherapp.presentation.event.Event
 import com.example.weatherapp.presentation.state.UiState
 import com.example.weatherapp.presentation.ui.base_locations_list_screen.adapter.LocationsAdapter
@@ -104,10 +104,6 @@ abstract class BaseLocationsListFragment : Fragment() {
 
     private fun showErrorDialog(message: String?) {
         // todo (not implemented yet - replaced by mock)
-        Toast.makeText(
-            requireContext(),
-            message ?: getString(R.string.default_exception_message),
-            Toast.LENGTH_SHORT
-        ).show()
+        sideEffectsProvider().showToast(message ?: getString(R.string.default_exception_message))
     }
 }

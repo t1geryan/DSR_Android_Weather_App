@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +23,7 @@ import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ActivityMainBinding
 import com.example.weatherapp.presentation.contract.PermissionCallback
 import com.example.weatherapp.presentation.contract.PermissionsApi
+import com.example.weatherapp.presentation.contract.SideEffectsApi
 import com.example.weatherapp.presentation.contract.toolbar.*
 import com.google.android.material.color.MaterialColors
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,7 +32,7 @@ import dagger.hilt.android.AndroidEntryPoint
  * Container for all screens in the app.
  */
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), PermissionsApi {
+class MainActivity : AppCompatActivity(), PermissionsApi, SideEffectsApi {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -116,6 +118,16 @@ class MainActivity : AppCompatActivity(), PermissionsApi {
             this,
             permission
         ) == PackageManager.PERMISSION_GRANTED
+
+    // Side Effects
+
+    override fun showToast(stringRes: Int) {
+        showToast(getString(stringRes))
+    }
+
+    override fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
 
     // UI
 

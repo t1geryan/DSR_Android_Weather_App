@@ -2,6 +2,7 @@ package com.example.weatherapp.presentation.ui.location_addition_map_screen
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,11 +11,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentLocationAdditionMapBinding
+import com.example.weatherapp.presentation.contract.sideEffectsProvider
 import com.example.weatherapp.presentation.contract.toolbar.HasNoActivityToolbar
 import com.example.weatherapp.presentation.ui_utils.getBitmapFromVectorDrawable
 import com.example.weatherapp.presentation.ui_utils.permissionsProvider
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.*
 import com.yandex.mapkit.Animation
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
@@ -154,15 +155,36 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
                 Manifest.permission.ACCESS_COARSE_LOCATION,
             )
         ) {
-            fusedLocationClient.lastLocation.addOnSuccessListener(requireActivity()) { location ->
-                mapInputListener.onMapTap(
-                    binding.mapview.map,
-                    Point(location.latitude, location.longitude)
-                )
-                moveMapCameraPosition(Point(latitude, longitude))
+            fusedLocationClient.lastLocation.addOnSuccessListener(requireActivity()) { location: Location? ->
+                if (location != null) {
+                    showResult(location.latitude, location.longitude)
+                } else {
+                    sideEffectsProvider().showToast(R.string.gps_off_error)
+                    // todo swap showToast to requestLocation() cause location is null after turning gps on (location cache is empty)
+                }
             }
         }
     }
+
+//    todo: fix bug: callbacks method onLocationResult not not achievable
+//    @SuppressLint("MissingPermission")
+//    private fun requestLocation() {
+//        val request = LocationRequest.Builder(LOCATION_REQUEST_INTERVAL_MILLIS)
+//            .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
+//            .build()
+//
+//        val callback = object : LocationCallback() {
+//            override fun onLocationResult(locationResult: LocationResult) {
+//                locationResult.locations.firstOrNull()?.let {
+//                    showResult(it.latitude, it.longitude)
+//                } ?: {
+//                    sideEffectsProvider().showToast(R.string.gps_off_error)
+//                }
+//            }
+//        }
+//
+//        fusedLocationClient.requestLocationUpdates(request, callback, null)
+//    }
 
     private fun toNextScreen() {
         if (hasResult) {
@@ -178,6 +200,8 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
         private const val STATE_KEY_RESULT = "STATE_KEY_RESULT"
         private const val STATE_KEY_LATITUDE = "STATE_KEY_LATITUDE"
         private const val STATE_KEY_LONGITUDE = "STATE_KEY_LONGITUDE"
+
+        private const val LOCATION_REQUEST_INTERVAL_MILLIS = 5_000L
 
         private const val MAP_ZOOM = 8.0f
         private val INITIAL_CAMERA_POSITION_POINT = Point(55.751574, 37.573856)

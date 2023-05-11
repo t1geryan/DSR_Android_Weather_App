@@ -54,4 +54,5 @@
     <string name="empty_field_error">The field is empty</string>
     <string name="navigate_back">navigate back</string>
     <string name="search">Search</string>
+    <string name="gps_off_error">Please, enable gps to get current location</string>
 </resources>
