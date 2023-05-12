@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/forecastTimeTV"
+        style="@style/WeatherDetailsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lines="1"
+        tools:text="3:00" />
+
+    <ImageView
+        android:id="@+id/forecastIcon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="@dimen/small_margin"
+        android:contentDescription="@string/forecast_icon"
+        tools:src="@drawable/icon_weather_cloudy_24" />
+
+    <TextView
+        android:id="@+id/forecastTemperatureTV"
+        style="@style/WeatherDetailsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small_margin"
+        android:lines="1"
+        tools:text="+17 °C" />
+</androidx.appcompat.widget.LinearLayoutCompat>

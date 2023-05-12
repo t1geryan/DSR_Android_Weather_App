@@ -5,7 +5,6 @@
     <string name="location_addition_map_title">Location Coordinates</string>
     <string name="location_addition_name_title">Location Name</string>
     <string name="location_addition_details_title">Weather Details</string>
-    <string name="weather_details_title">Weather Details</string>
     <string name="settings_title">Settings</string>
     <string name="triggers_title">Triggers</string>
 
@@ -18,7 +17,7 @@
     <string name="finish">Finish</string>
 
     <!--Location Addition Map Screen-->
-    <string name="current_location_button">current location button</string>
+    <string name="current_location_button">current location</string>
 
     <!--Location Addition Name Screen-->
     <string name="input_name_hint">Input Location Name</string>
@@ -45,6 +44,10 @@
     <!--Content Descriptions -->
     <string name="favorite_icon">favorite icon</string>
     <string name="location_adding_button">location adding button</string>
+    <string name="weather_icon">weather icon</string>
+    <string name="forecast_icon">forecast icon</string>
+    <string name="navigate_back">navigate back</string>
+    <string name="search">Search</string>
 
     <!--Toolbar Actions Titles -->
     <string name="delete_location">delete location</string>
@@ -52,7 +55,6 @@
     <!--Other -->
     <string name="default_exception_message">An unexpected error occurred</string>
     <string name="empty_field_error">The field is empty</string>
-    <string name="navigate_back">navigate back</string>
-    <string name="search">Search</string>
     <string name="gps_off_error">Please, enable gps to get current location</string>
+
 </resources>

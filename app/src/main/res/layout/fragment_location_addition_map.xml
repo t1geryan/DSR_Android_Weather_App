@@ -17,9 +17,10 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/common_margin"
+        android:foregroundGravity="center"
         app:cardCornerRadius="@dimen/corner_radius"
         app:cardElevation="@dimen/cardview_default_elevation"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,7 +28,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="?attr/colorBackgroundFloating"
             android:gravity="center"
@@ -47,14 +48,16 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/locationInputET"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/small_margin"
                 android:background="@android:color/transparent"
                 android:hint="@string/search"
                 android:imeOptions="actionDone"
                 android:inputType="text"
+                android:maxWidth="500dp"
                 android:maxLength="30"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:minWidth="300dp" />
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.cardview.widget.CardView>
 
