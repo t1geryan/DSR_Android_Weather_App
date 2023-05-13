@@ -8,13 +8,13 @@ import com.example.weatherapp.data.remote.weather.api.WeatherApi
 import com.example.weatherapp.domain.models.Location
 import com.example.weatherapp.domain.models.LocationWeather
 import com.example.weatherapp.domain.models.Weather
-import com.example.weatherapp.domain.repositories.LocationListRepository
+import com.example.weatherapp.domain.repositories.LocationsWeatherRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import kotlin.random.Random
 
-class LocationListRepositoryImpl @Inject constructor(
+class LocationsWeatherRepositoryImpl @Inject constructor(
     private val locationsDao: LocationsDao,
     private val locationMapper: LocationDomainEntityMapper,
     private val weatherApi: WeatherApi,
@@ -24,7 +24,7 @@ class LocationListRepositoryImpl @Inject constructor(
     private val weatherForecastsDao: WeatherForecastsDao,
     private val currentWeatherDomainEntityMapper: CurrentWeatherDomainEntityMapper,
     private val weatherForecastDomainEntityMapper: WeatherForecastDomainEntityMapper,
-) : LocationListRepository {
+) : LocationsWeatherRepository {
     override suspend fun getAllLocationsWeather(onlyFavorites: Boolean): Flow<List<LocationWeather>> =
         getLocationsFromDatabase(onlyFavorites).map { list ->
             list.map { entity ->

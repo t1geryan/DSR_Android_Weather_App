@@ -2,7 +2,7 @@ package com.example.weatherapp.presentation.ui.base_locations_list_screen
 
 import androidx.lifecycle.ViewModel
 import com.example.weatherapp.domain.models.LocationItem
-import com.example.weatherapp.domain.repositories.LocationListRepository
+import com.example.weatherapp.domain.repositories.LocationsWeatherRepository
 import com.example.weatherapp.presentation.contract.LocationItemClickListener
 import com.example.weatherapp.presentation.event.Event
 import com.example.weatherapp.presentation.event.SingleEvent
@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 abstract class BaseLocationsListViewModel(
-    private val locationListRepository: LocationListRepository
+    private val locationsWeatherRepository: LocationsWeatherRepository
 ) : ViewModel(), LocationItemClickListener {
     private val _locationItems = MutableStateFlow<UiState<List<LocationItem>>>(UiState.Loading())
     val locationItems: StateFlow<UiState<List<LocationItem>>>
@@ -39,7 +39,7 @@ abstract class BaseLocationsListViewModel(
 
     override fun changeFavoriteStatus(locationItem: LocationItem) {
         viewModelScope.launch {
-            locationListRepository.changeLocationFavoriteStatusById(locationItem.location.id)
+            locationsWeatherRepository.changeLocationFavoriteStatusById(locationItem.location.id)
         }
     }
 

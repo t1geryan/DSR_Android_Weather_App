@@ -3,7 +3,7 @@ package com.example.weatherapp.presentation.ui.weather_details_screen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.domain.models.LocationWeather
-import com.example.weatherapp.domain.repositories.LocationListRepository
+import com.example.weatherapp.domain.repositories.LocationsWeatherRepository
 import com.example.weatherapp.presentation.state.UiState
 import com.example.weatherapp.presentation.ui_utils.collectUiState
 import dagger.assisted.Assisted
@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 
 class WeatherDetailsViewModel @AssistedInject constructor(
     @Assisted private val locationId: Long,
-    private val locationListRepository: LocationListRepository,
+    private val locationsWeatherRepository: LocationsWeatherRepository,
 ) : ViewModel() {
 
     private val _locationWeather: MutableStateFlow<UiState<LocationWeather>> =
@@ -37,10 +37,10 @@ class WeatherDetailsViewModel @AssistedInject constructor(
     }
 
     suspend fun fetchLocationWeatherById(): Flow<LocationWeather> =
-        locationListRepository.getLocationWeatherById(locationId)
+        locationsWeatherRepository.getLocationWeatherById(locationId)
 
     fun deleteLocationById(locationId: Long) = viewModelScope.launch {
-        locationListRepository.deleteLocationById(locationId)
+        locationsWeatherRepository.deleteLocationById(locationId)
     }
 
     @AssistedFactory

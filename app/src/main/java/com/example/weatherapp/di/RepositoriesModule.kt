@@ -1,7 +1,7 @@
 package com.example.weatherapp.di
 
-import com.example.weatherapp.data.repositories.LocationListRepositoryImpl
-import com.example.weatherapp.domain.repositories.LocationListRepository
+import com.example.weatherapp.data.repositories.LocationsWeatherRepositoryImpl
+import com.example.weatherapp.domain.repositories.LocationsWeatherRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,6 +15,6 @@ abstract class RepositoriesModule {
     @Binds
     @Singleton
     abstract fun bindsLocationListRepository(
-        locationListRepositoryImpl: LocationListRepositoryImpl
-    ): LocationListRepository
+        locationsWeatherRepositoryImpl: LocationsWeatherRepositoryImpl
+    ): LocationsWeatherRepository
 }
