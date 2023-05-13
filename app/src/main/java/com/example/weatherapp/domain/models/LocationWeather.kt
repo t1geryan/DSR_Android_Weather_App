@@ -7,7 +7,7 @@ typealias LocationItem = LocationWeather
  * @see Location
  * @see Weather
  * @param location stores base information about location
- * @param currentWeather stores weather information for current days
+ * @param currentWeather stores weather information for current moment
  * @param weatherForecast stores list of weather information for few days that needs to be shown
  */
 data class LocationWeather(

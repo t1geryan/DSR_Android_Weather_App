@@ -1,8 +1,9 @@
 package com.example.weatherapp.data.repositories
 
 import com.example.weatherapp.data.databases.location_database.dao.LocationsDao
-import com.example.weatherapp.data.mappers.LocationMapper
-import com.example.weatherapp.data.mappers.WeatherMapper
+import com.example.weatherapp.data.databases.weather_database.dao.CurrentWeatherDao
+import com.example.weatherapp.data.databases.weather_database.dao.WeatherForecastsDao
+import com.example.weatherapp.data.mappers.*
 import com.example.weatherapp.data.remote.weather.api.WeatherApi
 import com.example.weatherapp.domain.models.Location
 import com.example.weatherapp.domain.models.LocationWeather
@@ -15,9 +16,14 @@ import kotlin.random.Random
 
 class LocationListRepositoryImpl @Inject constructor(
     private val locationsDao: LocationsDao,
-    private val locationMapper: LocationMapper,
+    private val locationMapper: LocationDomainEntityMapper,
     private val weatherApi: WeatherApi,
-    private val weatherMapper: WeatherMapper,
+    private val currentWeatherDtoMapper: CurrentWeatherDtoToEntityMapper,
+    private val forecastDtoMapper: ForecastDtoToEntityMapper,
+    private val currentWeatherDao: CurrentWeatherDao,
+    private val weatherForecastsDao: WeatherForecastsDao,
+    private val currentWeatherDomainEntityMapper: CurrentWeatherDomainEntityMapper,
+    private val weatherForecastDomainEntityMapper: WeatherForecastDomainEntityMapper,
 ) : LocationListRepository {
     override suspend fun getAllLocationsWeather(onlyFavorites: Boolean): Flow<List<LocationWeather>> =
         getLocationsFromDatabase(onlyFavorites).map { list ->

@@ -13,9 +13,9 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class LocationDatabaseModule {
+object LocationDatabaseModule {
 
-    private val databaseName = "locations.db"
+    private const val databaseName = "locations.db"
 
     @Provides
     @Singleton

@@ -4,14 +4,14 @@ import com.example.weatherapp.data.databases.location_database.entities.Location
 import com.example.weatherapp.domain.models.Location
 import com.example.weatherapp.utils.BidirectionalMapper
 import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
- * Class for mapping [Location] <-> [LocationEntity]
+ * Interface for mapping [Location] <-> [LocationEntity]
  * @see BidirectionalMapper
  */
-@Singleton
-class LocationMapper @Inject constructor() : BidirectionalMapper<Location, LocationEntity> {
+interface LocationDomainEntityMapper : BidirectionalMapper<Location, LocationEntity>
+
+class LocationDomainEntityMapperImpl @Inject constructor() : LocationDomainEntityMapper {
 
     /**
      * Maps from [Location] to [LocationEntity]
