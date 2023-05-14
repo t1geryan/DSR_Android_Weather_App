@@ -12,6 +12,9 @@ import com.example.weatherapp.databinding.FragmentWeatherDetailsBinding
 import com.example.weatherapp.presentation.contract.toolbar.HasCustomActionToolbar
 import com.example.weatherapp.presentation.contract.toolbar.HasCustomTitleToolbar
 import com.example.weatherapp.presentation.contract.toolbar.ToolbarAction
+import com.example.weatherapp.presentation.state.UiState
+import com.example.weatherapp.presentation.ui.weather_details_screen.adapter.ForecastItem
+import com.example.weatherapp.presentation.ui.weather_details_screen.adapter.ForecastsAdapter
 import com.example.weatherapp.presentation.ui_utils.collectWhenStarted
 import com.example.weatherapp.presentation.ui_utils.viewModelCreator
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,6 +24,8 @@ import javax.inject.Inject
 class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActionToolbar {
 
     private lateinit var binding: FragmentWeatherDetailsBinding
+
+    private lateinit var adapter: ForecastsAdapter
 
     private val args: WeatherDetailsFragmentArgs by navArgs()
 
@@ -37,6 +42,10 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentWeatherDetailsBinding.inflate(inflater, container, false)
+
+        adapter = ForecastsAdapter()
+        binding.forecastsRV.adapter = adapter
+
         return binding.root
     }
 
@@ -45,7 +54,9 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
         collectWhenStarted {
             viewModel.locationWeather.collect { uiState ->
                 when (uiState) {
-                    // todo add handling
+                    is UiState.Success -> adapter.forecastsList = uiState.data.weatherForecast.map {
+                        ForecastItem.fromWeather(it)
+                    }
                     else -> {
 
                     }

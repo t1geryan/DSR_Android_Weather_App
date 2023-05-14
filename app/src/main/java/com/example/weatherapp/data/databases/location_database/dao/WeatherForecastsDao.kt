@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface WeatherForecastsDao {
 
-    @Query("SELECT * FROM weather_forecasts WHERE location_id = :locationId")
+    @Query("SELECT * FROM weather_forecasts WHERE location_id = :locationId ORDER BY date_time_unix_utc")
     fun getWeatherForecastsForLocation(locationId: Long): Flow<List<WeatherForecastEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

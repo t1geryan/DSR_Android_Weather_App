@@ -75,7 +75,7 @@ class LocationsAdapter(
                 // show current temperature
                 currentTempTV.text = context.getString(
                     R.string.current_temperature,
-                    locationItem.currentWeather.temperature.toString()
+                    locationItem.currentWeather.temperature
                 )
                 currentTempTV.visibility = View.VISIBLE
 
@@ -88,7 +88,7 @@ class LocationsAdapter(
                         ?.let { tomorrowWeather ->
                             tomorrowTempTV.text = context.getString(
                                 R.string.tomorrow_temperature,
-                                tomorrowWeather.temperature.toString()
+                                tomorrowWeather.temperature
                             )
                             tomorrowTempTV.visibility = View.VISIBLE
                         }
