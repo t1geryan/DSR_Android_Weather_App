@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentLocationsListBinding
-import com.example.weatherapp.domain.models.LocationItem
 import com.example.weatherapp.presentation.contract.sideEffectsProvider
 import com.example.weatherapp.presentation.event.Event
 import com.example.weatherapp.presentation.state.UiState
+import com.example.weatherapp.presentation.ui.base_locations_list_screen.adapter.LocationItem
 import com.example.weatherapp.presentation.ui.base_locations_list_screen.adapter.LocationsAdapter
 import com.example.weatherapp.presentation.ui.bottom_navigation_screen.BottomNavigationFragmentDirections
 import com.example.weatherapp.presentation.ui_utils.collectWhenStarted

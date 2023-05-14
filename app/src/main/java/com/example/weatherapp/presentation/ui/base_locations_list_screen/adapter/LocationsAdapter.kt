@@ -7,8 +7,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ItemLocationBinding
-import com.example.weatherapp.domain.models.LocationItem
-import com.example.weatherapp.presentation.contract.LocationItemClickListener
 import java.util.*
 
 class LocationsAdapter(

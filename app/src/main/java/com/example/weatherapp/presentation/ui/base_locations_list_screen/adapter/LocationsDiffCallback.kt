@@ -1,11 +1,10 @@
 package com.example.weatherapp.presentation.ui.base_locations_list_screen.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.weatherapp.domain.models.LocationWeather
 
 class LocationsDiffCallback(
-    private val oldList: List<LocationWeather>,
-    private val newList: List<LocationWeather>
+    private val oldList: List<LocationItem>,
+    private val newList: List<LocationItem>
 ) : DiffUtil.Callback() {
     override fun getOldListSize(): Int = oldList.size
 

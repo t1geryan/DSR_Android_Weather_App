@@ -1,6 +1,4 @@
-package com.example.weatherapp.presentation.contract
-
-import com.example.weatherapp.domain.models.LocationItem
+package com.example.weatherapp.presentation.ui.base_locations_list_screen.adapter
 
 interface LocationItemClickListener {
     fun changeFavoriteStatus(locationItem: LocationItem)

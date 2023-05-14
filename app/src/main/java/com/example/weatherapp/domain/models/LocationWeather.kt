@@ -1,7 +1,5 @@
 package com.example.weatherapp.domain.models
 
-typealias LocationItem = LocationWeather
-
 /**
  * A class that stores information about location and it weather info
  * @see Location
