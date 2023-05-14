@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ItemLocationBinding
+import com.example.weatherapp.utils.Constants
 import java.util.*
 
 class LocationsAdapter(
@@ -106,15 +107,10 @@ class LocationsAdapter(
         private fun getNextDayMidDayUnixUtcTimestamp(): Long {
             val calendar = GregorianCalendar.getInstance(TimeZone.getTimeZone("UTC"))
             calendar.add(Calendar.DAY_OF_MONTH, 1) // add one day to current day
-            calendar.set(Calendar.HOUR_OF_DAY, MIDDAY_TIME)
-            calendar.set(Calendar.MINUTE, 0)
-            calendar.set(Calendar.SECOND, 0)
-            return calendar.timeInMillis / MILLIS_IN_SEC
-        }
-
-        companion object {
-            private const val MILLIS_IN_SEC = 1000L
-            private const val MIDDAY_TIME = 12
+            calendar.set(Calendar.HOUR_OF_DAY, Constants.Time.MIDDAY_TIME)
+            calendar.set(Calendar.MINUTE, 0) // make no minutes
+            calendar.set(Calendar.SECOND, 0) // make no seconds
+            return calendar.timeInMillis / Constants.Time.MILLIS_IN_SEC
         }
     }
 }

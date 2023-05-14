@@ -1,6 +1,8 @@
 package com.example.weatherapp.presentation.ui.weather_details_screen.adapter
 
+import android.annotation.SuppressLint
 import android.icu.text.SimpleDateFormat
+import android.icu.util.TimeZone
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -8,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ItemForecastBinding
+import com.example.weatherapp.utils.Constants
 import java.util.*
 
 class ForecastsAdapter : RecyclerView.Adapter<ForecastsAdapter.ForecastsViewHolder>() {
@@ -38,6 +41,11 @@ class ForecastsAdapter : RecyclerView.Adapter<ForecastsAdapter.ForecastsViewHold
         val binding: ItemForecastBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
+        @SuppressLint("SimpleDateFormat")
+        private val simpleDateFormat = SimpleDateFormat("HH:mm").apply {
+            timeZone = TimeZone.getTimeZone("UTC")
+        }
+
         fun bind(forecastItem: ForecastItem) {
             val context = binding.root.context
             with(binding) {
@@ -51,12 +59,10 @@ class ForecastsAdapter : RecyclerView.Adapter<ForecastsAdapter.ForecastsViewHold
                     .placeholder(R.drawable.icon_weather_cloudy_24)
                     .into(forecastIcon)
 
-                // todo: fix bug: Three extra hours are added to the time of measurement
-                // bad fix: sub 10800 seconds from forecastedTimeUnix
-                val forecastedTimeUnix =
-                    (forecastItem.dateTimeUnixUtc + forecastItem.shiftFromUtcSeconds - 10800) * 1000
-                val forecastedTimeText =
-                    SimpleDateFormat("HH:mm", Locale.ENGLISH).format(Date(forecastedTimeUnix))
+                val forecastedTimeUnixMillis =
+                    (forecastItem.dateTimeUnixUtc + forecastItem.shiftFromUtcSeconds) * Constants.Time.MILLIS_IN_SEC
+
+                val forecastedTimeText = simpleDateFormat.format(Date(forecastedTimeUnixMillis))
                 forecastTimeTV.text = forecastedTimeText
             }
         }
