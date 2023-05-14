@@ -9,6 +9,7 @@ import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ItemLocationBinding
 import com.example.weatherapp.domain.models.LocationItem
 import com.example.weatherapp.presentation.contract.LocationItemClickListener
+import java.util.*
 
 class LocationsAdapter(
     private val listener: LocationItemClickListener
@@ -83,13 +84,16 @@ class LocationsAdapter(
                 // show tomorrow's temperature if needed and if it exists
                 tomorrowTempTV.visibility = View.GONE
                 if (locationItem.location.hasNextDayForecast) {
-                    locationItem.weatherForecast.firstOrNull()?.let { tomorrowWeather ->
-                        tomorrowTempTV.text = context.getString(
-                            R.string.tomorrow_temperature,
-                            tomorrowWeather.temperature.toString()
-                        )
-                        tomorrowTempTV.visibility = View.VISIBLE
-                    }
+                    val tomorrowMidDayUnixUtcTimestamp = getNextDayMidDayUnixUtcTimestamp()
+                    // find tomorrow midday temperature in forecasts and show it as tomorrow temp
+                    locationItem.weatherForecast.firstOrNull { it.dateTimeUnixUtc >= tomorrowMidDayUnixUtcTimestamp }
+                        ?.let { tomorrowWeather ->
+                            tomorrowTempTV.text = context.getString(
+                                R.string.tomorrow_temperature,
+                                tomorrowWeather.temperature.toString()
+                            )
+                            tomorrowTempTV.visibility = View.VISIBLE
+                        }
                 }
 
                 favoriteStatusIV.setImageResource(
@@ -99,6 +103,20 @@ class LocationsAdapter(
                         R.drawable.icon_favorite_border_24
                 )
             }
+        }
+
+        private fun getNextDayMidDayUnixUtcTimestamp(): Long {
+            val calendar = GregorianCalendar.getInstance(TimeZone.getTimeZone("UTC"))
+            calendar.add(Calendar.DAY_OF_MONTH, 1) // add one day to current day
+            calendar.set(Calendar.HOUR_OF_DAY, MIDDAY_TIME)
+            calendar.set(Calendar.MINUTE, 0)
+            calendar.set(Calendar.SECOND, 0)
+            return calendar.timeInMillis / MILLIS_IN_SEC
+        }
+
+        companion object {
+            private const val MILLIS_IN_SEC = 1000L
+            private const val MIDDAY_TIME = 12
         }
     }
 }

@@ -27,7 +27,8 @@ class CurrentWeatherEntityToDomainMapperImpl @Inject constructor() :
             pressure,
             humidity,
             windSpeed,
-            dateTimeUnixUtc + shiftFromUtcSec
+            dateTimeUnixUtc,
+            shiftFromUtcSec
         )
     }
 

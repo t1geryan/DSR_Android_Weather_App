@@ -28,7 +28,8 @@ class WeatherForecastEntityToDomainMapperImpl @Inject constructor() :
             pressure,
             humidity,
             windSpeed,
-            dateTimeUnixUTC + shiftFromUtcSec
+            dateTimeUnixUTC,
+            shiftFromUtcSec,
         )
     }
 }

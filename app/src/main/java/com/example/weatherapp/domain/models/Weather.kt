@@ -12,5 +12,6 @@ data class Weather(
     val pressure: Int = 0,
     val humidity: Int = 0,
     val windSpeed: Float = 0.0f,
-    val dateTimeUnix: Long = 0,
+    val dateTimeUnixUtc: Long = 0,
+    val shiftFromUtcSeconds: Long = 0,
 )
