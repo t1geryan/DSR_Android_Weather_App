@@ -20,14 +20,14 @@ abstract class MappersModule {
     @Binds
     @Singleton
     abstract fun bindsCurrentWeatherDomainEntityMapper(
-        mapper: CurrentWeatherDomainEntityMapperImpl
-    ): CurrentWeatherDomainEntityMapper
+        mapper: CurrentWeatherEntityToDomainMapperImpl
+    ): CurrentWeatherEntityToDomainMapper
 
     @Binds
     @Singleton
     abstract fun bindsWeatherForecastDomainEntityMapper(
-        mapper: WeatherForecastDomainEntityMapperImpl
-    ): WeatherForecastDomainEntityMapper
+        mapper: WeatherForecastEntityToDomainMapperImpl
+    ): WeatherForecastEntityToDomainMapper
 
     @Binds
     @Singleton

@@ -1,15 +1,17 @@
 package com.example.weatherapp.data.mappers
 
-import com.example.weatherapp.data.databases.weather_database.entities.CurrentWeatherEntity
+import com.example.weatherapp.data.databases.location_database.entities.CurrentWeatherEntity
 import com.example.weatherapp.data.remote.weather.dto.CurrentWeatherResponseDto
 import com.example.weatherapp.utils.Mapper
+import com.example.weatherapp.utils.ParameterizedMapper
 import javax.inject.Inject
 
 /**
  * Interface for mapping [CurrentWeatherResponseDto] -> [CurrentWeatherEntity]
  * @see Mapper
  */
-interface CurrentWeatherDtoToEntityMapper : Mapper<CurrentWeatherResponseDto, CurrentWeatherEntity>
+interface CurrentWeatherDtoToEntityMapper :
+    ParameterizedMapper<CurrentWeatherResponseDto, CurrentWeatherEntity, Long>
 
 class CurrentWeatherDtoToEntityMapperImpl @Inject constructor() :
     CurrentWeatherDtoToEntityMapper {
@@ -17,7 +19,23 @@ class CurrentWeatherDtoToEntityMapperImpl @Inject constructor() :
     /**
      * Maps from [CurrentWeatherResponseDto] to [CurrentWeatherEntity]
      */
-    override fun map(valueToMap: CurrentWeatherResponseDto): CurrentWeatherEntity {
-        TODO("Not yet implemented")
+    override fun mapWithParameter(
+        valueToMap: CurrentWeatherResponseDto,
+        parameter: Long,
+    ): CurrentWeatherEntity = with(valueToMap) {
+        val currentWeather = weather.first()
+        CurrentWeatherEntity(
+            locationId = parameter,
+            weatherConditionId = currentWeather.id,
+            weatherName = currentWeather.main,
+            weatherDescription = currentWeather.description,
+            weatherIconName = currentWeather.icon,
+            temperature = main.temp.toFloat(),
+            pressure = main.pressure,
+            humidity = main.humidity,
+            windSpeed = wind.speed.toFloat(),
+            dateTimeUnixUtc = dataTimeUtc,
+            shiftFromUtcSec = timezone.toLong()
+        )
     }
 }

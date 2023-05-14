@@ -11,5 +11,13 @@ interface Mapper<T, R> {
  * interface for mapping in both directions
  */
 interface BidirectionalMapper<T, R> : Mapper<T, R> {
-    fun reverseMap(valueToMap: R) : T
+    fun reverseMap(valueToMap: R): T
+}
+
+/**
+ * interface for mapping in one direction with special parameter
+ */
+interface ParameterizedMapper<T, R, P> {
+
+    fun mapWithParameter(valueToMap: T, parameter: P): R
 }
