@@ -86,7 +86,7 @@ class LocationsAdapter(
                 if (locationItem.location.hasNextDayForecast) {
                     val tomorrowMidDayUnixUtcTimestamp = getNextDayMidDayUnixUtcTimestamp()
                     // find tomorrow midday temperature in forecasts and show it as tomorrow temp
-                    locationItem.weatherForecast.firstOrNull { it.dateTimeUnixUtc >= tomorrowMidDayUnixUtcTimestamp }
+                    locationItem.weatherForecasts.firstOrNull { it.dateTimeUnixUtc >= tomorrowMidDayUnixUtcTimestamp }
                         ?.let { tomorrowWeather ->
                             tomorrowTempTV.text = context.getString(
                                 R.string.tomorrow_temperature,

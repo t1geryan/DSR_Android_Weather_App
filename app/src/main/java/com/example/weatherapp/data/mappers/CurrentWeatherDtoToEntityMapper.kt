@@ -34,6 +34,7 @@ class CurrentWeatherDtoToEntityMapperImpl @Inject constructor() :
             pressure = main.pressure,
             humidity = main.humidity,
             windSpeed = wind.speed.toFloat(),
+            windDegree = wind.deg,
             dateTimeUnixUtc = dataTimeUtc,
             shiftFromUtcSec = timezone.toLong()
         )

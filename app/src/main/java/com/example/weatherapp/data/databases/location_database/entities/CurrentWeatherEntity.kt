@@ -27,6 +27,7 @@ data class CurrentWeatherEntity(
     val pressure: Int,
     val humidity: Int,
     @ColumnInfo("wind_speed") val windSpeed: Float,
+    @ColumnInfo("wind_degree") val windDegree: Int,
     @ColumnInfo("date_time_unix_utc") val dateTimeUnixUtc: Long,
     @ColumnInfo("shift_from_utc_sec") val shiftFromUtcSec: Long,
 )

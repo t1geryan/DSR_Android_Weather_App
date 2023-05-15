@@ -28,14 +28,8 @@ class ForecastDtoToEntityMapperImpl @Inject constructor() :
                 val currentWeather = weather.first()
                 WeatherForecastEntity(
                     locationId = parameter,
-                    weatherConditionId = currentWeather.id,
-                    weatherName = currentWeather.main,
-                    weatherDescription = currentWeather.description,
                     weatherIconName = currentWeather.icon,
                     temperature = main.temp.toFloat(),
-                    pressure = main.pressure,
-                    humidity = main.humidity,
-                    windSpeed = wind.speed.toFloat(),
                     dateTimeUnixUTC = dt,
                     shiftFromUtcSec = city.timezoneUtc
                 )

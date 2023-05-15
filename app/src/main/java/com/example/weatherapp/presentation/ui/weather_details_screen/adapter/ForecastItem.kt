@@ -1,6 +1,6 @@
 package com.example.weatherapp.presentation.ui.weather_details_screen.adapter
 
-import com.example.weatherapp.domain.models.Weather
+import com.example.weatherapp.domain.models.Forecast
 
 data class ForecastItem(
     val weatherIconName: String = "",
@@ -10,8 +10,7 @@ data class ForecastItem(
 ) {
 
     companion object {
-
-        fun fromWeather(weather: Weather): ForecastItem = with(weather) {
+        fun fromForecast(forecast: Forecast): ForecastItem = with(forecast) {
             ForecastItem(
                 weatherIconName = weatherIconName,
                 temperature = temperature,

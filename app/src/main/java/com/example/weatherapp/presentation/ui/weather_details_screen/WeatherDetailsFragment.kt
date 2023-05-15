@@ -10,8 +10,8 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentWeatherDetailsBinding
+import com.example.weatherapp.domain.models.CurrentWeather
 import com.example.weatherapp.domain.models.LocationWeather
-import com.example.weatherapp.domain.models.Weather
 import com.example.weatherapp.presentation.contract.toolbar.HasCustomActionToolbar
 import com.example.weatherapp.presentation.contract.toolbar.HasCustomTitleToolbar
 import com.example.weatherapp.presentation.contract.toolbar.ToolbarAction
@@ -84,8 +84,8 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
         binding.drawableStartTVGroup.visibility = View.VISIBLE
 
         // show forecasts
-        adapter.forecastsList = locationWeather.weatherForecast.map {
-            ForecastItem.fromWeather(it)
+        adapter.forecastsList = locationWeather.weatherForecasts.map {
+            ForecastItem.fromForecast(it)
         }
 
         // show current weather
@@ -94,7 +94,7 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
         loadCurrentWeatherIcon(currentWeather.weatherIconName)
     }
 
-    private fun loadCurrentWeatherDataToTextViews(currentWeather: Weather) = with(binding) {
+    private fun loadCurrentWeatherDataToTextViews(currentWeather: CurrentWeather) = with(binding) {
         with(currentWeather) {
             // see string.xml
             temperatureTV.text = requireContext().getTemperatureString(temperature)

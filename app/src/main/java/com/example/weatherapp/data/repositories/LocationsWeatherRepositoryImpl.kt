@@ -6,9 +6,10 @@ import com.example.weatherapp.data.databases.location_database.dao.WeatherForeca
 import com.example.weatherapp.data.databases.location_database.entities.LocationEntity
 import com.example.weatherapp.data.mappers.*
 import com.example.weatherapp.data.remote.weather.api.WeatherApi
+import com.example.weatherapp.domain.models.CurrentWeather
+import com.example.weatherapp.domain.models.Forecast
 import com.example.weatherapp.domain.models.Location
 import com.example.weatherapp.domain.models.LocationWeather
-import com.example.weatherapp.domain.models.Weather
 import com.example.weatherapp.domain.repositories.LocationsWeatherRepository
 import com.example.weatherapp.utils.Constants
 import kotlinx.coroutines.flow.Flow
@@ -69,7 +70,7 @@ class LocationsWeatherRepositoryImpl @Inject constructor(
         )
 
 
-    private suspend fun getLocationWeatherForecast(locationEntity: LocationEntity): List<Weather> {
+    private suspend fun getLocationWeatherForecast(locationEntity: LocationEntity): List<Forecast> {
         updateWeatherForecastForLocationInDb(locationEntity)
         return weatherForecastsDao.getWeatherForecastsForLocation(locationEntity.id).first()
             .map { forecastEntity ->
@@ -77,7 +78,7 @@ class LocationsWeatherRepositoryImpl @Inject constructor(
             }
     }
 
-    private suspend fun getLocationCurrentWeather(locationEntity: LocationEntity): Weather {
+    private suspend fun getLocationCurrentWeather(locationEntity: LocationEntity): CurrentWeather {
         updateCurrentWeatherForLocationInDb(locationEntity)
         return currentWeatherDomainEntityMapper.map(
             currentWeatherDao.getCurrentWeatherForLocation(locationEntity.id).first()

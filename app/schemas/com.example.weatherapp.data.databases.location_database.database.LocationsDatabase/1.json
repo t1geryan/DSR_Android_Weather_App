@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "43f2f4a4d6fe9ed7aac44d357e5eb228",
+    "identityHash": "87b3a3ed57ae0b027c8155544fbba818",
     "entities": [
       {
         "tableName": "locations",
@@ -56,7 +56,7 @@
       },
       {
         "tableName": "current_weather",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`location_id` INTEGER NOT NULL, `weather_condition_id` INTEGER NOT NULL, `weather_name` TEXT NOT NULL, `weather_description` TEXT NOT NULL, `weather_icon_name` TEXT NOT NULL, `temperature` REAL NOT NULL, `pressure` INTEGER NOT NULL, `humidity` INTEGER NOT NULL, `wind_speed` REAL NOT NULL, `date_time_unix_utc` INTEGER NOT NULL, `shift_from_utc_sec` INTEGER NOT NULL, PRIMARY KEY(`location_id`), FOREIGN KEY(`location_id`) REFERENCES `locations`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`location_id` INTEGER NOT NULL, `weather_condition_id` INTEGER NOT NULL, `weather_name` TEXT NOT NULL, `weather_description` TEXT NOT NULL, `weather_icon_name` TEXT NOT NULL, `temperature` REAL NOT NULL, `pressure` INTEGER NOT NULL, `humidity` INTEGER NOT NULL, `wind_speed` REAL NOT NULL, `wind_degree` INTEGER NOT NULL, `date_time_unix_utc` INTEGER NOT NULL, `shift_from_utc_sec` INTEGER NOT NULL, PRIMARY KEY(`location_id`), FOREIGN KEY(`location_id`) REFERENCES `locations`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "locationId",
@@ -110,6 +110,12 @@
             "fieldPath": "windSpeed",
             "columnName": "wind_speed",
             "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "windDegree",
+            "columnName": "wind_degree",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
@@ -158,30 +164,12 @@
       },
       {
         "tableName": "weather_forecasts",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`location_id` INTEGER NOT NULL, `weather_condition_id` INTEGER NOT NULL, `weather_name` TEXT NOT NULL, `weather_description` TEXT NOT NULL, `weather_icon_name` TEXT NOT NULL, `temperature` REAL NOT NULL, `pressure` INTEGER NOT NULL, `humidity` INTEGER NOT NULL, `wind_speed` REAL NOT NULL, `date_time_unix_utc` INTEGER NOT NULL, `shift_from_utc_sec` INTEGER NOT NULL, PRIMARY KEY(`location_id`, `date_time_unix_utc`), FOREIGN KEY(`location_id`) REFERENCES `locations`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`location_id` INTEGER NOT NULL, `weather_icon_name` TEXT NOT NULL, `temperature` REAL NOT NULL, `date_time_unix_utc` INTEGER NOT NULL, `shift_from_utc_sec` INTEGER NOT NULL, PRIMARY KEY(`location_id`, `date_time_unix_utc`), FOREIGN KEY(`location_id`) REFERENCES `locations`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "locationId",
             "columnName": "location_id",
             "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "weatherConditionId",
-            "columnName": "weather_condition_id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "weatherName",
-            "columnName": "weather_name",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "weatherDescription",
-            "columnName": "weather_description",
-            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -193,24 +181,6 @@
           {
             "fieldPath": "temperature",
             "columnName": "temperature",
-            "affinity": "REAL",
-            "notNull": true
-          },
-          {
-            "fieldPath": "pressure",
-            "columnName": "pressure",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "humidity",
-            "columnName": "humidity",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "windSpeed",
-            "columnName": "wind_speed",
             "affinity": "REAL",
             "notNull": true
           },
@@ -263,7 +233,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '43f2f4a4d6fe9ed7aac44d357e5eb228')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '87b3a3ed57ae0b027c8155544fbba818')"
     ]
   }
 }
