@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentTabsBinding
 import com.example.weatherapp.presentation.contract.toolbar.ScreenContainer
+import com.example.weatherapp.presentation.ui.all_locations_list_screen.AllLocationsListFragment
+import com.example.weatherapp.presentation.ui.favorite_locations_list_screen.FavoriteLocationsListFragment
 import com.example.weatherapp.presentation.ui.tabs_screen.adapter.PagerFragmentAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -30,7 +32,10 @@ class TabsFragment : Fragment(), ScreenContainer {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.viewPager.adapter = PagerFragmentAdapter(this)
+        binding.viewPager.adapter = PagerFragmentAdapter(
+            this,
+            listOf(AllLocationsListFragment(), FavoriteLocationsListFragment())
+        )
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, pos ->
             when (pos) {
                 ALL_LOCATIONS_LIST_FRAGMENT_INDEX -> tab.text = getString(R.string.all)
