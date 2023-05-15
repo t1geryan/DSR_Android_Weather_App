@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentWeatherDetailsBinding
+import com.example.weatherapp.domain.models.LocationWeather
 import com.example.weatherapp.presentation.contract.toolbar.HasCustomActionToolbar
 import com.example.weatherapp.presentation.contract.toolbar.HasCustomTitleToolbar
 import com.example.weatherapp.presentation.contract.toolbar.ToolbarAction
@@ -54,14 +55,18 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
         collectWhenStarted {
             viewModel.locationWeather.collect { uiState ->
                 when (uiState) {
-                    is UiState.Success -> adapter.forecastsList = uiState.data.weatherForecast.map {
-                        ForecastItem.fromWeather(it)
-                    }
+                    is UiState.Success -> showLocationWeather(uiState.data)
                     else -> {
 
                     }
                 }
             }
+        }
+    }
+
+    private fun showLocationWeather(locationWeather: LocationWeather) {
+        adapter.forecastsList = locationWeather.weatherForecast.map {
+            ForecastItem.fromWeather(it)
         }
     }
 

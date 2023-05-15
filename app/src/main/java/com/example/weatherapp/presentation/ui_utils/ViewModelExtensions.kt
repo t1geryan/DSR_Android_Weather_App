@@ -16,16 +16,11 @@ val viewModelScope: CoroutineScope
 fun <T> ViewModel.collectUiState(
     dataFlow: Flow<T>,
     stateFlow: MutableStateFlow<UiState<T>>,
-    checkEmptyDataPredicate: (T) -> Boolean
 ) = viewModelScope.launch {
     stateFlow.value = UiState.Loading()
     try {
         dataFlow.collect { data ->
-            stateFlow.value = if (checkEmptyDataPredicate(data)) {
-                UiState.EmptyOrNull()
-            } else {
-                UiState.Success(data)
-            }
+            stateFlow.value = UiState.Success(data)
         }
     } catch (e: Exception) {
         stateFlow.value = UiState.Error(e.message)

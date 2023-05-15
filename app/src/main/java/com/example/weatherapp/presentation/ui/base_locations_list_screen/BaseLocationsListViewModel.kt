@@ -2,11 +2,11 @@ package com.example.weatherapp.presentation.ui.base_locations_list_screen
 
 import androidx.lifecycle.ViewModel
 import com.example.weatherapp.domain.repositories.LocationsWeatherRepository
-import com.example.weatherapp.presentation.ui.base_locations_list_screen.adapter.LocationItemClickListener
 import com.example.weatherapp.presentation.event.Event
 import com.example.weatherapp.presentation.event.SingleEvent
 import com.example.weatherapp.presentation.state.UiState
 import com.example.weatherapp.presentation.ui.base_locations_list_screen.adapter.LocationItem
+import com.example.weatherapp.presentation.ui.base_locations_list_screen.adapter.LocationItemClickListener
 import com.example.weatherapp.presentation.ui_utils.collectUiState
 import com.example.weatherapp.presentation.ui_utils.viewModelScope
 import kotlinx.coroutines.flow.*
@@ -24,16 +24,14 @@ abstract class BaseLocationsListViewModel(
         get() = _showDetailsEvent.asSharedFlow()
 
     // heirs will independently determine how to get the list
-    abstract suspend fun fetchLocationItems(): Flow<List<LocationItem>>
+    protected abstract suspend fun fetchLocationItems(): Flow<List<LocationItem>>
 
     init {
         viewModelScope.launch {
             collectUiState(
                 fetchLocationItems(),
                 _locationItems
-            ) {
-                it.isEmpty()
-            }
+            )
         }
     }
 

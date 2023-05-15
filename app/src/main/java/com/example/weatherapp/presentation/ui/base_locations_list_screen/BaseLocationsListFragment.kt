@@ -71,11 +71,10 @@ abstract class BaseLocationsListFragment : Fragment() {
         hideSupportingViews()
         when (uiState) {
             is UiState.Loading -> binding.progressBar.visibility = View.VISIBLE
-            is UiState.Success -> adapter.locationsWithWeather = uiState.data
-            is UiState.EmptyOrNull -> {
-                showEmptyListMessage(getString(getEmptyListMessage()))
-                // must be replaced with an empty list, since the replacement occurs only in the Success block
-                adapter.locationsWithWeather = listOf()
+            is UiState.Success -> {
+                if (uiState.data.isEmpty())
+                    showEmptyListMessage(getString(getEmptyListMessage()))
+                adapter.locationsWithWeather = uiState.data
             }
             is UiState.Error -> showErrorDialog(uiState.message)
         }

@@ -26,6 +26,7 @@ fun Fragment.findTopLevelNavController(): NavController {
 
 /**
  * Function for collecting Flow from ViewModel when Fragment gets started
+ * Can be used only after [Fragment.onCreateView] and before [Fragment.onDestroyView]
  */
 fun Fragment.collectWhenStarted(collectBlock: suspend () -> Unit) =
     viewLifecycleOwner.lifecycleScope.launch {

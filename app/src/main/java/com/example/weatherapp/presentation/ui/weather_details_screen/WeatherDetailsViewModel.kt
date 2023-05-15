@@ -30,13 +30,11 @@ class WeatherDetailsViewModel @AssistedInject constructor(
             collectUiState(
                 fetchLocationWeatherById(),
                 _locationWeather,
-            ) {
-                it.weatherForecast.isEmpty()
-            }
+            )
         }
     }
 
-    suspend fun fetchLocationWeatherById(): Flow<LocationWeather> =
+    private suspend fun fetchLocationWeatherById(): Flow<LocationWeather> =
         locationsWeatherRepository.getLocationWeatherById(locationId)
 
     fun deleteLocationById(locationId: Long) = viewModelScope.launch {
