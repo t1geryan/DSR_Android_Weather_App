@@ -4,6 +4,10 @@ object Constants {
     object Time {
         const val MILLIS_IN_SEC = 1000
         const val MIDDAY_TIME = 12
+        const val UTC_TIME_ZONE_ID = "UTC"
+
+        const val HOUR_MINUTE_PATTERN = "HH:mm"
+        const val WEEKDAY_HOUR_MINUTE_PATTERN = "EEE, HH:mm"
     }
 
     const val MAP_API_KEY = "a122b20c-3546-43ca-8092-560ed12702f6"

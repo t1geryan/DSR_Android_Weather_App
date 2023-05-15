@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentWeatherDetailsBinding
 import com.example.weatherapp.domain.models.LocationWeather
+import com.example.weatherapp.domain.models.Weather
 import com.example.weatherapp.presentation.contract.toolbar.HasCustomActionToolbar
 import com.example.weatherapp.presentation.contract.toolbar.HasCustomTitleToolbar
 import com.example.weatherapp.presentation.contract.toolbar.ToolbarAction
@@ -17,7 +19,10 @@ import com.example.weatherapp.presentation.state.UiState
 import com.example.weatherapp.presentation.ui.weather_details_screen.adapter.ForecastItem
 import com.example.weatherapp.presentation.ui.weather_details_screen.adapter.ForecastsAdapter
 import com.example.weatherapp.presentation.ui_utils.collectWhenStarted
+import com.example.weatherapp.presentation.ui_utils.getTemperatureString
+import com.example.weatherapp.presentation.ui_utils.unixUtcTimeToPattern
 import com.example.weatherapp.presentation.ui_utils.viewModelCreator
+import com.example.weatherapp.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -54,20 +59,71 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
         super.onViewCreated(view, savedInstanceState)
         collectWhenStarted {
             viewModel.locationWeather.collect { uiState ->
+                hideSupportingViews()
                 when (uiState) {
+                    is UiState.Loading -> binding.progressBar.visibility = View.VISIBLE
                     is UiState.Success -> showLocationWeather(uiState.data)
-                    else -> {
-
+                    is UiState.Error -> {
+                        // todo: not yet implemented
                     }
                 }
             }
         }
     }
 
+    private fun hideSupportingViews() = with(binding) {
+        progressBar.visibility = View.INVISIBLE
+        horizontalBarrier.visibility = View.INVISIBLE
+        // make invisible all text views with drawable left
+        drawableStartTVGroup.visibility = View.INVISIBLE
+    }
+
     private fun showLocationWeather(locationWeather: LocationWeather) {
+        // make visible all needed views (see hideSupportingViews)
+        binding.horizontalBarrier.visibility = View.VISIBLE
+        binding.drawableStartTVGroup.visibility = View.VISIBLE
+
+        // show forecasts
         adapter.forecastsList = locationWeather.weatherForecast.map {
             ForecastItem.fromWeather(it)
         }
+
+        // show current weather
+        val currentWeather = locationWeather.currentWeather
+        loadCurrentWeatherDataToTextViews(currentWeather)
+        loadCurrentWeatherIcon(currentWeather.weatherIconName)
+    }
+
+    private fun loadCurrentWeatherDataToTextViews(currentWeather: Weather) = with(binding) {
+        with(currentWeather) {
+            // see string.xml
+            temperatureTV.text = requireContext().getTemperatureString(temperature)
+            val forecastedTimeUnixMillis =
+                (dateTimeUnixUtc + shiftFromUtcSeconds) * Constants.Time.MILLIS_IN_SEC
+            currentDateTV.text = requireContext().unixUtcTimeToPattern(
+                forecastedTimeUnixMillis,
+                Constants.Time.WEEKDAY_HOUR_MINUTE_PATTERN
+            )
+            descriptionTV.text = weatherDescription
+            windDataTV.text = getString(
+                R.string.wind_data,
+                getString(
+                    R.string.wind_speed,
+                    windSpeed.toInt(),
+                    getString(R.string.metric_wind_speed_unit)
+                )
+            )
+            pressureDataTv.text = getString(R.string.pressure_data, pressure)
+            humidityDataTV.text = getString(R.string.humidity_data, humidity)
+        }
+    }
+
+    private fun loadCurrentWeatherIcon(weatherIconName: String) {
+        Glide.with(requireContext())
+            .load(getString(R.string.weather_icon_path, weatherIconName))
+            .error(R.drawable.icon_weather_cloudy_24)
+            .placeholder(R.drawable.icon_weather_cloudy_24)
+            .into(binding.currentWeatherIconIV)
     }
 
     override fun getTitle(): String = args.title

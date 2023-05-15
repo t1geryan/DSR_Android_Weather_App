@@ -17,8 +17,8 @@
             style="@style/WeatherDetailsTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
             android:lines="1"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -53,6 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:lines="1"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/currentWeatherIconIV"
@@ -92,6 +93,12 @@
                 app:layout_constraintTop_toBottomOf="@+id/descriptionTV"
                 tools:listitem="@layout/item_forecast" />
         </androidx.cardview.widget.CardView>
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/drawableStartTVGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="windDataTV,humidityDataTV,pressureDataTv" />
 
         <View
             android:id="@+id/horizontalBarrier"

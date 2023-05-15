@@ -3,8 +3,12 @@ package com.example.weatherapp.presentation.ui_utils
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.icu.text.SimpleDateFormat
+import android.icu.util.TimeZone
 import androidx.core.content.ContextCompat
 import com.example.weatherapp.R
+import com.example.weatherapp.utils.Constants
+import java.util.*
 import kotlin.math.absoluteValue
 
 fun Context.getBitmapFromVectorDrawable(drawableId: Int): Bitmap? {
@@ -22,11 +26,18 @@ fun Context.getBitmapFromVectorDrawable(drawableId: Int): Bitmap? {
     return bitmap
 }
 
+fun Context.unixUtcTimeToPattern(unixUtcTime: Long, pattern: String): String {
+    val simpleDateFormat = SimpleDateFormat(pattern, Locale.ROOT).apply {
+        timeZone = TimeZone.getTimeZone(Constants.Time.UTC_TIME_ZONE_ID)
+    }
+    return simpleDateFormat.format(Date(unixUtcTime))
+}
+
 // todo: add different metric systems support
 fun Context.getTemperatureString(value: Int): String =
     getString(
         R.string.temperature,
         if (value < 0) "-" else "+",
         value.absoluteValue,
-        getString(R.string.celsius_unit)
+        getString(R.string.metric_temp_unit)
     )

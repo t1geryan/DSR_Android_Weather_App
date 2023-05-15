@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
-val viewModelScope: CoroutineScope
+val ViewModel.viewModelScope: CoroutineScope
     get() = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
 fun <T> ViewModel.collectUiState(

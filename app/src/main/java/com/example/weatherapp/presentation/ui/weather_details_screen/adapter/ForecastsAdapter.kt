@@ -1,8 +1,5 @@
 package com.example.weatherapp.presentation.ui.weather_details_screen.adapter
 
-import android.annotation.SuppressLint
-import android.icu.text.SimpleDateFormat
-import android.icu.util.TimeZone
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -11,8 +8,8 @@ import com.bumptech.glide.Glide
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ItemForecastBinding
 import com.example.weatherapp.presentation.ui_utils.getTemperatureString
+import com.example.weatherapp.presentation.ui_utils.unixUtcTimeToPattern
 import com.example.weatherapp.utils.Constants
-import java.util.*
 
 class ForecastsAdapter : RecyclerView.Adapter<ForecastsAdapter.ForecastsViewHolder>() {
 
@@ -42,11 +39,6 @@ class ForecastsAdapter : RecyclerView.Adapter<ForecastsAdapter.ForecastsViewHold
         val binding: ItemForecastBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        @SuppressLint("SimpleDateFormat")
-        private val simpleDateFormat = SimpleDateFormat("HH:mm").apply {
-            timeZone = TimeZone.getTimeZone("UTC")
-        }
-
         fun bind(forecastItem: ForecastItem) {
             val context = binding.root.context
             with(binding) {
@@ -54,16 +46,22 @@ class ForecastsAdapter : RecyclerView.Adapter<ForecastsAdapter.ForecastsViewHold
                 forecastTemperatureTV.text = context.getTemperatureString(temp)
 
                 Glide.with(context)
-                    .load("https://openweathermap.org/img/wn/${forecastItem.weatherIconName}@2x.png")
+                    .load(
+                        context.getString(
+                            R.string.weather_icon_path,
+                            forecastItem.weatherIconName
+                        )
+                    )
                     .error(R.drawable.icon_weather_cloudy_24)
                     .placeholder(R.drawable.icon_weather_cloudy_24)
                     .into(forecastIcon)
 
                 val forecastedTimeUnixMillis =
                     (forecastItem.dateTimeUnixUtc + forecastItem.shiftFromUtcSeconds) * Constants.Time.MILLIS_IN_SEC
-
-                val forecastedTimeText = simpleDateFormat.format(Date(forecastedTimeUnixMillis))
-                forecastTimeTV.text = forecastedTimeText
+                forecastTimeTV.text = context.unixUtcTimeToPattern(
+                    forecastedTimeUnixMillis,
+                    Constants.Time.HOUR_MINUTE_PATTERN
+                )
             }
         }
     }
