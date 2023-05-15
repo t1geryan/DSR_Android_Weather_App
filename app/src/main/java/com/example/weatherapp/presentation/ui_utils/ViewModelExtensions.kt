@@ -1,7 +1,6 @@
 package com.example.weatherapp.presentation.ui_utils
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.presentation.state.UiState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -10,13 +9,22 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
-val ViewModel.viewModelScope: CoroutineScope
+/**
+ * viewModelScope with [Dispatchers.IO]
+ * written to reduce the amount of code
+ */
+val ViewModel.viewModelScopeIO: CoroutineScope
     get() = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
+/**
+ * wrapper for getting data from the repository layer with errors and ui states handling
+ * @param dataFlow is the data from the repository layer that needs to be handled
+ * @param stateFlow is the [MutableStateFlow] which will accept UiState to value property
+ */
 fun <T> ViewModel.collectUiState(
     dataFlow: Flow<T>,
     stateFlow: MutableStateFlow<UiState<T>>,
-) = viewModelScope.launch {
+) = viewModelScopeIO.launch {
     stateFlow.value = UiState.Loading()
     try {
         dataFlow.collect { data ->

@@ -1,11 +1,11 @@
 package com.example.weatherapp.presentation.ui.weather_details_screen
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.domain.models.LocationWeather
 import com.example.weatherapp.domain.repositories.LocationsWeatherRepository
 import com.example.weatherapp.presentation.state.UiState
 import com.example.weatherapp.presentation.ui_utils.collectUiState
+import com.example.weatherapp.presentation.ui_utils.viewModelScopeIO
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -26,7 +26,7 @@ class WeatherDetailsViewModel @AssistedInject constructor(
         get() = _locationWeather.asStateFlow()
 
     init {
-        viewModelScope.launch {
+        viewModelScopeIO.launch {
             collectUiState(
                 fetchLocationWeatherById(),
                 _locationWeather,
@@ -37,7 +37,7 @@ class WeatherDetailsViewModel @AssistedInject constructor(
     private suspend fun fetchLocationWeatherById(): Flow<LocationWeather> =
         locationsWeatherRepository.getLocationWeatherById(locationId)
 
-    fun deleteLocationById(locationId: Long) = viewModelScope.launch {
+    fun deleteLocationById(locationId: Long) = viewModelScopeIO.launch {
         locationsWeatherRepository.deleteLocationById(locationId)
     }
 

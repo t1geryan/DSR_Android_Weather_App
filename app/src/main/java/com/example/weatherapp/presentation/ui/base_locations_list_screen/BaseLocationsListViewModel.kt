@@ -8,7 +8,7 @@ import com.example.weatherapp.presentation.state.UiState
 import com.example.weatherapp.presentation.ui.base_locations_list_screen.adapter.LocationItem
 import com.example.weatherapp.presentation.ui.base_locations_list_screen.adapter.LocationItemClickListener
 import com.example.weatherapp.presentation.ui_utils.collectUiState
-import com.example.weatherapp.presentation.ui_utils.viewModelScope
+import com.example.weatherapp.presentation.ui_utils.viewModelScopeIO
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -27,7 +27,7 @@ abstract class BaseLocationsListViewModel(
     protected abstract suspend fun fetchLocationItems(): Flow<List<LocationItem>>
 
     init {
-        viewModelScope.launch {
+        viewModelScopeIO.launch {
             collectUiState(
                 fetchLocationItems(),
                 _locationItems
@@ -36,13 +36,13 @@ abstract class BaseLocationsListViewModel(
     }
 
     override fun changeFavoriteStatus(locationItem: LocationItem) {
-        viewModelScope.launch {
+        viewModelScopeIO.launch {
             locationsWeatherRepository.changeLocationFavoriteStatusById(locationItem.location.id)
         }
     }
 
     override fun showDetails(locationItem: LocationItem) {
-        viewModelScope.launch {
+        viewModelScopeIO.launch {
             _showDetailsEvent.emit(SingleEvent(locationItem))
         }
     }
