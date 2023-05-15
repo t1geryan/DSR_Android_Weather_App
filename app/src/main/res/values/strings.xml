@@ -28,13 +28,16 @@
     <string name="confirm_next_day_forecast">with forecast for the next day</string>
     <string name="deny_next_day_forecast">without forecast for the next day</string>
 
+    <!--Temperature-->
+    <string name="celsius_unit">°C</string>
+    <!--p1 is the sign +/-,p2 is a value without sign, p3 is a metric unit-->
+    <string name="temperature">%1$s%2$d%3$s</string>
+
     <!--Location Item-->
-    <string name="current_temperature">Current temperature: %1$d°C</string>
-    <string name="tomorrow_temperature">Tomorrow temperature: %1$d°C</string>
+    <string name="current_temperature">Current temperature: %1$s</string>
+    <string name="tomorrow_temperature">Tomorrow temperature: %1$s</string>
 
     <!--Weather Details-->
-    <!--p0 is the sign +/-, p1 is a value-->
-    <string name="temperature">%1$s %2$d</string>
 
     <!--Bottom Navigation Items-->
     <string name="locations">Locations</string>

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ItemLocationBinding
+import com.example.weatherapp.presentation.ui_utils.getTemperatureString
 import com.example.weatherapp.utils.Constants
 import java.util.*
 
@@ -76,7 +77,7 @@ class LocationsAdapter(
                 // show current temperature
                 currentTempTV.text = context.getString(
                     R.string.current_temperature,
-                    locationItem.currentWeather.temperature
+                    context.getTemperatureString(locationItem.currentWeather.temperature)
                 )
                 currentTempTV.visibility = View.VISIBLE
 
@@ -89,7 +90,7 @@ class LocationsAdapter(
                         ?.let { tomorrowWeather ->
                             tomorrowTempTV.text = context.getString(
                                 R.string.tomorrow_temperature,
-                                tomorrowWeather.temperature
+                                context.getTemperatureString(tomorrowWeather.temperature)
                             )
                             tomorrowTempTV.visibility = View.VISIBLE
                         }

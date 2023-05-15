@@ -20,18 +20,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="gone" />
+        android:elevation="@dimen/elevation_level_3"
+        app:elevation="@dimen/elevation_level_3" />
 
-    <TextView
-        android:id="@+id/emptyListMessageTV"
+    <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:gravity="center"
-        android:padding="@dimen/small_textview_padding"
-        android:textColor="?attr/colorOnBackground"
-        android:textSize="@dimen/big_text_size"
-        tools:text="@string/empty_locations_list_message" />
+        android:backgroundTint="?attr/colorSurface"
+        app:cardCornerRadius="@dimen/corner_radius"
+        app:cardElevation="@dimen/elevation_level_2">
+
+        <TextView
+            android:id="@+id/emptyListMessageTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="@dimen/small_textview_padding"
+            android:textColor="?attr/colorOnBackground"
+            android:textSize="@dimen/big_text_size"
+            tools:text="@string/empty_locations_list_message" />
+    </androidx.cardview.widget.CardView>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addLocationFAB"
@@ -41,5 +52,6 @@
         android:layout_marginBottom="@dimen/common_screen_padding"
         android:clickable="true"
         android:contentDescription="@string/location_adding_button"
+        app:elevation="@dimen/elevation_level_3"
         app:srcCompat="@drawable/icon_add_24" />
 </FrameLayout>

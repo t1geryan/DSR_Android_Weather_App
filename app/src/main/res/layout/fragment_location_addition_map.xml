@@ -84,6 +84,7 @@
         android:backgroundTint="?attr/colorBackgroundFloating"
         android:clickable="true"
         android:contentDescription="@string/current_location_button"
+        app:elevation="@dimen/elevation_level_3"
         app:layout_constraintBottom_toTopOf="@+id/nextButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/icon_my_location_24"

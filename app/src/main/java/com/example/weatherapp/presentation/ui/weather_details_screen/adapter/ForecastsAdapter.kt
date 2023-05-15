@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ItemForecastBinding
+import com.example.weatherapp.presentation.ui_utils.getTemperatureString
 import com.example.weatherapp.utils.Constants
 import java.util.*
 
@@ -50,8 +51,7 @@ class ForecastsAdapter : RecyclerView.Adapter<ForecastsAdapter.ForecastsViewHold
             val context = binding.root.context
             with(binding) {
                 val temp = forecastItem.temperature
-                val sign = getSignOfTemperature(temp)
-                forecastTemperatureTV.text = context.getString(R.string.temperature, sign, temp)
+                forecastTemperatureTV.text = context.getTemperatureString(temp)
 
                 Glide.with(context)
                     .load("https://openweathermap.org/img/wn/${forecastItem.weatherIconName}@2x.png")
@@ -65,14 +65,6 @@ class ForecastsAdapter : RecyclerView.Adapter<ForecastsAdapter.ForecastsViewHold
                 val forecastedTimeText = simpleDateFormat.format(Date(forecastedTimeUnixMillis))
                 forecastTimeTV.text = forecastedTimeText
             }
-        }
-
-        private fun getSignOfTemperature(temp: Int): String = if (temp < 0) {
-            "-"
-        } else if (temp == 0) {
-            ""
-        } else {
-            "+"
         }
     }
 }
