@@ -36,7 +36,8 @@
     <!--Weather Details-->
     <!--p1 is weather icon name e.g. 10d-->
     <string name="weather_icon_path">"https://openweathermap.org/img/wn/%1$s@2x.png"</string>
-    <string name="wind_data">wind power is %1$s from TODO</string>
+    <!--p1 is the wind power, p2 is the wind direction-->
+    <string name="wind_data">wind power is %1$s from %2$s</string>
     <string name="humidity_data">humidity is %1$d%%</string>
     <string name="pressure_data">pressure is %1$d hPa</string>
     <!--Bottom Navigation Items-->
@@ -62,6 +63,16 @@
     <string-array name="wind_speed_units">
         <item>m/s</item>
         <item>mi/h</item>
+    </string-array>
+    <string-array name="directions">
+        <item>N</item>
+        <item>NE</item>
+        <item>E</item>
+        <item>SE</item>
+        <item>S</item>
+        <item>SW</item>
+        <item>W</item>
+        <item>NW</item>
     </string-array>
 
     <!--TabLayout Items-->

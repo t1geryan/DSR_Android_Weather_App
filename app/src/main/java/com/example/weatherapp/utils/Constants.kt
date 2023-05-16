@@ -10,6 +10,11 @@ object Constants {
         const val WEEKDAY_HOUR_MINUTE_PATTERN = "EEE, HH:mm"
     }
 
+    object WindDirections {
+        const val DIRECTIONS_INTERVAL_DEGREES = 45
+        const val MAX_DIRECTION_DEGREES = 360
+    }
+
     object Weather {
         const val FORECASTS_COUNT_FOR_3_DAYS = 24U
     }

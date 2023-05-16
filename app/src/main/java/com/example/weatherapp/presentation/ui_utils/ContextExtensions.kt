@@ -10,6 +10,7 @@ import com.example.weatherapp.R
 import com.example.weatherapp.utils.Constants
 import java.util.*
 import kotlin.math.absoluteValue
+import kotlin.math.round
 
 fun Context.getBitmapFromVectorDrawable(drawableId: Int): Bitmap? {
     val drawable = ContextCompat.getDrawable(this, drawableId) ?: return null
@@ -57,3 +58,18 @@ fun Context.getTemperatureString(value: Int): String =
         value.absoluteValue,
         getString(R.string.metric_temp_unit)
     )
+
+/**
+ * Wrapper for getting wind direction text from string resources by wind direction in degrees
+ *
+ * For example: 0->N, 90->W, 180->S, 270->E, 360->N
+ * @return wind direction in string format
+ * @param value is wind direction in degrees
+ * @see Constants.WindDirections
+ */
+fun Context.windDirectionDegreesToString(value: Int): String {
+    val directions = resources.getStringArray(R.array.directions)
+    return directions[round(
+        (value.toDouble() % Constants.WindDirections.MAX_DIRECTION_DEGREES) / Constants.WindDirections.DIRECTIONS_INTERVAL_DEGREES
+    ).toInt() % directions.size]
+}

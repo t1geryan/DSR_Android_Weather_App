@@ -18,10 +18,7 @@ import com.example.weatherapp.presentation.contract.toolbar.ToolbarAction
 import com.example.weatherapp.presentation.state.UiState
 import com.example.weatherapp.presentation.ui.weather_details_screen.adapter.ForecastItem
 import com.example.weatherapp.presentation.ui.weather_details_screen.adapter.ForecastsAdapter
-import com.example.weatherapp.presentation.ui_utils.collectWhenStarted
-import com.example.weatherapp.presentation.ui_utils.getTemperatureString
-import com.example.weatherapp.presentation.ui_utils.unixUtcTimeToPattern
-import com.example.weatherapp.presentation.ui_utils.viewModelCreator
+import com.example.weatherapp.presentation.ui_utils.*
 import com.example.weatherapp.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -96,8 +93,9 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
 
     private fun loadCurrentWeatherDataToTextViews(currentWeather: CurrentWeather) = with(binding) {
         with(currentWeather) {
+            val context = requireContext()
             // see string.xml
-            temperatureTV.text = requireContext().getTemperatureString(temperature)
+            temperatureTV.text = context.getTemperatureString(temperature)
             val forecastedTimeUnixMillis =
                 (dateTimeUnixUtc + shiftFromUtcSeconds) * Constants.Time.MILLIS_IN_SEC
             currentDateTV.text = requireContext().unixUtcTimeToPattern(
@@ -111,7 +109,8 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
                     R.string.wind_speed,
                     windSpeed.toInt(),
                     getString(R.string.metric_wind_speed_unit)
-                )
+                ),
+                context.windDirectionDegreesToString(windDirectionDegrees)
             )
             pressureDataTv.text = getString(R.string.pressure_data, pressure)
             humidityDataTV.text = getString(R.string.humidity_data, humidity)
