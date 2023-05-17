@@ -1,17 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.ui.settings_screen.SettingsFragment">
+    android:fillViewport="true">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/settings"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:padding="@dimen/common_screen_padding"
+        tools:context=".presentation.ui.settings_screen.SettingsFragment">
+
+        <TextView
+            android:id="@+id/unitChooseTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/units_system_choosing_title"
+            android:textColor="?attr/colorOnBackground"
+            android:textSize="@dimen/huge_text_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/unitsToggleGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/common_screen_padding"
+            app:checkedButton="@id/metricUnitsToggleButton"
+            app:layout_constraintStart_toStartOf="@+id/unitChooseTitle"
+            app:layout_constraintTop_toBottomOf="@+id/unitChooseTitle"
+            app:selectionRequired="true"
+            app:singleSelection="true">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/metricUnitsToggleButton"
+                style="@style/ToggleButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/metric_units" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/imperialUnitsToggleButton"
+                style="@style/ToggleButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/imperial_units" />
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        <View
+            android:id="@+id/horizontalBarrierSettings"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="?attr/colorSurface"
+            app:layout_constraintTop_toBottomOf="@+id/unitsToggleGroup" />
+
+        <TextView
+            android:id="@+id/themeChoseTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_margin"
+            android:text="@string/application_theme_choosing_title"
+            android:textColor="?attr/colorOnBackground"
+            android:textSize="@dimen/huge_text_size"
+            app:layout_constraintStart_toStartOf="@+id/horizontalBarrierSettings"
+            app:layout_constraintTop_toBottomOf="@+id/horizontalBarrierSettings" />
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/themeToggleGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/common_screen_padding"
+            app:checkedButton="@id/systemThemeToggleButton"
+            app:layout_constraintStart_toStartOf="@+id/themeChoseTitle"
+            app:layout_constraintTop_toBottomOf="@+id/themeChoseTitle"
+            app:selectionRequired="true"
+            app:singleSelection="true">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/dayThemeToggleButton"
+                style="@style/ToggleButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/day_theme" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/nightThemeToggleButton"
+                style="@style/ToggleButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/night_theme" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/systemThemeToggleButton"
+                style="@style/ToggleButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/system_theme" />
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        <View
+            android:id="@+id/horizontalBarrierSettings2"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="?attr/colorSurface"
+            app:layout_constraintTop_toBottomOf="@+id/themeToggleGroup" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/appInfoCardView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_margin"
+            android:layout_marginBottom="@dimen/small_margin"
+            android:backgroundTint="?attr/colorSurface"
+            android:elevation="@dimen/elevation_level_1"
+            app:cardCornerRadius="@dimen/corner_radius"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/appVersionTV"
+                style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="@dimen/big_text_size"
+                tools:text="@string/app_version" />
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

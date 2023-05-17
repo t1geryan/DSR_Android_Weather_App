@@ -28,10 +28,19 @@
     <string name="confirm_next_day_forecast">with forecast for the next day</string>
     <string name="deny_next_day_forecast">without forecast for the next day</string>
 
-
     <!--Location Item-->
     <string name="current_temperature">Current temperature: %1$s</string>
     <string name="tomorrow_temperature">Tomorrow temperature: %1$s</string>
+
+    <!--Setting Screen-->
+    <string name="units_system_choosing_title">Units System:</string>
+    <string name="metric_units">Metric Units</string>
+    <string name="imperial_units">Imperial Units</string>
+    <string name="application_theme_choosing_title">Application Theme:</string>
+    <string name="day_theme">Day Theme</string>
+    <string name="night_theme">Night Theme</string>
+    <string name="system_theme">System Theme</string>
+    <string name="app_version">App version is %1$s</string>
 
     <!--Weather Details-->
     <!--p1 is weather icon name e.g. 10d-->
