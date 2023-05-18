@@ -100,6 +100,7 @@ class LocationsWeatherRepositoryImpl @Inject constructor(
                 locationEntity.lat,
                 locationEntity.lon,
                 apiKey = Constants.OPEN_WEATHER_API_KEY,
+                units = getCurrentUnitsSystem(),
                 timestampsCount = Constants.Weather.FORECASTS_COUNT_FOR_3_DAYS
             ),
             locationEntity.id
@@ -112,8 +113,8 @@ class LocationsWeatherRepositoryImpl @Inject constructor(
         val currentWeatherDto = weatherApi.getLocationCurrentWeather(
             locationEntity.lat,
             locationEntity.lon,
-            Constants.OPEN_WEATHER_API_KEY,
-            getCurrentUnitsSystem()
+            apiKey = Constants.OPEN_WEATHER_API_KEY,
+            units = getCurrentUnitsSystem()
         )
         println("CURRENT WEATHER API IS CALLED")
         val currentWeatherEntity = currentWeatherDtoMapper.mapWithParameter(
