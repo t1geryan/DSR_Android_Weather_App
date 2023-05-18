@@ -4,7 +4,11 @@ import com.example.weatherapp.data.databases.location_database.dao.CurrentWeathe
 import com.example.weatherapp.data.databases.location_database.dao.LocationsDao
 import com.example.weatherapp.data.databases.location_database.dao.WeatherForecastsDao
 import com.example.weatherapp.data.databases.location_database.entities.LocationEntity
-import com.example.weatherapp.data.mappers.*
+import com.example.weatherapp.data.mappers.current_weather.CurrentWeatherDtoToEntityMapper
+import com.example.weatherapp.data.mappers.current_weather.CurrentWeatherEntityToDomainMapper
+import com.example.weatherapp.data.mappers.forecast.ForecastDtoToEntityMapper
+import com.example.weatherapp.data.mappers.forecast.WeatherForecastEntityToDomainMapper
+import com.example.weatherapp.data.mappers.location.LocationDomainEntityMapper
 import com.example.weatherapp.data.remote.weather.api.WeatherApi
 import com.example.weatherapp.domain.models.CurrentWeather
 import com.example.weatherapp.domain.models.Forecast

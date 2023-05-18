@@ -1,4 +1,4 @@
-package com.example.weatherapp.data.mappers
+package com.example.weatherapp.data.mappers.location
 
 import com.example.weatherapp.data.databases.location_database.entities.LocationEntity
 import com.example.weatherapp.domain.models.Location
