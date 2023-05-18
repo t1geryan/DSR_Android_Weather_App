@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.weatherapp.BuildConfig
@@ -53,6 +54,11 @@ class SettingsFragment : Fragment() {
         collectWhenStarted {
             viewModel.appThemeSetting.collect { appThemeUiState ->
                 collectSettingUiState(appThemeUiState) { appThemeSetting ->
+                    AppCompatDelegate.setDefaultNightMode(
+                        getNightModeByThemeSettings(
+                            appThemeSetting
+                        )
+                    )
                     binding.themeToggleGroup.check(
                         getThemeToggleButtonIdBySetting(appThemeSetting)
                     )
@@ -124,4 +130,12 @@ class SettingsFragment : Fragment() {
                 else -> throw IllegalArgumentException()
             }
         )
+
+    private fun getNightModeByThemeSettings(themeSetting: AppTheme) =
+        when (themeSetting.themeKey) {
+            AppTheme.DAY_THEME_KEY -> AppCompatDelegate.MODE_NIGHT_NO
+            AppTheme.NIGHT_THEME_KEY -> AppCompatDelegate.MODE_NIGHT_YES
+            AppTheme.SYSTEM_THEME_KEY -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+            else -> throw IllegalArgumentException()
+        }
 }
