@@ -10,6 +10,7 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentWeatherDetailsBinding
+import com.example.weatherapp.domain.models.AppUnitsSystem
 import com.example.weatherapp.domain.models.CurrentWeather
 import com.example.weatherapp.domain.models.LocationWeather
 import com.example.weatherapp.presentation.contract.toolbar.HasCustomActionToolbar
@@ -39,6 +40,8 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
         factory.create(args.locationId)
     }
 
+    private lateinit var unitsSystemSetting: AppUnitsSystem
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,24 +49,40 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
     ): View {
         binding = FragmentWeatherDetailsBinding.inflate(inflater, container, false)
 
-        adapter = ForecastsAdapter()
-        binding.forecastsRV.adapter = adapter
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         collectWhenStarted {
-            viewModel.locationWeather.collect { uiState ->
-                hideSupportingViews()
-                when (uiState) {
-                    is UiState.Loading -> binding.progressBar.visibility = View.VISIBLE
-                    is UiState.Success -> showLocationWeather(uiState.data)
-                    is UiState.Error -> {
-                        // todo: not yet implemented
-                    }
+            viewModel.locationWeather.collect { locationWeatherUiState ->
+                collectLocationWeatherUiState(locationWeatherUiState)
+            }
+        }
+        collectWhenStarted {
+            viewModel.unitsSystemSetting.collect { unitsSystemUiState ->
+                if (unitsSystemUiState is UiState.Success) {
+                    updateUnitsSystemAndRefreshWeatherData(unitsSystemUiState.data)
                 }
+            }
+        }
+    }
+
+    // todo: remove adapter recreating
+    private fun updateUnitsSystemAndRefreshWeatherData(unitsSystem: AppUnitsSystem) {
+        unitsSystemSetting = unitsSystem
+        adapter = ForecastsAdapter(unitsSystemSetting)
+        binding.forecastsRV.adapter = adapter
+        viewModel.fetchLocationWeather()
+    }
+
+    private fun collectLocationWeatherUiState(uiState: UiState<LocationWeather>) {
+        hideSupportingViews()
+        when (uiState) {
+            is UiState.Loading -> binding.progressBar.visibility = View.VISIBLE
+            is UiState.Success -> showLocationWeather(uiState.data)
+            is UiState.Error -> {
+                // todo: not yet implemented
             }
         }
     }
@@ -95,7 +114,8 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
         with(currentWeather) {
             val context = requireContext()
             // see string.xml
-            temperatureTV.text = context.getTemperatureString(temperature)
+            temperatureTV.text =
+                context.getTemperatureString(temperature, unitsSystemSetting.systemKey)
             val forecastedTimeUnixMillis =
                 (dateTimeUnixUtc + shiftFromUtcSeconds) * Constants.Time.MILLIS_IN_SEC
             currentDateTV.text = requireContext().unixUtcTimeToPattern(

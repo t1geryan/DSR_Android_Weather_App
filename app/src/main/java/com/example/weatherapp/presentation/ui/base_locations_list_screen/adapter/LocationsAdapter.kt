@@ -7,11 +7,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ItemLocationBinding
+import com.example.weatherapp.domain.models.AppUnitsSystem
 import com.example.weatherapp.presentation.ui_utils.getTemperatureString
 import com.example.weatherapp.utils.Constants
 import java.util.*
 
 class LocationsAdapter(
+    private val unitsSystemSetting: AppUnitsSystem,
     private val listener: LocationItemClickListener
 ) : RecyclerView.Adapter<LocationsAdapter.LocationsViewHolder>(), View.OnClickListener {
 
@@ -54,7 +56,7 @@ class LocationsAdapter(
         }
     }
 
-    class LocationsViewHolder(
+    inner class LocationsViewHolder(
         private val binding: ItemLocationBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         /**
@@ -77,7 +79,10 @@ class LocationsAdapter(
                 // show current temperature
                 currentTempTV.text = context.getString(
                     R.string.current_temperature,
-                    context.getTemperatureString(locationItem.currentWeather.temperature)
+                    context.getTemperatureString(
+                        locationItem.currentWeather.temperature,
+                        unitsSystemSetting.systemKey
+                    )
                 )
                 currentTempTV.visibility = View.VISIBLE
 
@@ -90,7 +95,10 @@ class LocationsAdapter(
                         ?.let { tomorrowWeather ->
                             tomorrowTempTV.text = context.getString(
                                 R.string.tomorrow_temperature,
-                                context.getTemperatureString(tomorrowWeather.temperature)
+                                context.getTemperatureString(
+                                    tomorrowWeather.temperature,
+                                    unitsSystemSetting.systemKey
+                                )
                             )
                             tomorrowTempTV.visibility = View.VISIBLE
                         }

@@ -1,6 +1,7 @@
 package com.example.weatherapp.presentation.ui.all_locations_list_screen
 
 import com.example.weatherapp.domain.repositories.LocationsWeatherRepository
+import com.example.weatherapp.domain.repositories.SettingsRepository
 import com.example.weatherapp.presentation.ui.base_locations_list_screen.BaseLocationsListViewModel
 import com.example.weatherapp.presentation.ui.base_locations_list_screen.adapter.LocationItem
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -9,9 +10,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AllLocationsListViewModel @Inject constructor(
-    private val locationsWeatherRepository: LocationsWeatherRepository
-) : BaseLocationsListViewModel(locationsWeatherRepository) {
+    private val locationsWeatherRepository: LocationsWeatherRepository,
+    settingsRepository: SettingsRepository
+) : BaseLocationsListViewModel(locationsWeatherRepository, settingsRepository) {
 
-    override suspend fun fetchLocationItems(): Flow<List<LocationItem>> =
+    override suspend fun getLocationItemsFromRepository(): Flow<List<LocationItem>> =
         locationsWeatherRepository.getAllLocationsWeather(false)
 }

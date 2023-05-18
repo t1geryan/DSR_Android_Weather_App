@@ -19,6 +19,11 @@ object Constants {
         const val FORECASTS_COUNT_FOR_3_DAYS = 24U
     }
 
+    object WeatherApi {
+        const val METRIC_UNITS_SYSTEM_API_VALUE = "metric"
+        const val IMPERIAl_UNITS_SYSTEM_API_VALUE = "imperial"
+    }
+
     object PrefDataStore {
         const val NAME = "APP_PREFERENCES_DATA_STORE"
     }

@@ -51,13 +51,16 @@ fun Context.unixUtcTimeToPattern(unixUtcTime: Long, pattern: String): String {
  * @return string format for temperature
  * @see Context.getString
  */
-fun Context.getTemperatureString(value: Int): String =
-    getString(
+fun Context.getTemperatureString(value: Int, unitsSystemKey: Int): String {
+    val temperatureUnits = resources.getStringArray(R.array.temperature_units)
+    return getString(
         R.string.temperature,
         if (value < 0) "-" else "+",
         value.absoluteValue,
-        getString(R.string.metric_temp_unit)
+        temperatureUnits[unitsSystemKey % temperatureUnits.size]
     )
+}
+
 
 /**
  * Wrapper for getting wind direction text from string resources by wind direction in degrees

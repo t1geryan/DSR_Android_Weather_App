@@ -32,7 +32,7 @@ class SettingsDaoImpl @Inject constructor(
         dataStore.setValue(UNITS_SYSTEM_PREF_KEY, value.ordinal)
 
     override suspend fun getAppTheme(): Flow<AppThemeEntity> = dataStore.getValue(
-        APP_THEME_PREF_KEY, AppThemeEntity.NIGHT_THEME.ordinal
+        APP_THEME_PREF_KEY, AppThemeEntity.SYSTEM_THEME.ordinal
     ).map {
         appThemeEntityValues[it]
     }

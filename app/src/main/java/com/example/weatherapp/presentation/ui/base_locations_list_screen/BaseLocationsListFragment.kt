@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentLocationsListBinding
+import com.example.weatherapp.domain.models.AppUnitsSystem
 import com.example.weatherapp.presentation.contract.sideEffectsProvider
 import com.example.weatherapp.presentation.event.Event
 import com.example.weatherapp.presentation.state.UiState
@@ -26,6 +27,8 @@ abstract class BaseLocationsListFragment : Fragment() {
     private lateinit var adapter: LocationsAdapter
 
     abstract val viewModel: BaseLocationsListViewModel
+
+    private lateinit var unitsSystemSetting: AppUnitsSystem
 
     @StringRes
     abstract fun getEmptyListMessage(): Int
@@ -52,9 +55,6 @@ abstract class BaseLocationsListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = LocationsAdapter(listener = viewModel)
-        binding.locationsRV.adapter = adapter
-
         collectWhenStarted {
             viewModel.locationItems.collect { locationItems ->
                 collectLocationItemListUiState(locationItems)
@@ -65,6 +65,21 @@ abstract class BaseLocationsListFragment : Fragment() {
                 collectShowDetailsEvent(event)
             }
         }
+        collectWhenStarted {
+            viewModel.unitsSystemSetting.collect { unitsSystemUiState ->
+                if (unitsSystemUiState is UiState.Success) {
+                    updateUnitsSystemAndRefreshWeatherData(unitsSystemUiState.data)
+                }
+            }
+        }
+    }
+
+    // todo: remove adapter recreating
+    private fun updateUnitsSystemAndRefreshWeatherData(unitsSystem: AppUnitsSystem) {
+        unitsSystemSetting = unitsSystem
+        adapter = LocationsAdapter(unitsSystemSetting = unitsSystemSetting, listener = viewModel)
+        binding.locationsRV.adapter = adapter
+        viewModel.fetchLocationItems()
     }
 
     private fun collectLocationItemListUiState(uiState: UiState<List<LocationItem>>) {

@@ -9,6 +9,8 @@ import com.example.weatherapp.data.mappers.current_weather.CurrentWeatherEntityT
 import com.example.weatherapp.data.mappers.forecast.ForecastDtoToEntityMapper
 import com.example.weatherapp.data.mappers.forecast.WeatherForecastEntityToDomainMapper
 import com.example.weatherapp.data.mappers.location.LocationDomainEntityMapper
+import com.example.weatherapp.data.pref_datastore.settings_datastore.dao.SettingsDao
+import com.example.weatherapp.data.pref_datastore.settings_datastore.entities.UnitsSystemEntity
 import com.example.weatherapp.data.remote.weather.api.WeatherApi
 import com.example.weatherapp.domain.models.CurrentWeather
 import com.example.weatherapp.domain.models.Forecast
@@ -31,6 +33,7 @@ class LocationsWeatherRepositoryImpl @Inject constructor(
     private val weatherForecastsDao: WeatherForecastsDao,
     private val currentWeatherDomainEntityMapper: CurrentWeatherEntityToDomainMapper,
     private val weatherForecastDomainEntityMapper: WeatherForecastEntityToDomainMapper,
+    private val settingsDao: SettingsDao,
 ) : LocationsWeatherRepository {
 
     private fun getLocationsFromDatabase(onlyFavorites: Boolean) =
@@ -106,15 +109,25 @@ class LocationsWeatherRepositoryImpl @Inject constructor(
     }
 
     private suspend fun updateCurrentWeatherForLocationInDb(locationEntity: LocationEntity) {
+        val currentWeatherDto = weatherApi.getLocationCurrentWeather(
+            locationEntity.lat,
+            locationEntity.lon,
+            Constants.OPEN_WEATHER_API_KEY,
+            getCurrentUnitsSystem()
+        )
+        println("CURRENT WEATHER API IS CALLED")
         val currentWeatherEntity = currentWeatherDtoMapper.mapWithParameter(
-            weatherApi.getLocationCurrentWeather(
-                locationEntity.lat,
-                locationEntity.lon,
-                Constants.OPEN_WEATHER_API_KEY
-            ),
+            currentWeatherDto,
             locationEntity.id
         )
         // will replace the old weather
         currentWeatherDao.addCurrentWeather(currentWeatherEntity)
     }
+
+    private suspend fun getCurrentUnitsSystem() =
+        when (settingsDao.getUnitsSystem().first()) {
+            UnitsSystemEntity.METRIC_SYSTEM -> Constants.WeatherApi.METRIC_UNITS_SYSTEM_API_VALUE
+            else -> Constants.WeatherApi.IMPERIAl_UNITS_SYSTEM_API_VALUE
+        }
+
 }

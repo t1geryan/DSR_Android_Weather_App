@@ -7,11 +7,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ItemForecastBinding
+import com.example.weatherapp.domain.models.AppUnitsSystem
 import com.example.weatherapp.presentation.ui_utils.getTemperatureString
 import com.example.weatherapp.presentation.ui_utils.unixUtcTimeToPattern
 import com.example.weatherapp.utils.Constants
 
-class ForecastsAdapter : RecyclerView.Adapter<ForecastsAdapter.ForecastsViewHolder>() {
+class ForecastsAdapter(
+    private val unitsSystemSetting: AppUnitsSystem
+) : RecyclerView.Adapter<ForecastsAdapter.ForecastsViewHolder>() {
 
     var forecastsList: List<ForecastItem> = emptyList()
         set(value) {
@@ -35,7 +38,7 @@ class ForecastsAdapter : RecyclerView.Adapter<ForecastsAdapter.ForecastsViewHold
 
     override fun getItemCount(): Int = forecastsList.size
 
-    class ForecastsViewHolder(
+    inner class ForecastsViewHolder(
         val binding: ItemForecastBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
@@ -43,7 +46,8 @@ class ForecastsAdapter : RecyclerView.Adapter<ForecastsAdapter.ForecastsViewHold
             val context = binding.root.context
             with(binding) {
                 val temp = forecastItem.temperature
-                forecastTemperatureTV.text = context.getTemperatureString(temp)
+                forecastTemperatureTV.text =
+                    context.getTemperatureString(temp, unitsSystemSetting.systemKey)
 
                 Glide.with(context)
                     .load(

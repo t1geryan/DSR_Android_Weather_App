@@ -1,7 +1,9 @@
 package com.example.weatherapp.presentation.ui.base_locations_list_screen
 
 import androidx.lifecycle.ViewModel
+import com.example.weatherapp.domain.models.AppUnitsSystem
 import com.example.weatherapp.domain.repositories.LocationsWeatherRepository
+import com.example.weatherapp.domain.repositories.SettingsRepository
 import com.example.weatherapp.presentation.event.Event
 import com.example.weatherapp.presentation.event.SingleEvent
 import com.example.weatherapp.presentation.state.UiState
@@ -13,7 +15,8 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 abstract class BaseLocationsListViewModel(
-    private val locationsWeatherRepository: LocationsWeatherRepository
+    private val locationsWeatherRepository: LocationsWeatherRepository,
+    private val settingsRepository: SettingsRepository
 ) : ViewModel(), LocationItemClickListener {
     private val _locationItems = MutableStateFlow<UiState<List<LocationItem>>>(UiState.Loading())
     val locationItems: StateFlow<UiState<List<LocationItem>>>
@@ -23,14 +26,28 @@ abstract class BaseLocationsListViewModel(
     val showDetailsEvent: SharedFlow<Event<LocationItem>>
         get() = _showDetailsEvent.asSharedFlow()
 
+    private val _unitsSystemSetting = MutableStateFlow<UiState<AppUnitsSystem>>(UiState.Loading())
+    val unitsSystemSetting: StateFlow<UiState<AppUnitsSystem>>
+        get() = _unitsSystemSetting.asStateFlow()
+
     // heirs will independently determine how to get the list
-    protected abstract suspend fun fetchLocationItems(): Flow<List<LocationItem>>
+    protected abstract suspend fun getLocationItemsFromRepository(): Flow<List<LocationItem>>
 
     init {
         viewModelScopeIO.launch {
             collectUiState(
-                fetchLocationItems(),
-                _locationItems
+                settingsRepository.getCurrentUnitsSystem(),
+                _unitsSystemSetting
+            )
+        }
+        fetchLocationItems()
+    }
+
+    fun fetchLocationItems() {
+        viewModelScopeIO.launch {
+            collectUiState(
+                getLocationItemsFromRepository(),
+                _locationItems,
             )
         }
     }
