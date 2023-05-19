@@ -10,8 +10,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentLocationsListBinding
-import com.example.weatherapp.domain.models.AppUnitsSystem
-import com.example.weatherapp.presentation.contract.sideEffectsProvider
 import com.example.weatherapp.presentation.event.Event
 import com.example.weatherapp.presentation.state.UiState
 import com.example.weatherapp.presentation.ui.base_locations_list_screen.adapter.LocationItem
@@ -19,6 +17,8 @@ import com.example.weatherapp.presentation.ui.base_locations_list_screen.adapter
 import com.example.weatherapp.presentation.ui.bottom_navigation_screen.BottomNavigationFragmentDirections
 import com.example.weatherapp.presentation.ui_utils.collectWhenStarted
 import com.example.weatherapp.presentation.ui_utils.findTopLevelNavController
+import com.example.weatherapp.presentation.ui_utils.sideEffectsProvider
+import com.example.weatherapp.presentation.ui_utils.unitsSystemProvider
 
 abstract class BaseLocationsListFragment : Fragment() {
 
@@ -27,8 +27,6 @@ abstract class BaseLocationsListFragment : Fragment() {
     private lateinit var adapter: LocationsAdapter
 
     abstract val viewModel: BaseLocationsListViewModel
-
-    private lateinit var unitsSystemSetting: AppUnitsSystem
 
     @StringRes
     abstract fun getEmptyListMessage(): Int
@@ -44,6 +42,9 @@ abstract class BaseLocationsListFragment : Fragment() {
                 requireContext(), DividerItemDecoration.VERTICAL
             )
         )
+
+        adapter = LocationsAdapter(unitsSystemProvider(), listener = viewModel)
+        binding.locationsRV.adapter = adapter
 
         // Remove default item change animation (reason: annoying blinking)
         val itemAnimator = binding.locationsRV.itemAnimator
@@ -65,20 +66,17 @@ abstract class BaseLocationsListFragment : Fragment() {
                 collectShowDetailsEvent(event)
             }
         }
+        // todo: replace to SideEffectsApi listener adding
         collectWhenStarted {
             viewModel.unitsSystemSetting.collect { unitsSystemUiState ->
                 if (unitsSystemUiState is UiState.Success) {
-                    updateUnitsSystemAndRefreshWeatherData(unitsSystemUiState.data)
+                    refreshWeatherData()
                 }
             }
         }
     }
 
-    // todo: remove adapter recreating
-    private fun updateUnitsSystemAndRefreshWeatherData(unitsSystem: AppUnitsSystem) {
-        unitsSystemSetting = unitsSystem
-        adapter = LocationsAdapter(unitsSystemSetting = unitsSystemSetting, listener = viewModel)
-        binding.locationsRV.adapter = adapter
+    private fun refreshWeatherData() {
         viewModel.fetchLocationItems()
     }
 

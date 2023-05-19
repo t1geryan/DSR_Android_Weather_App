@@ -11,10 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentLocationAdditionMapBinding
-import com.example.weatherapp.presentation.contract.sideEffectsProvider
 import com.example.weatherapp.presentation.contract.toolbar.HasNoActivityToolbar
 import com.example.weatherapp.presentation.ui_utils.getBitmapFromVectorDrawable
 import com.example.weatherapp.presentation.ui_utils.permissionsProvider
+import com.example.weatherapp.presentation.ui_utils.sideEffectsProvider
 import com.google.android.gms.location.*
 import com.yandex.mapkit.Animation
 import com.yandex.mapkit.MapKitFactory

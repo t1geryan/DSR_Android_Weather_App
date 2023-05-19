@@ -61,9 +61,7 @@
     <!--p1 is a value, p2 is the unit (m/s or mi/h)-->
     <string name="wind_speed">%1$d %2$s</string>
 
-    <!--Units TODO: add units switching and delete metric string resources-->
-    <string name="metric_temp_unit">°C</string>
-    <string name="metric_wind_speed_unit">m/s</string>
+    <!--Units-->
     <string-array name="temperature_units">
         <item>°C</item>
         <item>°F</item>

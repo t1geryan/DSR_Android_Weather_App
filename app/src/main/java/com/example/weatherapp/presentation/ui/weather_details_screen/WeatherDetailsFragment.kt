@@ -10,7 +10,6 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentWeatherDetailsBinding
-import com.example.weatherapp.domain.models.AppUnitsSystem
 import com.example.weatherapp.domain.models.CurrentWeather
 import com.example.weatherapp.domain.models.LocationWeather
 import com.example.weatherapp.presentation.contract.toolbar.HasCustomActionToolbar
@@ -40,14 +39,15 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
         factory.create(args.locationId)
     }
 
-    private lateinit var unitsSystemSetting: AppUnitsSystem
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentWeatherDetailsBinding.inflate(inflater, container, false)
+
+        adapter = ForecastsAdapter(unitsSystemProvider())
+        binding.forecastsRV.adapter = adapter
 
         return binding.root
     }
@@ -59,21 +59,6 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
                 collectLocationWeatherUiState(locationWeatherUiState)
             }
         }
-        collectWhenStarted {
-            viewModel.unitsSystemSetting.collect { unitsSystemUiState ->
-                if (unitsSystemUiState is UiState.Success) {
-                    updateUnitsSystemAndRefreshWeatherData(unitsSystemUiState.data)
-                }
-            }
-        }
-    }
-
-    // todo: remove adapter recreating
-    private fun updateUnitsSystemAndRefreshWeatherData(unitsSystem: AppUnitsSystem) {
-        unitsSystemSetting = unitsSystem
-        adapter = ForecastsAdapter(unitsSystemSetting)
-        binding.forecastsRV.adapter = adapter
-        viewModel.fetchLocationWeather()
     }
 
     private fun collectLocationWeatherUiState(uiState: UiState<LocationWeather>) {
@@ -113,9 +98,10 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
     private fun loadCurrentWeatherDataToTextViews(currentWeather: CurrentWeather) = with(binding) {
         with(currentWeather) {
             val context = requireContext()
+            val currentUnitsSystemKey = unitsSystemProvider().getCurrentUnitsSystem().systemKey
             // see string.xml
             temperatureTV.text =
-                context.getTemperatureString(temperature, unitsSystemSetting.systemKey)
+                context.getTemperatureString(temperature, currentUnitsSystemKey)
             val forecastedTimeUnixMillis =
                 (dateTimeUnixUtc + shiftFromUtcSeconds) * Constants.Time.MILLIS_IN_SEC
             currentDateTV.text = requireContext().unixUtcTimeToPattern(
@@ -125,11 +111,7 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
             descriptionTV.text = weatherDescription
             windDataTV.text = getString(
                 R.string.wind_data,
-                getString(
-                    R.string.wind_speed,
-                    windSpeed.toInt(),
-                    getString(R.string.metric_wind_speed_unit)
-                ),
+                context.getWindSpeedString(windSpeed, currentUnitsSystemKey),
                 context.windDirectionDegreesToString(windDirectionDegrees)
             )
             pressureDataTv.text = getString(R.string.pressure_data, pressure)

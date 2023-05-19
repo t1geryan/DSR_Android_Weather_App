@@ -95,14 +95,15 @@ class LocationsWeatherRepositoryImpl @Inject constructor(
     // todo: add caching logic and do not constantly access weatherApi
     private suspend fun updateWeatherForecastForLocationInDb(locationEntity: LocationEntity) {
         weatherForecastsDao.deleteOldForecastsForLocation(locationEntity.id)
+        val forecastDto = weatherApi.getLocationEvery3HoursWeatherForecast(
+            locationEntity.lat,
+            locationEntity.lon,
+            apiKey = Constants.OPEN_WEATHER_API_KEY,
+            units = getCurrentUnitsSystem(),
+            timestampsCount = Constants.Weather.FORECASTS_COUNT_FOR_3_DAYS
+        )
         val weatherForecastEntityList = forecastDtoMapper.mapWithParameter(
-            weatherApi.getLocationEvery3HoursWeatherForecast(
-                locationEntity.lat,
-                locationEntity.lon,
-                apiKey = Constants.OPEN_WEATHER_API_KEY,
-                units = getCurrentUnitsSystem(),
-                timestampsCount = Constants.Weather.FORECASTS_COUNT_FOR_3_DAYS
-            ),
+            forecastDto,
             locationEntity.id
         )
         for (forecastEntity in weatherForecastEntityList)
@@ -116,7 +117,6 @@ class LocationsWeatherRepositoryImpl @Inject constructor(
             apiKey = Constants.OPEN_WEATHER_API_KEY,
             units = getCurrentUnitsSystem()
         )
-        println("CURRENT WEATHER API IS CALLED")
         val currentWeatherEntity = currentWeatherDtoMapper.mapWithParameter(
             currentWeatherDto,
             locationEntity.id

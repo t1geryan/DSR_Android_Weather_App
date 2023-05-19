@@ -13,9 +13,9 @@ import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentSettingsBinding
 import com.example.weatherapp.domain.models.AppTheme
 import com.example.weatherapp.domain.models.AppUnitsSystem
-import com.example.weatherapp.presentation.contract.sideEffectsProvider
 import com.example.weatherapp.presentation.state.UiState
 import com.example.weatherapp.presentation.ui_utils.collectWhenStarted
+import com.example.weatherapp.presentation.ui_utils.sideEffectsProvider
 import com.google.android.material.button.MaterialButtonToggleGroup.OnButtonCheckedListener
 import dagger.hilt.android.AndroidEntryPoint
 

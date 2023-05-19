@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -15,26 +16,35 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ActivityMainBinding
+import com.example.weatherapp.domain.models.AppUnitsSystem
 import com.example.weatherapp.presentation.contract.PermissionCallback
 import com.example.weatherapp.presentation.contract.PermissionsApi
 import com.example.weatherapp.presentation.contract.SideEffectsApi
+import com.example.weatherapp.presentation.contract.UnitsSystemApi
 import com.example.weatherapp.presentation.contract.toolbar.*
+import com.example.weatherapp.presentation.state.UiState
 import com.google.android.material.color.MaterialColors
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 /**
  * Container for all screens in the app.
  */
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), PermissionsApi, SideEffectsApi {
+class MainActivity : AppCompatActivity(), PermissionsApi, SideEffectsApi, UnitsSystemApi {
 
     private lateinit var binding: ActivityMainBinding
+
+    private val viewModel: MainActivityViewModel by viewModels()
 
     private var currentFragmentNavController: NavController? = null
 
@@ -57,6 +67,8 @@ class MainActivity : AppCompatActivity(), PermissionsApi, SideEffectsApi {
                 currentPermissionGrantedCallback?.invoke()
         }
 
+    private lateinit var appCurrentUnitsSystem: AppUnitsSystem
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater).also {
@@ -71,6 +83,15 @@ class MainActivity : AppCompatActivity(), PermissionsApi, SideEffectsApi {
         binding.materialToolbar.setupWithNavController(navController)
 
         supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentCreateViewListener, true)
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.unitsSystemSetting.collect { unitsSystemUiState ->
+                    if (unitsSystemUiState is UiState.Success)
+                        appCurrentUnitsSystem = unitsSystemUiState.data
+                }
+            }
+        }
     }
 
     override fun onDestroy() {
@@ -127,6 +148,14 @@ class MainActivity : AppCompatActivity(), PermissionsApi, SideEffectsApi {
 
     override fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    // Units System API
+
+    override fun getCurrentUnitsSystem(): AppUnitsSystem = appCurrentUnitsSystem
+
+    override fun updateCurrentUnitsSystem(unitsSystem: AppUnitsSystem) {
+        viewModel.setAppUnitsSystem(unitsSystem)
     }
 
     // UI

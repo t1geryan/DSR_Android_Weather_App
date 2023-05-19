@@ -11,6 +11,7 @@ import com.example.weatherapp.utils.Constants
 import java.util.*
 import kotlin.math.absoluteValue
 import kotlin.math.round
+import kotlin.math.roundToInt
 
 fun Context.getBitmapFromVectorDrawable(drawableId: Int): Bitmap? {
     val drawable = ContextCompat.getDrawable(this, drawableId) ?: return null
@@ -42,7 +43,6 @@ fun Context.unixUtcTimeToPattern(unixUtcTime: Long, pattern: String): String {
     return simpleDateFormat.format(Date(unixUtcTime))
 }
 
-// todo: add different metric systems support
 /**
  * Wrapper for simple getting R.string.temperature from string.xml
  *
@@ -61,6 +61,22 @@ fun Context.getTemperatureString(value: Int, unitsSystemKey: Int): String {
     )
 }
 
+/**
+ * Wrapper for simple getting R.string.t from string.xml
+ *
+ * For example: 6.76->7 m/s or 6.76->7 mi/h
+ * @param value wind speed value
+ * @return string format for wind speed
+ * @see Context.getString
+ */
+fun Context.getWindSpeedString(value: Float, unitsSystemKey: Int): String {
+    val windSpeedUnits = resources.getStringArray(R.array.wind_speed_units)
+    return getString(
+        R.string.wind_speed,
+        value.roundToInt(),
+        windSpeedUnits[unitsSystemKey % windSpeedUnits.size]
+    )
+}
 
 /**
  * Wrapper for getting wind direction text from string resources by wind direction in degrees

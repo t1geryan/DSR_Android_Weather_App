@@ -7,13 +7,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ItemLocationBinding
-import com.example.weatherapp.domain.models.AppUnitsSystem
+import com.example.weatherapp.presentation.contract.UnitsSystemApi
 import com.example.weatherapp.presentation.ui_utils.getTemperatureString
 import com.example.weatherapp.utils.Constants
 import java.util.*
 
 class LocationsAdapter(
-    private val unitsSystemSetting: AppUnitsSystem,
+    private val unitsSystemApi: UnitsSystemApi,
     private val listener: LocationItemClickListener
 ) : RecyclerView.Adapter<LocationsAdapter.LocationsViewHolder>(), View.OnClickListener {
 
@@ -73,6 +73,7 @@ class LocationsAdapter(
         fun bind(locationItem: LocationItem) {
             setTags(locationItem)
             val context = binding.root.context
+            val currentUnitsSystem = unitsSystemApi.getCurrentUnitsSystem()
             with(binding) {
                 locationNameTV.text = locationItem.location.name
 
@@ -81,7 +82,7 @@ class LocationsAdapter(
                     R.string.current_temperature,
                     context.getTemperatureString(
                         locationItem.currentWeather.temperature,
-                        unitsSystemSetting.systemKey
+                        currentUnitsSystem.systemKey
                     )
                 )
                 currentTempTV.visibility = View.VISIBLE
@@ -97,7 +98,7 @@ class LocationsAdapter(
                                 R.string.tomorrow_temperature,
                                 context.getTemperatureString(
                                     tomorrowWeather.temperature,
-                                    unitsSystemSetting.systemKey
+                                    currentUnitsSystem.systemKey
                                 )
                             )
                             tomorrowTempTV.visibility = View.VISIBLE

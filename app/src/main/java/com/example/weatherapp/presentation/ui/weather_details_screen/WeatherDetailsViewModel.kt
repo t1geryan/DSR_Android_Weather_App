@@ -1,10 +1,8 @@
 package com.example.weatherapp.presentation.ui.weather_details_screen
 
 import androidx.lifecycle.ViewModel
-import com.example.weatherapp.domain.models.AppUnitsSystem
 import com.example.weatherapp.domain.models.LocationWeather
 import com.example.weatherapp.domain.repositories.LocationsWeatherRepository
-import com.example.weatherapp.domain.repositories.SettingsRepository
 import com.example.weatherapp.presentation.state.UiState
 import com.example.weatherapp.presentation.ui_utils.collectUiState
 import com.example.weatherapp.presentation.ui_utils.viewModelScopeIO
@@ -19,7 +17,6 @@ import kotlinx.coroutines.launch
 class WeatherDetailsViewModel @AssistedInject constructor(
     @Assisted private val locationId: Long,
     private val locationsWeatherRepository: LocationsWeatherRepository,
-    private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 
     private val _locationWeather: MutableStateFlow<UiState<LocationWeather>> =
@@ -27,17 +24,9 @@ class WeatherDetailsViewModel @AssistedInject constructor(
     val locationWeather: StateFlow<UiState<LocationWeather>>
         get() = _locationWeather.asStateFlow()
 
-    private val _unitsSystemSetting = MutableStateFlow<UiState<AppUnitsSystem>>(UiState.Loading())
-    val unitsSystemSetting: StateFlow<UiState<AppUnitsSystem>>
-        get() = _unitsSystemSetting.asStateFlow()
-
     init {
         viewModelScopeIO.launch {
             fetchLocationWeather()
-            collectUiState(
-                settingsRepository.getCurrentUnitsSystem(),
-                _unitsSystemSetting
-            )
         }
     }
 
@@ -49,7 +38,6 @@ class WeatherDetailsViewModel @AssistedInject constructor(
             )
         }
     }
-
 
     fun deleteLocationById(locationId: Long) = viewModelScopeIO.launch {
         locationsWeatherRepository.deleteLocationById(locationId)

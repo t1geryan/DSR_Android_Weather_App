@@ -9,6 +9,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.R
 import com.example.weatherapp.presentation.contract.PermissionsApi
+import com.example.weatherapp.presentation.contract.SideEffectsApi
+import com.example.weatherapp.presentation.contract.UnitsSystemApi
 import kotlinx.coroutines.launch
 
 /**
@@ -40,4 +42,18 @@ fun Fragment.collectWhenStarted(collectBlock: suspend () -> Unit) =
  * @throws IllegalStateException if Activity doesn't implement [PermissionsApi]
  */
 fun Fragment.permissionsProvider() = requireActivity() as? PermissionsApi
-    ?: throw IllegalStateException("${requireActivity()} doesn't implement PermissionsApi")
+    ?: throw IllegalStateException("Activity doesn't implement PermissionsApi")
+
+/**
+ * Function for getting [SideEffectsApi] from the require Activity
+ * @throws IllegalStateException if Activity doesn't implement [SideEffectsApi]
+ */
+fun Fragment.sideEffectsProvider() = requireActivity() as? SideEffectsApi
+    ?: throw IllegalStateException("Activity doesn't implement SideEffectsApi")
+
+/**
+ * Function for getting [UnitsSystemApi] from the require Activity
+ * @throws IllegalStateException if Activity doesn't implement [UnitsSystemApi]
+ */
+fun Fragment.unitsSystemProvider() = requireActivity() as? UnitsSystemApi
+    ?: throw IllegalStateException("Activity doesn't implement UnitsSystemApi")
