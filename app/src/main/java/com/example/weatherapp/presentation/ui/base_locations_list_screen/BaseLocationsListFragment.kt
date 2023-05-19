@@ -15,7 +15,7 @@ import com.example.weatherapp.presentation.state.UiState
 import com.example.weatherapp.presentation.ui.base_locations_list_screen.adapter.LocationItem
 import com.example.weatherapp.presentation.ui.base_locations_list_screen.adapter.LocationsAdapter
 import com.example.weatherapp.presentation.ui.bottom_navigation_screen.BottomNavigationFragmentDirections
-import com.example.weatherapp.presentation.ui_utils.collectWhenStarted
+import com.example.weatherapp.presentation.ui_utils.collectFlow
 import com.example.weatherapp.presentation.ui_utils.findTopLevelNavController
 import com.example.weatherapp.presentation.ui_utils.sideEffectsProvider
 import com.example.weatherapp.presentation.ui_utils.unitsSystemProvider
@@ -56,23 +56,18 @@ abstract class BaseLocationsListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        collectWhenStarted {
-            viewModel.locationItems.collect { locationItems ->
-                collectLocationItemListUiState(locationItems)
-            }
+        viewLifecycleOwner.collectFlow(viewModel.locationItems) { locationItemsUiState ->
+            collectLocationItemListUiState(locationItemsUiState)
         }
-        collectWhenStarted {
-            viewModel.showDetailsEvent.collect { event ->
-                collectShowDetailsEvent(event)
-            }
+
+        viewLifecycleOwner.collectFlow(viewModel.showDetailsEvent) { event ->
+            collectShowDetailsEvent(event)
         }
-        // todo: replace to SideEffectsApi listener adding
-        collectWhenStarted {
-            viewModel.unitsSystemSetting.collect { unitsSystemUiState ->
-                if (unitsSystemUiState is UiState.Success) {
-                    refreshWeatherData()
-                }
-            }
+
+
+        viewLifecycleOwner.collectFlow(viewModel.unitsSystemSetting) { unitsSystemUiState ->
+            if (unitsSystemUiState is UiState.Success)
+                refreshWeatherData()
         }
     }
 

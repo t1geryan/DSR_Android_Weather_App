@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.weatherapp.BuildConfig
@@ -14,7 +13,7 @@ import com.example.weatherapp.databinding.FragmentSettingsBinding
 import com.example.weatherapp.domain.models.AppTheme
 import com.example.weatherapp.domain.models.AppUnitsSystem
 import com.example.weatherapp.presentation.state.UiState
-import com.example.weatherapp.presentation.ui_utils.collectWhenStarted
+import com.example.weatherapp.presentation.ui_utils.collectFlow
 import com.example.weatherapp.presentation.ui_utils.sideEffectsProvider
 import com.google.android.material.button.MaterialButtonToggleGroup.OnButtonCheckedListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -51,27 +50,19 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        collectWhenStarted {
-            viewModel.appThemeSetting.collect { appThemeUiState ->
-                collectSettingUiState(appThemeUiState) { appThemeSetting ->
-                    AppCompatDelegate.setDefaultNightMode(
-                        getNightModeByThemeSettings(
-                            appThemeSetting
-                        )
-                    )
-                    binding.themeToggleGroup.check(
-                        getThemeToggleButtonIdBySetting(appThemeSetting)
-                    )
-                }
+        viewLifecycleOwner.collectFlow(viewModel.appThemeSetting) { appThemeUiState ->
+            collectSettingUiState(appThemeUiState) { appThemeSetting ->
+                binding.themeToggleGroup.check(
+                    getThemeToggleButtonIdBySetting(appThemeSetting)
+                )
             }
         }
-        collectWhenStarted {
-            viewModel.unitsSystemSetting.collect { unitsSystemUiState ->
-                collectSettingUiState(unitsSystemUiState) { unitsSystemSetting ->
-                    binding.unitsToggleGroup.check(
-                        getUnitsSystemToggleButtonIdBySetting(unitsSystemSetting)
-                    )
-                }
+
+        viewLifecycleOwner.collectFlow(viewModel.unitsSystemSetting) { unitsSystemUiState ->
+            collectSettingUiState(unitsSystemUiState) { unitsSystemSetting ->
+                binding.unitsToggleGroup.check(
+                    getUnitsSystemToggleButtonIdBySetting(unitsSystemSetting)
+                )
             }
         }
 
@@ -131,11 +122,4 @@ class SettingsFragment : Fragment() {
             }
         )
 
-    private fun getNightModeByThemeSettings(themeSetting: AppTheme) =
-        when (themeSetting.themeKey) {
-            AppTheme.DAY_THEME_KEY -> AppCompatDelegate.MODE_NIGHT_NO
-            AppTheme.NIGHT_THEME_KEY -> AppCompatDelegate.MODE_NIGHT_YES
-            AppTheme.SYSTEM_THEME_KEY -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-            else -> throw IllegalArgumentException()
-        }
 }

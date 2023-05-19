@@ -54,10 +54,8 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        collectWhenStarted {
-            viewModel.locationWeather.collect { locationWeatherUiState ->
-                collectLocationWeatherUiState(locationWeatherUiState)
-            }
+        viewLifecycleOwner.collectFlow(viewModel.locationWeather) { locationWeatherUiState ->
+            collectLocationWeatherUiState(locationWeatherUiState)
         }
     }
 

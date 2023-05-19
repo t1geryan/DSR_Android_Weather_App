@@ -10,21 +10,20 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ActivityMainBinding
+import com.example.weatherapp.domain.models.AppTheme
 import com.example.weatherapp.domain.models.AppUnitsSystem
 import com.example.weatherapp.presentation.contract.PermissionCallback
 import com.example.weatherapp.presentation.contract.PermissionsApi
@@ -32,9 +31,9 @@ import com.example.weatherapp.presentation.contract.SideEffectsApi
 import com.example.weatherapp.presentation.contract.UnitsSystemApi
 import com.example.weatherapp.presentation.contract.toolbar.*
 import com.example.weatherapp.presentation.state.UiState
+import com.example.weatherapp.presentation.ui_utils.collectFlow
 import com.google.android.material.color.MaterialColors
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 /**
  * Container for all screens in the app.
@@ -67,8 +66,6 @@ class MainActivity : AppCompatActivity(), PermissionsApi, SideEffectsApi, UnitsS
                 currentPermissionGrantedCallback?.invoke()
         }
 
-    private lateinit var appCurrentUnitsSystem: AppUnitsSystem
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater).also {
@@ -84,13 +81,18 @@ class MainActivity : AppCompatActivity(), PermissionsApi, SideEffectsApi, UnitsS
 
         supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentCreateViewListener, true)
 
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.unitsSystemSetting.collect { unitsSystemUiState ->
-                    if (unitsSystemUiState is UiState.Success)
-                        appCurrentUnitsSystem = unitsSystemUiState.data
-                }
+        collectFlow(viewModel.unitsSystemSetting) { unitsSystemUiState ->
+            if (unitsSystemUiState is UiState.Success) {
+                appCurrentUnitsSystem = unitsSystemUiState.data
             }
+        }
+        collectFlow(viewModel.appThemeSetting) { appThemeUiState ->
+            if (appThemeUiState is UiState.Success)
+                AppCompatDelegate.setDefaultNightMode(
+                    getNightModeByThemeSettings(
+                        appThemeUiState.data
+                    )
+                )
         }
     }
 
@@ -100,6 +102,8 @@ class MainActivity : AppCompatActivity(), PermissionsApi, SideEffectsApi, UnitsS
         currentPermissionGrantedCallback = null
         super.onDestroy()
     }
+
+
     // Navigation
 
     private fun updateNavController(navController: NavController) {
@@ -152,6 +156,9 @@ class MainActivity : AppCompatActivity(), PermissionsApi, SideEffectsApi, UnitsS
 
     // Units System API
 
+    private var appCurrentUnitsSystem: AppUnitsSystem =
+        AppUnitsSystem(AppUnitsSystem.METRIC_SYSTEM_KEY)
+
     override fun getCurrentUnitsSystem(): AppUnitsSystem = appCurrentUnitsSystem
 
     override fun updateCurrentUnitsSystem(unitsSystem: AppUnitsSystem) {
@@ -160,7 +167,15 @@ class MainActivity : AppCompatActivity(), PermissionsApi, SideEffectsApi, UnitsS
 
     // UI
 
-    // Updates Toolbar for each Fragment
+    private fun getNightModeByThemeSettings(themeSetting: AppTheme) =
+        when (themeSetting.themeKey) {
+            AppTheme.DAY_THEME_KEY -> AppCompatDelegate.MODE_NIGHT_NO
+            AppTheme.NIGHT_THEME_KEY -> AppCompatDelegate.MODE_NIGHT_YES
+            AppTheme.SYSTEM_THEME_KEY -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+            else -> throw IllegalArgumentException()
+        }
+
+    // Updates Toolbar for each started Fragment
     private fun updateToolbar(fragment: Fragment) {
         if (fragment is HasNoActivityToolbar) {
             binding.materialToolbar.visibility = View.GONE

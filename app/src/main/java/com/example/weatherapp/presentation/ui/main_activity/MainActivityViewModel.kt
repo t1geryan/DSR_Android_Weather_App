@@ -1,6 +1,7 @@
 package com.example.weatherapp.presentation.ui.main_activity
 
 import androidx.lifecycle.ViewModel
+import com.example.weatherapp.domain.models.AppTheme
 import com.example.weatherapp.domain.models.AppUnitsSystem
 import com.example.weatherapp.domain.repositories.SettingsRepository
 import com.example.weatherapp.presentation.state.UiState
@@ -22,11 +23,19 @@ class MainActivityViewModel @Inject constructor(
     val unitsSystemSetting: StateFlow<UiState<AppUnitsSystem>>
         get() = _unitsSystemSetting.asStateFlow()
 
+    private val _appThemeSetting = MutableStateFlow<UiState<AppTheme>>(UiState.Loading())
+    val appThemeSetting: StateFlow<UiState<AppTheme>>
+        get() = _appThemeSetting.asStateFlow()
+
     init {
         viewModelScopeIO.launch {
             collectUiState(
                 settingsRepository.getCurrentUnitsSystem(),
                 _unitsSystemSetting
+            )
+            collectUiState(
+                settingsRepository.getCurrentAppTheme(),
+                _appThemeSetting
             )
         }
     }
