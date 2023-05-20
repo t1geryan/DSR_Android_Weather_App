@@ -89,37 +89,31 @@ class SettingsFragment : Fragment() {
         }
 
     private fun getThemeToggleButtonIdBySetting(themeSetting: AppTheme) =
-        when (themeSetting.themeKey) {
-            AppTheme.DAY_THEME_KEY -> R.id.dayThemeToggleButton
-            AppTheme.NIGHT_THEME_KEY -> R.id.nightThemeToggleButton
-            AppTheme.SYSTEM_THEME_KEY -> R.id.systemThemeToggleButton
-            else -> throw IllegalArgumentException()
+        when (themeSetting) {
+            AppTheme.DAY_THEME -> R.id.dayThemeToggleButton
+            AppTheme.NIGHT_THEME -> R.id.nightThemeToggleButton
+            AppTheme.SYSTEM_THEME -> R.id.systemThemeToggleButton
         }
 
     private fun getUnitsSystemToggleButtonIdBySetting(unitsSystemSetting: AppUnitsSystem) =
-        when (unitsSystemSetting.systemKey) {
-            AppUnitsSystem.METRIC_SYSTEM_KEY -> R.id.metricUnitsToggleButton
-            AppUnitsSystem.IMPERIAL_SYSTEM_KEY -> R.id.imperialUnitsToggleButton
-            else -> throw IllegalArgumentException()
+        when (unitsSystemSetting) {
+            AppUnitsSystem.METRIC_SYSTEM -> R.id.metricUnitsToggleButton
+            AppUnitsSystem.IMPERIAL_SYSTEM -> R.id.imperialUnitsToggleButton
         }
 
     private fun getUnitsSettingByToggleButtonId(@IdRes toggleButtonId: Int) =
-        AppUnitsSystem(
-            when (toggleButtonId) {
-                R.id.metricUnitsToggleButton -> AppUnitsSystem.METRIC_SYSTEM_KEY
-                R.id.imperialUnitsToggleButton -> AppUnitsSystem.IMPERIAL_SYSTEM_KEY
-                else -> throw IllegalArgumentException()
-            }
-        )
+        when (toggleButtonId) {
+            R.id.metricUnitsToggleButton -> AppUnitsSystem.METRIC_SYSTEM
+            R.id.imperialUnitsToggleButton -> AppUnitsSystem.IMPERIAL_SYSTEM
+            else -> throw IllegalArgumentException()
+        }
+
 
     private fun getThemeSettingByToggleButtonId(@IdRes toggleButtonId: Int) =
-        AppTheme(
-            when (toggleButtonId) {
-                R.id.dayThemeToggleButton -> AppTheme.DAY_THEME_KEY
-                R.id.nightThemeToggleButton -> AppTheme.NIGHT_THEME_KEY
-                R.id.systemThemeToggleButton -> AppTheme.SYSTEM_THEME_KEY
-                else -> throw IllegalArgumentException()
-            }
-        )
-
+        when (toggleButtonId) {
+            R.id.dayThemeToggleButton -> AppTheme.DAY_THEME
+            R.id.nightThemeToggleButton -> AppTheme.NIGHT_THEME
+            R.id.systemThemeToggleButton -> AppTheme.SYSTEM_THEME
+            else -> throw IllegalArgumentException()
+        }
 }

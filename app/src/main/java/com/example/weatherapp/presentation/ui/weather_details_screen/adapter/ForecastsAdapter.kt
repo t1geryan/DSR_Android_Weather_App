@@ -49,7 +49,7 @@ class ForecastsAdapter(
                 forecastTemperatureTV.text =
                     context.getTemperatureString(
                         temp,
-                        unitsSystemApi.getCurrentUnitsSystem().systemKey
+                        unitsSystemApi.getCurrentUnitsSystem()
                     )
 
                 Glide.with(context)

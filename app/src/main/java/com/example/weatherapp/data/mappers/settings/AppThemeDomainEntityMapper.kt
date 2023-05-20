@@ -13,16 +13,21 @@ interface AppThemeDomainEntityMapper : BidirectionalMapper<AppTheme, AppThemeEnt
 
 class AppThemeDomainEntityMapperImpl @Inject constructor() : AppThemeDomainEntityMapper {
 
-    private val themeEntityValues = AppThemeEntity.values()
-
     /**
      * Maps from [AppTheme] to [AppThemeEntity]
-     * @throws IllegalArgumentException when [AppTheme.themeKey] does not match any enum constant
      */
-    override fun map(valueToMap: AppTheme): AppThemeEntity = themeEntityValues[valueToMap.themeKey]
+    override fun map(valueToMap: AppTheme): AppThemeEntity = when (valueToMap) {
+        AppTheme.DAY_THEME -> AppThemeEntity.DAY_THEME
+        AppTheme.NIGHT_THEME -> AppThemeEntity.NIGHT_THEME
+        AppTheme.SYSTEM_THEME -> AppThemeEntity.SYSTEM_THEME
+    }
 
     /**
      * Maps from [AppThemeEntity] to [AppTheme]
      */
-    override fun reverseMap(valueToMap: AppThemeEntity): AppTheme = AppTheme(valueToMap.ordinal)
+    override fun reverseMap(valueToMap: AppThemeEntity): AppTheme = when (valueToMap) {
+        AppThemeEntity.DAY_THEME -> AppTheme.DAY_THEME
+        AppThemeEntity.NIGHT_THEME -> AppTheme.NIGHT_THEME
+        AppThemeEntity.SYSTEM_THEME -> AppTheme.SYSTEM_THEME
+    }
 }

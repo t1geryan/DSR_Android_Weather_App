@@ -13,18 +13,20 @@ interface UnitsSystemDomainEntityMapper : BidirectionalMapper<AppUnitsSystem, Un
 
 class UnitsSystemDomainEntityMapperImpl @Inject constructor() : UnitsSystemDomainEntityMapper {
 
-    private val unitsSystemEntityValues = UnitsSystemEntity.values()
-
     /**
      * Maps from [AppUnitsSystem] to [UnitsSystemEntity]
-     * @throws IllegalArgumentException when [AppUnitsSystem.systemKey] does not match any enum constant
+     * @throws IllegalArgumentException when [AppUnitsSystem] does not match any enum constant
      */
-    override fun map(valueToMap: AppUnitsSystem): UnitsSystemEntity =
-        unitsSystemEntityValues[valueToMap.systemKey]
+    override fun map(valueToMap: AppUnitsSystem): UnitsSystemEntity = when (valueToMap) {
+        AppUnitsSystem.METRIC_SYSTEM -> UnitsSystemEntity.METRIC_SYSTEM
+        AppUnitsSystem.IMPERIAL_SYSTEM -> UnitsSystemEntity.IMPERIAL_SYSTEM
+    }
 
     /**
      * Maps from [UnitsSystemEntity] to [AppUnitsSystem]
      */
-    override fun reverseMap(valueToMap: UnitsSystemEntity): AppUnitsSystem =
-        AppUnitsSystem(valueToMap.ordinal)
+    override fun reverseMap(valueToMap: UnitsSystemEntity): AppUnitsSystem = when (valueToMap) {
+        UnitsSystemEntity.METRIC_SYSTEM -> AppUnitsSystem.METRIC_SYSTEM
+        UnitsSystemEntity.IMPERIAL_SYSTEM -> AppUnitsSystem.IMPERIAL_SYSTEM
+    }
 }

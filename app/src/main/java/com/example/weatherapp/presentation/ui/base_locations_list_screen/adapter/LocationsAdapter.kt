@@ -82,7 +82,7 @@ class LocationsAdapter(
                     R.string.current_temperature,
                     context.getTemperatureString(
                         locationItem.currentWeather.temperature,
-                        currentUnitsSystem.systemKey
+                        currentUnitsSystem
                     )
                 )
                 currentTempTV.visibility = View.VISIBLE
@@ -98,7 +98,7 @@ class LocationsAdapter(
                                 R.string.tomorrow_temperature,
                                 context.getTemperatureString(
                                     tomorrowWeather.temperature,
-                                    currentUnitsSystem.systemKey
+                                    currentUnitsSystem
                                 )
                             )
                             tomorrowTempTV.visibility = View.VISIBLE

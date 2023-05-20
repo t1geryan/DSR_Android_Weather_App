@@ -7,6 +7,7 @@ import android.icu.text.SimpleDateFormat
 import android.icu.util.TimeZone
 import androidx.core.content.ContextCompat
 import com.example.weatherapp.R
+import com.example.weatherapp.domain.models.AppUnitsSystem
 import com.example.weatherapp.utils.Constants
 import java.util.*
 import kotlin.math.absoluteValue
@@ -51,13 +52,13 @@ fun Context.unixUtcTimeToPattern(unixUtcTime: Long, pattern: String): String {
  * @return string format for temperature
  * @see Context.getString
  */
-fun Context.getTemperatureString(value: Int, unitsSystemKey: Int): String {
+fun Context.getTemperatureString(value: Int, unitsSystem: AppUnitsSystem): String {
     val temperatureUnits = resources.getStringArray(R.array.temperature_units)
     return getString(
         R.string.temperature,
         if (value < 0) "-" else "+",
         value.absoluteValue,
-        temperatureUnits[unitsSystemKey % temperatureUnits.size]
+        temperatureUnits[unitsSystem.ordinal % temperatureUnits.size]
     )
 }
 
@@ -69,12 +70,12 @@ fun Context.getTemperatureString(value: Int, unitsSystemKey: Int): String {
  * @return string format for wind speed
  * @see Context.getString
  */
-fun Context.getWindSpeedString(value: Float, unitsSystemKey: Int): String {
+fun Context.getWindSpeedString(value: Float, unitsSystem: AppUnitsSystem): String {
     val windSpeedUnits = resources.getStringArray(R.array.wind_speed_units)
     return getString(
         R.string.wind_speed,
         value.roundToInt(),
-        windSpeedUnits[unitsSystemKey % windSpeedUnits.size]
+        windSpeedUnits[unitsSystem.ordinal % windSpeedUnits.size]
     )
 }
 

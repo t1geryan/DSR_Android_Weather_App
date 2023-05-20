@@ -88,11 +88,7 @@ class MainActivity : AppCompatActivity(), PermissionsApi, SideEffectsApi, UnitsS
         }
         collectFlow(viewModel.appThemeSetting) { appThemeUiState ->
             if (appThemeUiState is UiState.Success)
-                AppCompatDelegate.setDefaultNightMode(
-                    getNightModeByThemeSettings(
-                        appThemeUiState.data
-                    )
-                )
+                changeAppTheme(appThemeUiState.data)
         }
     }
 
@@ -102,8 +98,6 @@ class MainActivity : AppCompatActivity(), PermissionsApi, SideEffectsApi, UnitsS
         currentPermissionGrantedCallback = null
         super.onDestroy()
     }
-
-
     // Navigation
 
     private fun updateNavController(navController: NavController) {
@@ -157,7 +151,7 @@ class MainActivity : AppCompatActivity(), PermissionsApi, SideEffectsApi, UnitsS
     // Units System API
 
     private var appCurrentUnitsSystem: AppUnitsSystem =
-        AppUnitsSystem(AppUnitsSystem.METRIC_SYSTEM_KEY)
+        AppUnitsSystem.METRIC_SYSTEM
 
     override fun getCurrentUnitsSystem(): AppUnitsSystem = appCurrentUnitsSystem
 
@@ -167,12 +161,19 @@ class MainActivity : AppCompatActivity(), PermissionsApi, SideEffectsApi, UnitsS
 
     // UI
 
+    private fun changeAppTheme(appThemeSetting: AppTheme) {
+        AppCompatDelegate.setDefaultNightMode(
+            getNightModeByThemeSettings(
+                appThemeSetting
+            )
+        )
+    }
+
     private fun getNightModeByThemeSettings(themeSetting: AppTheme) =
-        when (themeSetting.themeKey) {
-            AppTheme.DAY_THEME_KEY -> AppCompatDelegate.MODE_NIGHT_NO
-            AppTheme.NIGHT_THEME_KEY -> AppCompatDelegate.MODE_NIGHT_YES
-            AppTheme.SYSTEM_THEME_KEY -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-            else -> throw IllegalArgumentException()
+        when (themeSetting) {
+            AppTheme.DAY_THEME -> AppCompatDelegate.MODE_NIGHT_NO
+            AppTheme.NIGHT_THEME -> AppCompatDelegate.MODE_NIGHT_YES
+            AppTheme.SYSTEM_THEME -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
         }
 
     // Updates Toolbar for each started Fragment

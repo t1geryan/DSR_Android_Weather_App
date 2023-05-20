@@ -96,7 +96,7 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
     private fun loadCurrentWeatherDataToTextViews(currentWeather: CurrentWeather) = with(binding) {
         with(currentWeather) {
             val context = requireContext()
-            val currentUnitsSystemKey = unitsSystemProvider().getCurrentUnitsSystem().systemKey
+            val currentUnitsSystemKey = unitsSystemProvider().getCurrentUnitsSystem()
             // see string.xml
             temperatureTV.text =
                 context.getTemperatureString(temperature, currentUnitsSystemKey)
