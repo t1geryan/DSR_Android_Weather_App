@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.postDelayed
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -56,6 +57,14 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
         super.onViewCreated(view, savedInstanceState)
         viewLifecycleOwner.collectFlow(viewModel.locationWeather) { locationWeatherUiState ->
             collectLocationWeatherUiState(locationWeatherUiState)
+        }
+        binding.weatherDetailsSwipeRefresh.apply {
+            setOnRefreshListener {
+                viewModel.fetchLocationWeather()
+                handler.postDelayed(Constants.DELAY.SWIPE_TO_REFRESH_END_DELAY) {
+                    isRefreshing = false
+                }
+            }
         }
     }
 

@@ -1,47 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/locationsListSwipeRefresh"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".presentation.ui.base_locations_list_screen.BaseLocationsListFragment">
+    android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/locationsRV"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:itemCount="2"
-        tools:listitem="@layout/item_location" />
+        tools:context=".presentation.ui.base_locations_list_screen.BaseLocationsListFragment">
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:elevation="@dimen/elevation_level_3"
-        app:elevation="@dimen/elevation_level_3" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/locationsRV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="2"
+            tools:listitem="@layout/item_location" />
 
-    <TextView
-        android:id="@+id/emptyListMessageTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:padding="@dimen/small_textview_padding"
-        android:textColor="?attr/colorOnBackground"
-        android:textSize="@dimen/big_text_size"
-        tools:text="@string/empty_locations_list_message" />
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:elevation="@dimen/elevation_level_3"
+            app:elevation="@dimen/elevation_level_3" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addLocationFAB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
-        android:layout_marginBottom="@dimen/common_screen_padding"
-        android:clickable="true"
-        android:contentDescription="@string/location_adding_button"
-        app:elevation="@dimen/elevation_level_3"
-        app:srcCompat="@drawable/icon_add_24" />
-</FrameLayout>
+        <TextView
+            android:id="@+id/emptyListMessageTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="@dimen/small_textview_padding"
+            android:textColor="?attr/colorOnBackground"
+            android:textSize="@dimen/big_text_size"
+            tools:text="@string/empty_locations_list_message" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addLocationFAB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_marginBottom="@dimen/common_screen_padding"
+            android:clickable="true"
+            android:contentDescription="@string/location_adding_button"
+            app:elevation="@dimen/elevation_level_3"
+            app:srcCompat="@drawable/icon_add_24" />
+    </FrameLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+

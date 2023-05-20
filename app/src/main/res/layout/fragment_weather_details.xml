@@ -1,151 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/weatherDetailsSwipeRefresh"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true"
-    tools:context=".presentation.ui.weather_details_screen.WeatherDetailsFragment">
+    android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/common_screen_padding">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        tools:context=".presentation.ui.weather_details_screen.WeatherDetailsFragment">
 
-        <TextView
-            android:id="@+id/currentDateTV"
-            style="@style/WeatherDetailsTextView"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:lines="1"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Mon, Aug 14" />
+            android:padding="@dimen/common_screen_padding">
 
-        <ImageView
-            android:id="@+id/currentWeatherIconIV"
-            android:layout_width="124dp"
-            android:layout_height="124dp"
-            android:layout_marginTop="@dimen/common_margin"
-            android:contentDescription="@string/weather_icon"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/currentDateTV"
-            tools:src="@drawable/icon_weather_cloudy_24" />
-
-        <TextView
-            android:id="@+id/temperatureTV"
-            style="@style/WeatherDetailsTextView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:lines="1"
-            android:textSize="@dimen/ultra_large_text_size"
-            app:layout_constraintBottom_toBottomOf="@+id/currentWeatherIconIV"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/currentWeatherIconIV"
-            app:layout_constraintTop_toTopOf="@+id/currentWeatherIconIV"
-            tools:text="+19 °C" />
-
-        <TextView
-            android:id="@+id/descriptionTV"
-            style="@style/WeatherDetailsTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:lines="1"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/currentWeatherIconIV"
-            tools:text="cloudy" />
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:elevation="@dimen/elevation_level_3"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/forecastListCardView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/common_margin"
-            android:backgroundTint="?attr/colorSurface"
-            app:cardCornerRadius="32dp"
-            app:cardElevation="@dimen/elevation_level_2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/descriptionTV">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/forecastsRV"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            <TextView
+                android:id="@+id/currentDateTV"
+                style="@style/WeatherDetailsTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/descriptionTV"
-                tools:listitem="@layout/item_forecast" />
-        </androidx.cardview.widget.CardView>
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Mon, Aug 14" />
 
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/drawableStartTVGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="windDataTV,humidityDataTV,pressureDataTv" />
+            <ImageView
+                android:id="@+id/currentWeatherIconIV"
+                android:layout_width="124dp"
+                android:layout_height="124dp"
+                android:layout_marginTop="@dimen/common_margin"
+                android:contentDescription="@string/weather_icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/currentDateTV"
+                tools:src="@drawable/icon_weather_cloudy_24" />
 
-        <View
-            android:id="@+id/horizontalBarrier"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginTop="@dimen/common_margin"
-            android:background="?attr/colorSurface"
-            app:layout_constraintTop_toBottomOf="@+id/forecastListCardView"
-            tools:layout_editor_absoluteX="16dp" />
+            <TextView
+                android:id="@+id/temperatureTV"
+                style="@style/WeatherDetailsTextView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:lines="1"
+                android:textSize="@dimen/ultra_large_text_size"
+                app:layout_constraintBottom_toBottomOf="@+id/currentWeatherIconIV"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/currentWeatherIconIV"
+                app:layout_constraintTop_toTopOf="@+id/currentWeatherIconIV"
+                tools:text="+19 °C" />
 
-        <TextView
-            android:id="@+id/windDataTV"
-            style="@style/WeatherDetailsTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/common_margin"
-            android:drawablePadding="@dimen/small_padding"
-            app:drawableStartCompat="@drawable/icon_wind_24"
-            app:drawableTint="?attr/colorOnBackground"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/horizontalBarrier"
-            tools:text="wind power is 2 m/s from NE" />
+            <TextView
+                android:id="@+id/descriptionTV"
+                style="@style/WeatherDetailsTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/currentWeatherIconIV"
+                tools:text="cloudy" />
 
-        <TextView
-            android:id="@+id/humidityDataTV"
-            style="@style/WeatherDetailsTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/common_margin"
-            android:drawablePadding="@dimen/small_padding"
-            app:drawableStartCompat="@drawable/icon_humidity_24"
-            app:drawableTint="?attr/colorOnBackground"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/windDataTV"
-            tools:text="humidity is 25%" />
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="@dimen/elevation_level_3"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/pressureDataTv"
-            style="@style/WeatherDetailsTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/common_margin"
-            android:drawablePadding="@dimen/small_padding"
-            app:drawableStartCompat="@drawable/icon_pressure"
-            app:drawableTint="?attr/colorOnBackground"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/humidityDataTV"
-            tools:text="pressure is 1016 hPa" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/forecastListCardView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/common_margin"
+                android:backgroundTint="?attr/colorSurface"
+                app:cardCornerRadius="32dp"
+                app:cardElevation="@dimen/elevation_level_2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/descriptionTV">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/forecastsRV"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/descriptionTV"
+                    tools:listitem="@layout/item_forecast" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/drawableStartTVGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="windDataTV,humidityDataTV,pressureDataTv" />
+
+            <View
+                android:id="@+id/horizontalBarrier"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="@dimen/common_margin"
+                android:background="?attr/colorSurface"
+                app:layout_constraintTop_toBottomOf="@+id/forecastListCardView"
+                tools:layout_editor_absoluteX="16dp" />
+
+            <TextView
+                android:id="@+id/windDataTV"
+                style="@style/WeatherDetailsTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/common_margin"
+                android:drawablePadding="@dimen/small_padding"
+                app:drawableStartCompat="@drawable/icon_wind_24"
+                app:drawableTint="?attr/colorOnBackground"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/horizontalBarrier"
+                tools:text="wind power is 2 m/s from NE" />
+
+            <TextView
+                android:id="@+id/humidityDataTV"
+                style="@style/WeatherDetailsTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/common_margin"
+                android:drawablePadding="@dimen/small_padding"
+                app:drawableStartCompat="@drawable/icon_humidity_24"
+                app:drawableTint="?attr/colorOnBackground"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/windDataTV"
+                tools:text="humidity is 25%" />
+
+            <TextView
+                android:id="@+id/pressureDataTv"
+                style="@style/WeatherDetailsTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/common_margin"
+                android:drawablePadding="@dimen/small_padding"
+                app:drawableStartCompat="@drawable/icon_pressure"
+                app:drawableTint="?attr/colorOnBackground"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/humidityDataTV"
+                tools:text="pressure is 1016 hPa" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

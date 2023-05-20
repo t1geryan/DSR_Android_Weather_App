@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
+import androidx.core.os.postDelayed
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -19,6 +20,7 @@ import com.example.weatherapp.presentation.ui_utils.collectFlow
 import com.example.weatherapp.presentation.ui_utils.findTopLevelNavController
 import com.example.weatherapp.presentation.ui_utils.sideEffectsProvider
 import com.example.weatherapp.presentation.ui_utils.unitsSystemProvider
+import com.example.weatherapp.utils.Constants
 
 abstract class BaseLocationsListFragment : Fragment() {
 
@@ -64,15 +66,19 @@ abstract class BaseLocationsListFragment : Fragment() {
             collectShowDetailsEvent(event)
         }
 
-
         viewLifecycleOwner.collectFlow(viewModel.unitsSystemSetting) { unitsSystemUiState ->
             if (unitsSystemUiState is UiState.Success)
-                refreshWeatherData()
+                viewModel.fetchLocationItems()
         }
-    }
 
-    private fun refreshWeatherData() {
-        viewModel.fetchLocationItems()
+        binding.locationsListSwipeRefresh.apply {
+            setOnRefreshListener {
+                viewModel.fetchLocationItems()
+                handler.postDelayed(Constants.DELAY.SWIPE_TO_REFRESH_END_DELAY) {
+                    isRefreshing = false
+                }
+            }
+        }
     }
 
     private fun collectLocationItemListUiState(uiState: UiState<List<LocationItem>>) {

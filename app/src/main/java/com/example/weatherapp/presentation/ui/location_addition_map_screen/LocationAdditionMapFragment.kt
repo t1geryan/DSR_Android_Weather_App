@@ -35,6 +35,7 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
 
     private lateinit var binding: FragmentLocationAdditionMapBinding
 
+    // todo: transfer getting current location to the data layer
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private var singlePlacemark: PlacemarkMapObject? = null // map single placemark
