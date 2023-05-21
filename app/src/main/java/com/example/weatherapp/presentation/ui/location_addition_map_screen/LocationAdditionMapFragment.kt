@@ -16,6 +16,7 @@ import com.example.weatherapp.presentation.ui_utils.getBitmapFromVectorDrawable
 import com.example.weatherapp.presentation.ui_utils.permissionsProvider
 import com.example.weatherapp.presentation.ui_utils.sideEffectsProvider
 import com.google.android.gms.location.*
+import com.google.android.gms.tasks.CancellationTokenSource
 import com.yandex.mapkit.Animation
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
@@ -35,7 +36,6 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
 
     private lateinit var binding: FragmentLocationAdditionMapBinding
 
-    // todo: transfer getting current location to the data layer
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private var singlePlacemark: PlacemarkMapObject? = null // map single placemark
@@ -125,6 +125,37 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
         outState.putDouble(STATE_KEY_LONGITUDE, longitude)
     }
 
+    @SuppressLint("MissingPermission")
+    private fun getCurrentLocation() {
+        permissionsProvider().requestPermission(
+            arrayOf(
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+            )
+        ) {
+            fusedLocationClient.getCurrentLocation(
+                Priority.PRIORITY_HIGH_ACCURACY,
+                CancellationTokenSource().token
+            ).addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                    showResult(location.latitude, location.longitude)
+                } else {
+                    sideEffectsProvider().showToast(R.string.gps_off_error)
+                }
+            }
+        }
+    }
+
+    private fun toNextScreen() {
+        if (hasResult) {
+            val destination =
+                LocationAdditionMapFragmentDirections.actionLocationAdditionMapFragmentToLocationAdditionNameFragment(
+                    latitude.toFloat(), longitude.toFloat()
+                )
+            findNavController().navigate(destination)
+        }
+    }
+    // Map
+
     private fun showResult(latitude: Double, longitude: Double) {
         val point = Point(latitude, longitude)
         mapInputListener.onMapTap(binding.mapview.map, point)
@@ -137,7 +168,6 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
         null
     )
 
-
     private fun addSinglePlacemarkToMap(point: Point) {
         singlePlacemark?.let {
             it.isVisible = false // make previous placemark invisible
@@ -149,60 +179,12 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
         )
     }
 
-    @SuppressLint("MissingPermission")
-    private fun getCurrentLocation() {
-        permissionsProvider().requestPermission(
-            arrayOf(
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-            )
-        ) {
-            fusedLocationClient.lastLocation.addOnSuccessListener(requireActivity()) { location: Location? ->
-                if (location != null) {
-                    showResult(location.latitude, location.longitude)
-                } else {
-                    sideEffectsProvider().showToast(R.string.gps_off_error)
-                    // todo swap showToast to requestLocation() cause location is null after turning gps on (location cache is empty)
-                }
-            }
-        }
-    }
-
-//    todo: fix bug: callbacks method onLocationResult not not achievable
-//    @SuppressLint("MissingPermission")
-//    private fun requestLocation() {
-//        val request = LocationRequest.Builder(LOCATION_REQUEST_INTERVAL_MILLIS)
-//            .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
-//            .build()
-//
-//        val callback = object : LocationCallback() {
-//            override fun onLocationResult(locationResult: LocationResult) {
-//                locationResult.locations.firstOrNull()?.let {
-//                    showResult(it.latitude, it.longitude)
-//                } ?: {
-//                    sideEffectsProvider().showToast(R.string.gps_off_error)
-//                }
-//            }
-//        }
-//
-//        fusedLocationClient.requestLocationUpdates(request, callback, null)
-//    }
-
-    private fun toNextScreen() {
-        if (hasResult) {
-            val destination =
-                LocationAdditionMapFragmentDirections.actionLocationAdditionMapFragmentToLocationAdditionNameFragment(
-                    latitude.toFloat(), longitude.toFloat()
-                )
-            findNavController().navigate(destination)
-        }
-    }
+    //
 
     companion object {
         private const val STATE_KEY_RESULT = "STATE_KEY_RESULT"
         private const val STATE_KEY_LATITUDE = "STATE_KEY_LATITUDE"
         private const val STATE_KEY_LONGITUDE = "STATE_KEY_LONGITUDE"
-
-        private const val LOCATION_REQUEST_INTERVAL_MILLIS = 5_000L
 
         private const val MAP_ZOOM = 8.0f
         private val INITIAL_CAMERA_POSITION_POINT = Point(55.751574, 37.573856)
