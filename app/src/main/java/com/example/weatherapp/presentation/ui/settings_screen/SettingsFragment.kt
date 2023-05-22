@@ -12,16 +12,20 @@ import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentSettingsBinding
 import com.example.weatherapp.domain.models.AppTheme
 import com.example.weatherapp.domain.models.AppUnitsSystem
+import com.example.weatherapp.presentation.contract.sideeffects.toasts.ToastProvider
 import com.example.weatherapp.presentation.state.UiState
 import com.example.weatherapp.presentation.ui_utils.collectFlow
-import com.example.weatherapp.presentation.ui_utils.sideEffectsProvider
 import com.google.android.material.button.MaterialButtonToggleGroup.OnButtonCheckedListener
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
 
     private lateinit var binding: FragmentSettingsBinding
+
+    @Inject
+    lateinit var toastProvider: ToastProvider
 
     private val viewModel: SettingsViewModel by viewModels()
 
@@ -84,7 +88,7 @@ class SettingsFragment : Fragment() {
             when (settingUiState) {
                 is UiState.Loading -> settingsProgressBar.visibility = View.VISIBLE
                 is UiState.Success -> successBlock(settingUiState.data)
-                is UiState.Error -> sideEffectsProvider().showToast(R.string.default_exception_message)
+                is UiState.Error -> toastProvider.showToast(R.string.default_exception_message)
             }
         }
 

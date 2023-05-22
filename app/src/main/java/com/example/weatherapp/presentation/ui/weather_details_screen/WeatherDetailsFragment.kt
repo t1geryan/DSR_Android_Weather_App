@@ -14,6 +14,8 @@ import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentWeatherDetailsBinding
 import com.example.weatherapp.domain.models.CurrentWeather
 import com.example.weatherapp.domain.models.LocationWeather
+import com.example.weatherapp.presentation.contract.sideeffects.dialogs.SimpleDialogProvider
+import com.example.weatherapp.presentation.contract.sideeffects.snakbars.SnackbarProvider
 import com.example.weatherapp.presentation.contract.toolbar.HasCustomActionToolbar
 import com.example.weatherapp.presentation.contract.toolbar.HasCustomTitleToolbar
 import com.example.weatherapp.presentation.contract.toolbar.ToolbarAction
@@ -35,6 +37,12 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
     private val args: WeatherDetailsFragmentArgs by navArgs()
 
     @Inject
+    lateinit var dialogProvider: SimpleDialogProvider
+
+    @Inject
+    lateinit var snackbarProvider: SnackbarProvider
+
+    @Inject
     lateinit var factory: WeatherDetailsViewModel.Factory
 
     private val viewModel: WeatherDetailsViewModel by viewModelCreator {
@@ -47,7 +55,6 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentWeatherDetailsBinding.inflate(inflater, container, false)
-
         adapter = ForecastsAdapter(unitsSystemProvider())
         binding.forecastsRV.adapter = adapter
 
@@ -88,7 +95,7 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
 
     private fun showLocationWeather(locationWeather: LocationWeather) {
         if (!requireContext().hasNetworkConnection()) {
-            showRefreshRequest {
+            showRefreshRequest(snackbarProvider) {
                 viewModel.fetchLocationWeather()
             }
         }
@@ -141,7 +148,7 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
     }
 
     private fun showErrorDialog(message: String?) {
-        sideEffectsProvider().showSimpleDialog(
+        dialogProvider.showSimpleDialog(
             getString(R.string.location_weather_loading_exception),
             message ?: getString(R.string.default_exception_message),
             true,

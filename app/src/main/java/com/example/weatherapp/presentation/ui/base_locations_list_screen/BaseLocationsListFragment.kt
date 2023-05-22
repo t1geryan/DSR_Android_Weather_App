@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentLocationsListBinding
+import com.example.weatherapp.presentation.contract.sideeffects.dialogs.SimpleDialogProvider
+import com.example.weatherapp.presentation.contract.sideeffects.snakbars.SnackbarProvider
 import com.example.weatherapp.presentation.event.Event
 import com.example.weatherapp.presentation.state.UiState
 import com.example.weatherapp.presentation.ui.base_locations_list_screen.adapter.LocationItem
@@ -19,6 +21,7 @@ import com.example.weatherapp.presentation.ui.base_locations_list_screen.adapter
 import com.example.weatherapp.presentation.ui.bottom_navigation_screen.BottomNavigationFragmentDirections
 import com.example.weatherapp.presentation.ui_utils.*
 import com.example.weatherapp.utils.Constants
+import javax.inject.Inject
 
 abstract class BaseLocationsListFragment : Fragment() {
 
@@ -27,6 +30,12 @@ abstract class BaseLocationsListFragment : Fragment() {
     private lateinit var adapter: LocationsAdapter
 
     abstract val viewModel: BaseLocationsListViewModel
+
+    @Inject
+    lateinit var dialogProvider: SimpleDialogProvider
+
+    @Inject
+    lateinit var snackbarProvider: SnackbarProvider
 
     @StringRes
     abstract fun getEmptyListMessage(): Int
@@ -96,7 +105,7 @@ abstract class BaseLocationsListFragment : Fragment() {
 
     private fun showLocationItemList(locationItemList: List<LocationItem>) {
         if (!requireContext().hasNetworkConnection()) {
-            showRefreshRequest {
+            showRefreshRequest(snackbarProvider) {
                 viewModel.fetchLocationItems()
             }
         }
@@ -125,7 +134,7 @@ abstract class BaseLocationsListFragment : Fragment() {
     }
 
     private fun showErrorDialog(message: String?) {
-        sideEffectsProvider().showSimpleDialog(
+        dialogProvider.showSimpleDialog(
             getString(R.string.location_list_loading_exception),
             message ?: getString(R.string.default_exception_message),
             true,

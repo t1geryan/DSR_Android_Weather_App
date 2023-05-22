@@ -13,12 +13,12 @@ import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentLocationAdditionMapBinding
 import com.example.weatherapp.domain.GpsException
 import com.example.weatherapp.domain.PermissionException
+import com.example.weatherapp.presentation.contract.sideeffects.toasts.ToastProvider
 import com.example.weatherapp.presentation.contract.toolbar.HasNoActivityToolbar
 import com.example.weatherapp.presentation.state.UiState
 import com.example.weatherapp.presentation.ui_utils.collectFlow
 import com.example.weatherapp.presentation.ui_utils.getBitmapFromVectorDrawable
 import com.example.weatherapp.presentation.ui_utils.permissionsProvider
-import com.example.weatherapp.presentation.ui_utils.sideEffectsProvider
 import com.google.android.gms.location.*
 import com.yandex.mapkit.Animation
 import com.yandex.mapkit.MapKitFactory
@@ -29,6 +29,7 @@ import com.yandex.mapkit.map.Map
 import com.yandex.mapkit.map.PlacemarkMapObject
 import com.yandex.runtime.image.ImageProvider
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
@@ -40,6 +41,9 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
     private var longitude: Double = 0.0
 
     private lateinit var binding: FragmentLocationAdditionMapBinding
+
+    @Inject
+    lateinit var toastProvider: ToastProvider
 
     private val viewModel: LocationAdditionMapViewModel by viewModels()
     //private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -155,14 +159,14 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
             viewModel.getCurrentLocation()
         }
         if (!isCalled)
-            sideEffectsProvider().showToast(R.string.current_location_permissions_exception)
+            toastProvider.showToast(R.string.current_location_permissions_exception)
     }
 
     private fun onCurrentLocationGettingError(exception: Exception?) {
         when (exception) {
-            is GpsException -> sideEffectsProvider().showToast(R.string.gps_off_error)
-            is PermissionException -> sideEffectsProvider().showToast(R.string.current_location_permissions_exception)
-            else -> sideEffectsProvider().showToast(
+            is GpsException -> toastProvider.showToast(R.string.gps_off_error)
+            is PermissionException -> toastProvider.showToast(R.string.current_location_permissions_exception)
+            else -> toastProvider.showToast(
                 exception?.message
                     ?: getString(R.string.default_exception_message)
             )

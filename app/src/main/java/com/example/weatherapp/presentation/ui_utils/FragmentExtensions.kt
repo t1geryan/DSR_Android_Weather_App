@@ -6,8 +6,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.R
 import com.example.weatherapp.presentation.contract.PermissionsApi
-import com.example.weatherapp.presentation.contract.SideEffectsApi
 import com.example.weatherapp.presentation.contract.UnitsSystemApi
+import com.example.weatherapp.presentation.contract.sideeffects.snakbars.SnackbarProvider
 import com.google.android.material.snackbar.Snackbar
 
 /**
@@ -26,8 +26,12 @@ fun Fragment.findTopLevelNavController(): NavController {
 /**
  * Function to show the user a simple prompt to refresh the screen when not connected to the network.
  */
-fun Fragment.showRefreshRequest(onRefresh: () -> Unit) {
-    sideEffectsProvider().showSnackBar(
+fun Fragment.showRefreshRequest(
+    snackbarProvider: SnackbarProvider,
+    onRefresh: () -> Unit
+) {
+    snackbarProvider.showSnackBar(
+        requireActivity().findViewById(android.R.id.content),
         R.string.no_network_connection_error,
         Snackbar.LENGTH_INDEFINITE,
         R.string.refresh
@@ -42,13 +46,6 @@ fun Fragment.showRefreshRequest(onRefresh: () -> Unit) {
  */
 fun Fragment.permissionsProvider() = requireActivity() as? PermissionsApi
     ?: throw IllegalStateException("Activity doesn't implement PermissionsApi")
-
-/**
- * Function for getting [SideEffectsApi] from the require Activity
- * @throws IllegalStateException if Activity doesn't implement [SideEffectsApi]
- */
-fun Fragment.sideEffectsProvider() = requireActivity() as? SideEffectsApi
-    ?: throw IllegalStateException("Activity doesn't implement SideEffectsApi")
 
 /**
  * Function for getting [UnitsSystemApi] from the require Activity
