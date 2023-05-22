@@ -2,21 +2,24 @@ package com.example.weatherapp.presentation.ui.location_addition_map_screen
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentLocationAdditionMapBinding
+import com.example.weatherapp.domain.GpsException
+import com.example.weatherapp.domain.PermissionException
 import com.example.weatherapp.presentation.contract.toolbar.HasNoActivityToolbar
+import com.example.weatherapp.presentation.state.UiState
+import com.example.weatherapp.presentation.ui_utils.collectFlow
 import com.example.weatherapp.presentation.ui_utils.getBitmapFromVectorDrawable
 import com.example.weatherapp.presentation.ui_utils.permissionsProvider
 import com.example.weatherapp.presentation.ui_utils.sideEffectsProvider
 import com.google.android.gms.location.*
-import com.google.android.gms.tasks.CancellationTokenSource
 import com.yandex.mapkit.Animation
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
@@ -25,10 +28,12 @@ import com.yandex.mapkit.map.InputListener
 import com.yandex.mapkit.map.Map
 import com.yandex.mapkit.map.PlacemarkMapObject
 import com.yandex.runtime.image.ImageProvider
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
 
-    // todo: add autocomplete logic
+    // todo: add autocomplete
 
     private var hasResult = false
     private var latitude: Double = 0.0
@@ -36,7 +41,8 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
 
     private lateinit var binding: FragmentLocationAdditionMapBinding
 
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private val viewModel: LocationAdditionMapViewModel by viewModels()
+    //private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private var singlePlacemark: PlacemarkMapObject? = null // map single placemark
 
@@ -59,6 +65,7 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
     ): View {
         binding = FragmentLocationAdditionMapBinding.inflate(inflater, container, false)
         binding.nextButton.visibility = View.INVISIBLE
+        binding.mapProgressBar.visibility = View.INVISIBLE
 
         savedInstanceState?.let { bundle ->
             if (bundle.getBoolean(STATE_KEY_RESULT)) {
@@ -69,10 +76,9 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
             }
         }
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+        //fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
         MapKitFactory.initialize(requireContext())
-        moveMapCameraPosition(INITIAL_CAMERA_POSITION_POINT)
         binding.mapview.map.addInputListener(mapInputListener)
 
         return binding.root
@@ -94,7 +100,19 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
                 findNavController().popBackStack(R.id.bottomNavigationFragment, false)
             }
         }
+        collectFlow(viewModel.currentLocation) { uiState ->
+            binding.mapProgressBar.visibility = View.INVISIBLE
+            when (uiState) {
+                is UiState.Loading -> binding.mapProgressBar.visibility = View.VISIBLE
+                is UiState.Error -> onCurrentLocationGettingError(uiState.exception)
+                is UiState.Success -> {
+                    val latLng = uiState.data
+                    showResult(latLng.latitude, latLng.longitude)
+                }
+            }
+        }
     }
+
 
     override fun onStart() {
         super.onStart()
@@ -127,21 +145,27 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
 
     @SuppressLint("MissingPermission")
     private fun getCurrentLocation() {
+        var isCalled = false
         permissionsProvider().requestPermission(
             arrayOf(
                 Manifest.permission.ACCESS_COARSE_LOCATION,
             )
         ) {
-            fusedLocationClient.getCurrentLocation(
-                Priority.PRIORITY_HIGH_ACCURACY,
-                CancellationTokenSource().token
-            ).addOnSuccessListener { location: Location? ->
-                if (location != null) {
-                    showResult(location.latitude, location.longitude)
-                } else {
-                    sideEffectsProvider().showToast(R.string.gps_off_error)
-                }
-            }
+            isCalled = true
+            viewModel.getCurrentLocation()
+        }
+        if (!isCalled)
+            sideEffectsProvider().showToast(R.string.current_location_permissions_exception)
+    }
+
+    private fun onCurrentLocationGettingError(exception: Exception?) {
+        when (exception) {
+            is GpsException -> sideEffectsProvider().showToast(R.string.gps_off_error)
+            is PermissionException -> sideEffectsProvider().showToast(R.string.current_location_permissions_exception)
+            else -> sideEffectsProvider().showToast(
+                exception?.message
+                    ?: getString(R.string.default_exception_message)
+            )
         }
     }
 
@@ -154,6 +178,7 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
             findNavController().navigate(destination)
         }
     }
+
     // Map
 
     private fun showResult(latitude: Double, longitude: Double) {
@@ -179,7 +204,7 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
         )
     }
 
-    //
+//
 
     companion object {
         private const val STATE_KEY_RESULT = "STATE_KEY_RESULT"
@@ -187,6 +212,5 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
         private const val STATE_KEY_LONGITUDE = "STATE_KEY_LONGITUDE"
 
         private const val MAP_ZOOM = 8.0f
-        private val INITIAL_CAMERA_POSITION_POINT = Point(55.751574, 37.573856)
     }
 }

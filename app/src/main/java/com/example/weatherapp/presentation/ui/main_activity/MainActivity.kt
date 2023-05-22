@@ -137,11 +137,14 @@ class MainActivity : AppCompatActivity(), PermissionsApi, SideEffectsApi, UnitsS
         }
     }
 
-    override fun hasPermission(permission: String): Boolean =
-        ActivityCompat.checkSelfPermission(
-            this,
-            permission
-        ) == PackageManager.PERMISSION_GRANTED
+    override fun hasPermissions(permissions: Array<String>): Boolean =
+        permissions.any { permission ->
+            ActivityCompat.checkSelfPermission(
+                this,
+                permission
+            ) == PackageManager.PERMISSION_GRANTED
+        }
+
 
     // Side Effects
 
@@ -162,7 +165,7 @@ class MainActivity : AppCompatActivity(), PermissionsApi, SideEffectsApi, UnitsS
         showSnackBar(
             getString(stringRes),
             duration,
-            getStringOrNull(actionTitle),
+            actionTitle?.let { getString(it) },
             onAction
         )
     }

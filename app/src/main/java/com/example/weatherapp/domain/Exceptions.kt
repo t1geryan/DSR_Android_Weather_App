@@ -12,3 +12,7 @@ class BackendException(
     val code: Int,
     message: String
 ) : AppException(message)
+
+class GpsException : AppException()
+
+class PermissionException : AppException()

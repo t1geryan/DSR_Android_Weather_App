@@ -103,7 +103,7 @@
     <string name="no_network_connection_error">There is no internet connection. Data has not been updated</string>
     <string name="location_list_loading_exception">An error occurred while getting the list of locations</string>
     <string name="location_weather_loading_exception">An error occurred while getting the location weather data</string>
-
+    <string name="current_location_permissions_exception">No permission to get current location</string>
     <!--Other -->
     <string name="refresh">Try Again</string>
     <string name="close">Close</string>
