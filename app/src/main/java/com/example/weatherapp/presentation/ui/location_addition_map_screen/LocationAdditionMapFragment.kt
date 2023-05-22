@@ -139,7 +139,6 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
         binding.mapview.map.removeInputListener(mapInputListener)
     }
 
-    // save the state using a bundle (for not to write an extra view model class)
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putBoolean(STATE_KEY_RESULT, hasResult)
