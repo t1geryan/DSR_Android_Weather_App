@@ -1,5 +1,6 @@
 package com.example.weatherapp.presentation.ui.base_locations_list_screen
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,10 +17,7 @@ import com.example.weatherapp.presentation.state.UiState
 import com.example.weatherapp.presentation.ui.base_locations_list_screen.adapter.LocationItem
 import com.example.weatherapp.presentation.ui.base_locations_list_screen.adapter.LocationsAdapter
 import com.example.weatherapp.presentation.ui.bottom_navigation_screen.BottomNavigationFragmentDirections
-import com.example.weatherapp.presentation.ui_utils.collectFlow
-import com.example.weatherapp.presentation.ui_utils.findTopLevelNavController
-import com.example.weatherapp.presentation.ui_utils.sideEffectsProvider
-import com.example.weatherapp.presentation.ui_utils.unitsSystemProvider
+import com.example.weatherapp.presentation.ui_utils.*
 import com.example.weatherapp.utils.Constants
 
 abstract class BaseLocationsListFragment : Fragment() {
@@ -86,12 +84,23 @@ abstract class BaseLocationsListFragment : Fragment() {
         when (uiState) {
             is UiState.Loading -> binding.progressBar.visibility = View.VISIBLE
             is UiState.Success -> {
-                if (uiState.data.isEmpty())
+                if (uiState.data.isEmpty()) {
                     showEmptyListMessage(getString(getEmptyListMessage()))
-                adapter.locationsWithWeather = uiState.data
+                    adapter.locationsWithWeather = emptyList()
+                }
+                showLocationItemList(uiState.data)
             }
-            is UiState.Error -> showErrorDialog(uiState.message)
+            is UiState.Error -> showErrorDialog(uiState.exception?.message)
         }
+    }
+
+    private fun showLocationItemList(locationItemList: List<LocationItem>) {
+        if (!requireContext().hasNetworkConnection()) {
+            showRefreshRequest {
+                viewModel.fetchLocationItems()
+            }
+        }
+        adapter.locationsWithWeather = locationItemList
     }
 
     private fun collectShowDetailsEvent(event: Event<LocationItem>) {
@@ -116,7 +125,17 @@ abstract class BaseLocationsListFragment : Fragment() {
     }
 
     private fun showErrorDialog(message: String?) {
-        // todo (not implemented yet - replaced by mock)
-        sideEffectsProvider().showToast(message ?: getString(R.string.default_exception_message))
+        sideEffectsProvider().showSimpleDialog(
+            getString(R.string.location_list_loading_exception),
+            message ?: getString(R.string.default_exception_message),
+            true,
+            getString(R.string.refresh),
+            null,
+            getString(R.string.close),
+        ) { _, which ->
+            when (which) {
+                DialogInterface.BUTTON_POSITIVE -> viewModel.fetchLocationItems()
+            }
+        }
     }
 }

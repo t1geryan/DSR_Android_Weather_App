@@ -96,8 +96,15 @@
     <!--Toolbar Actions Titles -->
     <string name="delete_location">delete location</string>
 
-    <!--Other -->
+    <!--Exceptions -->
     <string name="default_exception_message">An unexpected error occurred</string>
     <string name="empty_field_error">The field is empty</string>
     <string name="gps_off_error">Please, enable gps to get current location</string>
+    <string name="no_network_connection_error">There is no internet connection. Data has not been updated</string>
+    <string name="location_list_loading_exception">An error occurred while getting the list of locations</string>
+    <string name="location_weather_loading_exception">An error occurred while getting the location weather data</string>
+
+    <!--Other -->
+    <string name="refresh">Try Again</string>
+    <string name="close">Close</string>
 </resources>

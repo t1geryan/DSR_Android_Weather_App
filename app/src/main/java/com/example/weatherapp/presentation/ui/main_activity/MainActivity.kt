@@ -1,5 +1,7 @@
 package com.example.weatherapp.presentation.ui.main_activity
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
@@ -9,6 +11,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.ColorInt
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
@@ -32,7 +35,9 @@ import com.example.weatherapp.presentation.contract.UnitsSystemApi
 import com.example.weatherapp.presentation.contract.toolbar.*
 import com.example.weatherapp.presentation.state.UiState
 import com.example.weatherapp.presentation.ui_utils.collectFlow
+import com.example.weatherapp.presentation.ui_utils.getStringOrNull
 import com.google.android.material.color.MaterialColors
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -148,6 +153,78 @@ class MainActivity : AppCompatActivity(), PermissionsApi, SideEffectsApi, UnitsS
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
+    override fun showSnackBar(
+        @StringRes stringRes: Int,
+        duration: Int,
+        @StringRes actionTitle: Int?,
+        onAction: View.OnClickListener?
+    ) {
+        showSnackBar(
+            getString(stringRes),
+            duration,
+            getStringOrNull(actionTitle),
+            onAction
+        )
+    }
+
+    override fun showSnackBar(
+        message: String,
+        duration: Int,
+        actionTitle: String?,
+        onAction: View.OnClickListener?
+    ) {
+        val snackbar = Snackbar.make(binding.root, message, duration)
+        if (actionTitle != null && onAction != null)
+            snackbar.setAction(actionTitle, onAction)
+        snackbar.show()
+    }
+
+    override fun showSimpleDialog(
+        title: String,
+        message: String,
+        isCancelable: Boolean,
+        positiveButtonTitle: String?,
+        negativeButtonTitle: String?,
+        neutralButtonTitle: String?,
+        onClickListener: DialogInterface.OnClickListener?
+    ) {
+        AlertDialog.Builder(this)
+            .setTitle(title)
+            .setMessage(message)
+            .setCancelable(isCancelable)
+            .apply {
+                positiveButtonTitle?.let {
+                    setPositiveButton(it, onClickListener)
+                }
+                negativeButtonTitle?.let {
+                    setNegativeButton(it, onClickListener)
+                }
+                neutralButtonTitle?.let {
+                    setNeutralButton(it, onClickListener)
+                }
+            }
+            .show()
+    }
+
+    override fun showSimpleDialog(
+        titleRes: Int,
+        messageRes: Int,
+        isCancelable: Boolean,
+        positiveButtonTitleRes: Int?,
+        negativeButtonTitleRes: Int?,
+        neutralButtonTitleRes: Int?,
+        onClickListener: DialogInterface.OnClickListener?
+    ) {
+        showSimpleDialog(
+            getString(titleRes),
+            getString(messageRes),
+            isCancelable,
+            getStringOrNull(positiveButtonTitleRes),
+            getStringOrNull(negativeButtonTitleRes),
+            getStringOrNull(neutralButtonTitleRes),
+            onClickListener
+        )
+    }
     // Units System API
 
     private var appCurrentUnitsSystem: AppUnitsSystem =

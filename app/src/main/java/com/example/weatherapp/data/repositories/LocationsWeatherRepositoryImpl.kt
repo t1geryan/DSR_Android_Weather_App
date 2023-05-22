@@ -12,6 +12,8 @@ import com.example.weatherapp.data.mappers.location.LocationDomainEntityMapper
 import com.example.weatherapp.data.pref_datastore.settings_datastore.dao.SettingsDao
 import com.example.weatherapp.data.pref_datastore.settings_datastore.entities.UnitsSystemEntity
 import com.example.weatherapp.data.remote.weather.api.WeatherApi
+import com.example.weatherapp.domain.AppException
+import com.example.weatherapp.domain.BackendException
 import com.example.weatherapp.domain.models.CurrentWeather
 import com.example.weatherapp.domain.models.Forecast
 import com.example.weatherapp.domain.models.Location
@@ -21,7 +23,10 @@ import com.example.weatherapp.utils.Constants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import retrofit2.HttpException
+import java.io.IOException
 import javax.inject.Inject
+
 
 class LocationsWeatherRepositoryImpl @Inject constructor(
     private val locationsDao: LocationsDao,
@@ -69,60 +74,80 @@ class LocationsWeatherRepositoryImpl @Inject constructor(
         locationsDao.changeLocationFavoriteStatusById(locationId)
     }
 
-    private suspend fun createLocationWeatherByLocationEntity(locationEntity: LocationEntity): LocationWeather =
-        LocationWeather(
+    /**
+     * Creates LocationWeather class for location
+     * @throws AppException
+     * @throws BackendException
+     * @return weather for location from [weatherApi] or non-updated data from db if there is no internet connection
+     */
+    private suspend fun createLocationWeatherByLocationEntity(locationEntity: LocationEntity): LocationWeather {
+        try {
+            updateWeatherForecastForLocationInDb(locationEntity)
+            updateCurrentWeatherForLocationInDb(locationEntity)
+        } catch (_: IOException) {
+        } catch (e: HttpException) {
+            throw BackendException(e.code(), e.message().toString())
+        } catch (e: Exception) {
+            throw AppException(e.message)
+        }
+        return LocationWeather(
             locationMapper.reverseMap(locationEntity),
             getLocationCurrentWeather(locationEntity),
             getLocationWeatherForecast(locationEntity)
         )
 
+    }
 
-    private suspend fun getLocationWeatherForecast(locationEntity: LocationEntity): List<Forecast> {
-        updateWeatherForecastForLocationInDb(locationEntity)
-        return weatherForecastsDao.getWeatherForecastsForLocation(locationEntity.id).first()
+    private suspend fun getLocationWeatherForecast(locationEntity: LocationEntity): List<Forecast> =
+        weatherForecastsDao.getWeatherForecastsForLocation(locationEntity.id).first()
             .map { forecastEntity ->
                 weatherForecastDomainEntityMapper.map(forecastEntity)
             }
-    }
 
-    private suspend fun getLocationCurrentWeather(locationEntity: LocationEntity): CurrentWeather {
-        updateCurrentWeatherForLocationInDb(locationEntity)
-        return currentWeatherDomainEntityMapper.map(
+    private suspend fun getLocationCurrentWeather(locationEntity: LocationEntity): CurrentWeather =
+        currentWeatherDomainEntityMapper.map(
             currentWeatherDao.getCurrentWeatherForLocation(locationEntity.id).first()
         )
-    }
 
-    // todo: add caching logic and do not constantly access weatherApi
     private suspend fun updateWeatherForecastForLocationInDb(locationEntity: LocationEntity) {
         weatherForecastsDao.deleteOldForecastsForLocation(locationEntity.id)
-        val forecastDto = weatherApi.getLocationEvery3HoursWeatherForecast(
+        val forecastResponse = weatherApi.getLocationEvery3HoursWeatherForecast(
             locationEntity.lat,
             locationEntity.lon,
             apiKey = Constants.OPEN_WEATHER_API_KEY,
             units = getCurrentUnitsSystem(),
             timestampsCount = Constants.Weather.FORECASTS_COUNT_FOR_3_DAYS
         )
-        val weatherForecastEntityList = forecastDtoMapper.mapWithParameter(
-            forecastDto,
-            locationEntity.id
-        )
-        for (forecastEntity in weatherForecastEntityList)
-            weatherForecastsDao.addWeatherForecast(forecastEntity)
+        if (forecastResponse.isSuccessful) {
+            forecastResponse.body()?.let { forecastDto ->
+                val weatherForecastEntityList = forecastDtoMapper.mapWithParameter(
+                    forecastDto,
+                    locationEntity.id
+                )
+                for (forecastEntity in weatherForecastEntityList)
+                    weatherForecastsDao.addWeatherForecast(forecastEntity)
+            }
+        }
     }
 
     private suspend fun updateCurrentWeatherForLocationInDb(locationEntity: LocationEntity) {
-        val currentWeatherDto = weatherApi.getLocationCurrentWeather(
+        val currentWeatherResponse = weatherApi.getLocationCurrentWeather(
             locationEntity.lat,
             locationEntity.lon,
             apiKey = Constants.OPEN_WEATHER_API_KEY,
             units = getCurrentUnitsSystem()
         )
-        val currentWeatherEntity = currentWeatherDtoMapper.mapWithParameter(
-            currentWeatherDto,
-            locationEntity.id
-        )
-        // will replace the old weather
-        currentWeatherDao.addCurrentWeather(currentWeatherEntity)
+        if (currentWeatherResponse.isSuccessful) {
+            currentWeatherResponse.body()?.let { currentWeatherDto ->
+                val currentWeatherEntity = currentWeatherDtoMapper.mapWithParameter(
+                    currentWeatherDto,
+                    locationEntity.id
+                )
+                // will replace the old weather
+                currentWeatherDao.addCurrentWeather(currentWeatherEntity)
+            }
+
+        }
     }
 
     private suspend fun getCurrentUnitsSystem() =

@@ -8,6 +8,7 @@ import com.example.weatherapp.R
 import com.example.weatherapp.presentation.contract.PermissionsApi
 import com.example.weatherapp.presentation.contract.SideEffectsApi
 import com.example.weatherapp.presentation.contract.UnitsSystemApi
+import com.google.android.material.snackbar.Snackbar
 
 /**
  * Function to find top level navController (for using top level actions from BottomNavigationFragment)
@@ -20,6 +21,19 @@ fun Fragment.findTopLevelNavController(): NavController {
     val topLevelHost =
         requireActivity().supportFragmentManager.findFragmentById(R.id.rootFragmentContainer) as NavHostFragment?
     return topLevelHost?.navController ?: findNavController()
+}
+
+/**
+ * Function to show the user a simple prompt to refresh the screen when not connected to the network.
+ */
+fun Fragment.showRefreshRequest(onRefresh: () -> Unit) {
+    sideEffectsProvider().showSnackBar(
+        R.string.no_network_connection_error,
+        Snackbar.LENGTH_INDEFINITE,
+        R.string.refresh
+    ) {
+        onRefresh()
+    }
 }
 
 /**

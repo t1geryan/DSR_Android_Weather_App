@@ -5,6 +5,8 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.icu.text.SimpleDateFormat
 import android.icu.util.TimeZone
+import android.net.ConnectivityManager
+import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import com.example.weatherapp.R
 import com.example.weatherapp.domain.models.AppUnitsSystem
@@ -13,6 +15,15 @@ import java.util.*
 import kotlin.math.absoluteValue
 import kotlin.math.round
 import kotlin.math.roundToInt
+
+fun Context.hasNetworkConnection(): Boolean {
+    val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    return connectivityManager.activeNetwork?.let {
+        connectivityManager.getNetworkCapabilities(it)?.let {
+            true
+        } ?: false
+    } ?: false
+}
 
 fun Context.getBitmapFromVectorDrawable(drawableId: Int): Bitmap? {
     val drawable = ContextCompat.getDrawable(this, drawableId) ?: return null
@@ -27,6 +38,16 @@ fun Context.getBitmapFromVectorDrawable(drawableId: Int): Bitmap? {
     drawable.draw(canvas)
 
     return bitmap
+}
+
+/**
+ * Wrapper for getting string or null from nullable string resource id
+ * @param resId nullable resource id
+ */
+fun Context.getStringOrNull(@StringRes resId: Int?): String? {
+    return resId?.let {
+        getString(it)
+    }
 }
 
 /**

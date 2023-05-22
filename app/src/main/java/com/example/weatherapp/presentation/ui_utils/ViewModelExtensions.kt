@@ -31,6 +31,6 @@ fun <T> ViewModel.collectUiState(
             stateFlow.value = UiState.Success(data)
         }
     } catch (e: Exception) {
-        stateFlow.value = UiState.Error(e.message)
+        stateFlow.value = UiState.Error(e)
     }
 }

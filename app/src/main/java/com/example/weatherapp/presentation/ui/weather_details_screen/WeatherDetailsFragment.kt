@@ -1,5 +1,6 @@
 package com.example.weatherapp.presentation.ui.weather_details_screen
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -73,11 +74,10 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
         when (uiState) {
             is UiState.Loading -> binding.progressBar.visibility = View.VISIBLE
             is UiState.Success -> showLocationWeather(uiState.data)
-            is UiState.Error -> {
-                // todo: not yet implemented
-            }
+            is UiState.Error -> showErrorDialog(uiState.exception?.message)
         }
     }
+
 
     private fun hideSupportingViews() = with(binding) {
         progressBar.visibility = View.INVISIBLE
@@ -87,6 +87,12 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
     }
 
     private fun showLocationWeather(locationWeather: LocationWeather) {
+        if (!requireContext().hasNetworkConnection()) {
+            showRefreshRequest {
+                viewModel.fetchLocationWeather()
+            }
+        }
+
         // make visible all needed views (see hideSupportingViews)
         binding.horizontalBarrier.visibility = View.VISIBLE
         binding.drawableStartTVGroup.visibility = View.VISIBLE
@@ -132,6 +138,21 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
             .error(R.drawable.icon_weather_cloudy_24)
             .placeholder(R.drawable.icon_weather_cloudy_24)
             .into(binding.currentWeatherIconIV)
+    }
+
+    private fun showErrorDialog(message: String?) {
+        sideEffectsProvider().showSimpleDialog(
+            getString(R.string.location_weather_loading_exception),
+            message ?: getString(R.string.default_exception_message),
+            true,
+            getString(R.string.refresh),
+            null,
+            getString(R.string.close),
+        ) { _, which ->
+            when (which) {
+                DialogInterface.BUTTON_POSITIVE -> viewModel.fetchLocationWeather()
+            }
+        }
     }
 
     override fun getTitle(): String = args.title
