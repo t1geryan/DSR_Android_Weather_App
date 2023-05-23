@@ -51,11 +51,6 @@
     <string name="pressure_data">Pressure is %1$d hPa</string>
     <string name="temperature_chart_title">Temperature Chart</string>
 
-    <!--Bottom Navigation Items-->
-    <string name="locations">Locations</string>
-    <string name="triggers">Triggers</string>
-    <string name="settings">Settings</string>
-
     <!--Temperature-->
     <!--p1 is the sign +/-,p2 is a value without sign, p3 is a metric unit-->
     <string name="temperature" translatable="false">%1$s%2$d%3$s</string>
@@ -87,6 +82,11 @@
     <string name="all">ALL</string>
     <string name="favorites">FAVORITES</string>
 
+    <!--Bottom Navigation Items-->
+    <string name="locations">Locations</string>
+    <string name="triggers">Triggers</string>
+    <string name="settings">Settings</string>
+
     <!--Content Descriptions -->
     <string name="favorite_icon">favorite icon</string>
     <string name="location_adding_button">location adding button</string>
@@ -110,4 +110,8 @@
     <!--Other -->
     <string name="refresh">Try Again</string>
     <string name="close">Close</string>
+    <string name="confirm_title">Are you sure?</string>
+    <string name="location_delete_message">The location will be permanently deleted</string>
+    <string name="confirm">Confirm</string>
+    <string name="deny">Deny</string>
 </resources>

@@ -63,4 +63,8 @@
         <item>З</item>
         <item>СЗ</item>
     </string-array>
+    <string name="confirm_title">Вы уверены?</string>
+    <string name="location_delete_message">Локация будет удалена навсегда</string>
+    <string name="confirm">Подтвердить</string>
+    <string name="deny">Отмена</string>
 </resources>

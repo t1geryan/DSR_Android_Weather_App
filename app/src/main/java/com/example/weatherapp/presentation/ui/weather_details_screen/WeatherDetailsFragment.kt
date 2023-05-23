@@ -247,8 +247,21 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
         title = R.string.delete_location,
         icon = R.drawable.icon_delete_outline_24,
     ) {
-        viewModel.deleteLocationById(args.locationId)
-        findNavController().popBackStack()
+        dialogProvider.showSimpleDialog(
+            R.string.confirm_title,
+            R.string.location_delete_message,
+            true,
+            R.string.confirm,
+            R.string.deny,
+            null
+        ) { _, which ->
+            when (which) {
+                DialogInterface.BUTTON_POSITIVE -> {
+                    viewModel.deleteLocationById(args.locationId)
+                    findNavController().popBackStack()
+                }
+            }
+        }
     }
 
     companion object {
