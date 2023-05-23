@@ -25,6 +25,7 @@ import com.example.weatherapp.presentation.ui.weather_details_screen.adapter.For
 import com.example.weatherapp.presentation.ui.weather_details_screen.adapter.ForecastsAdapter
 import com.example.weatherapp.presentation.ui_utils.*
 import com.example.weatherapp.utils.Constants
+import com.example.weatherapp.utils.locale.CurrentLocaleProvider
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
@@ -49,6 +50,9 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
 
     @Inject
     lateinit var factory: WeatherDetailsViewModel.Factory
+
+    @Inject
+    lateinit var currentLocaleProvider: CurrentLocaleProvider
 
     private val viewModel: WeatherDetailsViewModel by viewModelCreator {
         factory.create(args.locationId)
@@ -171,7 +175,8 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
                 (dateTimeUnixUtc + shiftFromUtcSeconds) * Constants.Time.MILLIS_IN_SEC
             currentDateTV.text = requireContext().unixUtcTimeToPattern(
                 forecastedTimeUnixMillis,
-                Constants.Time.WEEKDAY_HOUR_MINUTE_PATTERN
+                Constants.Time.WEEKDAY_HOUR_MINUTE_PATTERN,
+                currentLocaleProvider.provideIso3166Code(),
             )
             descriptionTV.text = weatherDescription
             windDataTV.text = getString(
@@ -194,8 +199,10 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
 
     private fun loadTemperatureChart(locationWeather: LocationWeather) {
         val dataValues = mutableListOf<Entry>()
+        // first entry will be current weather temperature
         dataValues += (Entry(0.0f, locationWeather.currentWeather.temperature.toFloat()))
         val forecasts = locationWeather.weatherForecasts
+        // next entries will be each forecast temperature
         for (i in forecasts.indices) {
             dataValues += Entry((i + 1).toFloat(), forecasts[i].temperature.toFloat())
         }
@@ -210,9 +217,9 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
         with(lineDataSet) {
             color = colorPrimary
             setCircleColor(colorPrimary)
-            lineWidth = 1.75f
-            circleRadius = 3.0f
-            circleHoleRadius = 0.5f
+            lineWidth = CHART_LINE_WIDTH
+            circleRadius = CHART_CIRCLE_RADIUS
+            circleHoleRadius = CHART_HOLE_RADIUS
             valueTextColor = colorOnSurface
             binding.temperatureChart.data = LineData(lineDataSet)
             binding.temperatureChart.invalidate()
@@ -242,5 +249,11 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
     ) {
         viewModel.deleteLocationById(args.locationId)
         findNavController().popBackStack()
+    }
+
+    companion object {
+        private const val CHART_LINE_WIDTH = 1.75f
+        private const val CHART_CIRCLE_RADIUS = 3.0f
+        private const val CHART_HOLE_RADIUS = 0.5f
     }
 }

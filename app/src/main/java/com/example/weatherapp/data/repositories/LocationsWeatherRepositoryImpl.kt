@@ -20,6 +20,7 @@ import com.example.weatherapp.domain.models.Location
 import com.example.weatherapp.domain.models.LocationWeather
 import com.example.weatherapp.domain.repositories.LocationsWeatherRepository
 import com.example.weatherapp.utils.Constants
+import com.example.weatherapp.utils.locale.CurrentLocaleProvider
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -39,6 +40,7 @@ class LocationsWeatherRepositoryImpl @Inject constructor(
     private val currentWeatherDomainEntityMapper: CurrentWeatherEntityToDomainMapper,
     private val weatherForecastDomainEntityMapper: WeatherForecastEntityToDomainMapper,
     private val settingsDao: SettingsDao,
+    private val currentLocaleProvider: CurrentLocaleProvider,
 ) : LocationsWeatherRepository {
 
     private fun getLocationsFromDatabase(onlyFavorites: Boolean) =
@@ -116,7 +118,8 @@ class LocationsWeatherRepositoryImpl @Inject constructor(
             locationEntity.lon,
             apiKey = Constants.OPEN_WEATHER_API_KEY,
             units = getCurrentUnitsSystem(),
-            timestampsCount = Constants.Weather.FORECASTS_COUNT_FOR_3_DAYS
+            timestampsCount = Constants.Weather.FORECASTS_COUNT_FOR_3_DAYS,
+            language = getApiRequestLocale(),
         )
         if (forecastResponse.isSuccessful) {
             forecastResponse.body()?.let { forecastDto ->
@@ -135,7 +138,8 @@ class LocationsWeatherRepositoryImpl @Inject constructor(
             locationEntity.lat,
             locationEntity.lon,
             apiKey = Constants.OPEN_WEATHER_API_KEY,
-            units = getCurrentUnitsSystem()
+            units = getCurrentUnitsSystem(),
+            language = getApiRequestLocale(),
         )
         if (currentWeatherResponse.isSuccessful) {
             currentWeatherResponse.body()?.let { currentWeatherDto ->
@@ -156,4 +160,5 @@ class LocationsWeatherRepositoryImpl @Inject constructor(
             else -> Constants.WeatherApi.IMPERIAl_UNITS_SYSTEM_API_VALUE
         }
 
+    private fun getApiRequestLocale() = currentLocaleProvider.provideIso3166Code()
 }

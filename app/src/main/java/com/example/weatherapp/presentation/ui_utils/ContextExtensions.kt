@@ -58,11 +58,17 @@ fun Context.getStringOrNull(@StringRes resId: Int?): String? {
  * @param pattern the form to which the [unixUtcTime] will be cast
  * @return [unixUtcTime] in [pattern] format
  */
-fun Context.unixUtcTimeToPattern(unixUtcTime: Long, pattern: String): String {
-    val simpleDateFormat = SimpleDateFormat(pattern, Locale.ROOT).apply {
+fun Context.unixUtcTimeToPattern(
+    unixUtcTime: Long,
+    pattern: String,
+    localeCode: String = Constants.Locale.DEFAULT_LOCALE_TAG
+): String {
+    val simpleDateFormat = SimpleDateFormat(pattern, Locale.forLanguageTag(localeCode)).apply {
         timeZone = TimeZone.getTimeZone(Constants.Time.UTC_TIME_ZONE_ID)
     }
-    return simpleDateFormat.format(Date(unixUtcTime))
+    return simpleDateFormat.format(Date(unixUtcTime)).replaceFirstChar {
+        it.uppercaseChar()
+    }
 }
 
 /**

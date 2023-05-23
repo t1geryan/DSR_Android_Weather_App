@@ -32,6 +32,18 @@ object Constants {
         const val SWIPE_TO_REFRESH_END_DELAY = 300L
     }
 
+    object Locale {
+        const val ENGLISH_LOCALE_TAG = "en"
+        const val RUSSIAN_LOCALE_TAG = "ru"
+        const val DEFAULT_LOCALE_TAG = ENGLISH_LOCALE_TAG
+        val SupportedLocalesTags = arrayOf(ENGLISH_LOCALE_TAG, RUSSIAN_LOCALE_TAG)
+    }
+
+    object Regions {
+        const val US_RFS_CODE = "US"
+        const val RU_RFS_CODE = "RU"
+    }
+
     const val MAP_API_KEY = "a122b20c-3546-43ca-8092-560ed12702f6"
     const val OPEN_WEATHER_API_KEY = "0fd028a9364ad11692c9397667b1414f"
 }

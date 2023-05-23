@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--See common strings.xml file for documentation-->
+    <string name="app_name">Weather App</string>
+    <string name="locations_title">Локации</string>
+    <string name="location_addition_map_title">Расположение локации</string>
+    <string name="location_addition_name_title">Название локации</string>
+    <string name="location_addition_details_title">Настройки погоды</string>
+    <string name="settings_title">Настройки</string>
+    <string name="triggers_title">Триггеры</string>
+    <string name="empty_locations_list_message">У вас нет добавленных локаций. Нажмите на кнопку снизу, чтобы начать.</string>
+    <string name="no_favorite_locations_message">У вас нет избранных локаций. Нажмите на сердце рядом с локацией, чтобы добавить её в избранное.</string>
+    <string name="next">Далее</string>
+    <string name="finish">Закончить</string>
+    <string name="current_location_button">Текущая локация</string>
+    <string name="input_name_hint">Введите название</string>
+    <string name="input_name_helper_text">Обязательно*</string>
+    <string name="weather_details_message">Показать прогноз для локации</string>
+    <string name="confirm_next_day_forecast">С прогнозом на следующий день</string>
+    <string name="deny_next_day_forecast">Без прогноза на следующий день</string>
+    <string name="current_temperature">Текущая температура: %1$s</string>
+    <string name="tomorrow_temperature">Завтрашняя температура: %1$s</string>
+    <string name="units_system_choosing_title">Система единиц измерения</string>
+    <string name="metric_units">Метрическая</string>
+    <string name="imperial_units">Имперская</string>
+    <string name="application_theme_choosing_title">Тема приложения:</string>
+    <string name="day_theme">Светлая Тема</string>
+    <string name="night_theme">Тёмная Тема</string>
+    <string name="system_theme">Системная Тема</string>
+    <string name="app_version">Версия приложения: %1$s</string>
+    <string name="wind_data">Сила ветра %1$s с %2$s</string>
+    <string name="humidity_data">Влажность %1$d%%</string>
+    <string name="pressure_data">Давление %1$d hPa</string>
+    <string name="temperature_chart_title">График изменения температуры</string>
+    <string name="locations">Локации</string>
+    <string name="triggers">"Триггеры "</string>
+    <string name="settings">Настройки</string>
+    <string name="all">ВСЕ</string>
+    <string name="favorites">ИЗБРАННЫЕ</string>
+    <string name="favorite_icon">иконка избранное</string>
+    <string name="location_adding_button">кнопка добавления локации</string>
+    <string name="weather_icon">иконка погоды</string>
+    <string name="forecast_icon">иконка прогноза</string>
+    <string name="navigate_back">назад</string>
+    <string name="search">Поиск</string>
+    <string name="delete_location">удалить локацию</string>
+    <string name="default_exception_message">Произошла непредвиденная ошибка</string>
+    <string name="empty_field_error">Поле пусто</string>
+    <string name="gps_off_error">Пожалуйста, включите GPS, чтобы получить текущее местоположение</string>
+    <string name="no_network_connection_error">Нет подключения к Интернету. Данные не были обновлены</string>
+    <string name="location_list_loading_exception">Произошла ошибка при получения списка локаций</string>
+    <string name="location_weather_loading_exception">Произошла ошибка при получении прогноза для локации</string>
+    <string name="current_location_permissions_exception">Отсутствуют разрешения для получения текущего местоположения</string>
+    <string name="refresh">Попробовать снова</string>
+    <string name="close">Закрыть</string>
+    <string-array name="directions">
+        <item>С</item>
+        <item>СВ</item>
+        <item>В</item>
+        <item>ЮВ</item>
+        <item>Ю</item>
+        <item>ЮЗ</item>
+        <item>З</item>
+        <item>СЗ</item>
+    </string-array>
+</resources>

@@ -10,10 +10,10 @@
 
     <!--Locations Screen-->
     <string name="empty_locations_list_message">You don\'t have any added locations.\nTap the button below to get started.</string>
-    <string name="no_favorite_locations_message">You don\'t have any favorite locations.\nTap on the heart next to the location to add it to your favorites.</string>
+    <string name="no_favorite_locations_message">You don\'t have any favorite locations. Tap on the heart next to the location to add it to your favorites.</string>
 
     <!--Location Addition Screens-->
-    <string name="next">NEXT</string>
+    <string name="next">Next</string>
     <string name="finish">Finish</string>
 
     <!--Location Addition Map Screen-->
@@ -44,11 +44,11 @@
 
     <!--Weather Details-->
     <!--p1 is weather icon name e.g. 10d-->
-    <string name="weather_icon_path">"https://openweathermap.org/img/wn/%1$s@2x.png"</string>
+    <string name="weather_icon_path" translatable="false">"https://openweathermap.org/img/wn/%1$s@2x.png"</string>
     <!--p1 is the wind power, p2 is the wind direction-->
-    <string name="wind_data">wind power is %1$s from %2$s</string>
-    <string name="humidity_data">humidity is %1$d%%</string>
-    <string name="pressure_data">pressure is %1$d hPa</string>
+    <string name="wind_data">Wind power is %1$s from %2$s</string>
+    <string name="humidity_data">Humidity is %1$d%%</string>
+    <string name="pressure_data">Pressure is %1$d hPa</string>
     <string name="temperature_chart_title">Temperature Chart</string>
 
     <!--Bottom Navigation Items-->
@@ -58,10 +58,10 @@
 
     <!--Temperature-->
     <!--p1 is the sign +/-,p2 is a value without sign, p3 is a metric unit-->
-    <string name="temperature">%1$s%2$d%3$s</string>
+    <string name="temperature" translatable="false">%1$s%2$d%3$s</string>
     <!--Wind-->
     <!--p1 is a value, p2 is the unit (m/s or mi/h)-->
-    <string name="wind_speed">%1$d %2$s</string>
+    <string name="wind_speed" translatable="false">%1$d %2$s</string>
 
     <!--Units-->
     <string-array name="temperature_units">

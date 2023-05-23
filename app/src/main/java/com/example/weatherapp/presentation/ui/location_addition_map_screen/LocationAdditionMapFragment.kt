@@ -46,7 +46,6 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
     lateinit var toastProvider: ToastProvider
 
     private val viewModel: LocationAdditionMapViewModel by viewModels()
-    //private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private var singlePlacemark: PlacemarkMapObject? = null // map single placemark
 
@@ -79,12 +78,8 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
                 )
             }
         }
-
-        //fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
-
         MapKitFactory.initialize(requireContext())
         binding.mapview.map.addInputListener(mapInputListener)
-
         return binding.root
     }
 
