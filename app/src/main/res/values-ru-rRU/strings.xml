@@ -53,6 +53,10 @@
     <string name="current_location_permissions_exception">Отсутствуют разрешения для получения текущего местоположения</string>
     <string name="refresh">Попробовать снова</string>
     <string name="close">Закрыть</string>
+    <string-array name="wind_speed_units">
+        <item>м/с</item>
+        <item>ми/ч</item>
+    </string-array>
     <string-array name="directions">
         <item>С</item>
         <item>СВ</item>
