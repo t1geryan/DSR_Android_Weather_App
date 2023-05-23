@@ -72,13 +72,16 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
 
         savedInstanceState?.let { bundle ->
             if (bundle.getBoolean(STATE_KEY_RESULT)) {
-                showResult(
+                showAndRememberResult(
                     bundle.getDouble(STATE_KEY_LATITUDE),
                     bundle.getDouble(STATE_KEY_LONGITUDE)
                 )
             }
         }
         MapKitFactory.initialize(requireContext())
+        binding.mapview.map.move(
+            CameraPosition(INITIAL_CAMERA_POSITION, MAP_ZOOM, 0.0f, 0.0f)
+        )
         binding.mapview.map.addInputListener(mapInputListener)
         return binding.root
     }
@@ -105,8 +108,9 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
                 is UiState.Loading -> binding.mapProgressBar.visibility = View.VISIBLE
                 is UiState.Error -> onCurrentLocationGettingError(uiState.exception)
                 is UiState.Success -> {
-                    val latLng = uiState.data
-                    showResult(latLng.latitude, latLng.longitude)
+                    uiState.data?.let {
+                        showAndRememberResult(it.latitude, it.longitude)
+                    }
                 }
             }
         }
@@ -119,7 +123,7 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
         binding.mapview.onStart()
         // show the previous result when returning back from next screen
         if (hasResult) {
-            showResult(latitude, longitude)
+            showAndRememberResult(latitude, longitude)
         }
     }
 
@@ -179,7 +183,7 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
 
     // Map
 
-    private fun showResult(latitude: Double, longitude: Double) {
+    private fun showAndRememberResult(latitude: Double, longitude: Double) {
         val point = Point(latitude, longitude)
         mapInputListener.onMapTap(binding.mapview.map, point)
         moveMapCameraPosition(point)
@@ -210,5 +214,6 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
         private const val STATE_KEY_LONGITUDE = "STATE_KEY_LONGITUDE"
 
         private const val MAP_ZOOM = 8.0f
+        private val INITIAL_CAMERA_POSITION = Point(55.751574, 37.573856)
     }
 }
