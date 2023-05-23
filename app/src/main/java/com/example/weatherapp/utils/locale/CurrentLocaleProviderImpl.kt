@@ -1,21 +1,22 @@
 package com.example.weatherapp.utils.locale
 
+import android.util.Log
 import com.example.weatherapp.utils.Constants
 import java.util.*
 import javax.inject.Inject
 
 class CurrentLocaleProviderImpl @Inject constructor() : CurrentLocaleProvider {
 
-    override fun provideIso3166Code(): String = getAndFilterCurrentLocaleTag()
+    override fun provideIso3166Code(): String = getAndFilterCurrentLocaleTag().also {
+        Log.d("LOCALE", "ISO: $it")
+    }
 
     override fun provideRfc3060Code(): String {
         val currentLocaleCode = provideIso3166Code()
-        val locationCode = when (currentLocaleCode) {
-            Constants.Locale.ENGLISH_LOCALE_TAG -> Constants.Regions.US_RFS_CODE
-            Constants.Locale.RUSSIAN_LOCALE_TAG -> Constants.Regions.RU_RFS_CODE
-            else -> Constants.Regions.US_RFS_CODE
+        val locationCode = Constants.Locale.SupportedLocaleAndRegionCodes[currentLocaleCode]
+        return "${currentLocaleCode}_${locationCode}".also {
+            Log.d("LOCALE", "RFC: $it")
         }
-        return "${currentLocaleCode}_${locationCode}"
     }
 
     private fun getAndFilterCurrentLocaleTag(): String = filterLocaleCode(getCurrentLocaleCode())
@@ -30,7 +31,7 @@ class CurrentLocaleProviderImpl @Inject constructor() : CurrentLocaleProvider {
      * If locale is unsupported map it's tag to [Constants.Locale.DEFAULT_LOCALE_TAG]
      */
     private fun filterLocaleCode(localeCode: String): String {
-        return if (localeCode in Constants.Locale.SupportedLocalesTags) {
+        return if (localeCode in Constants.Locale.SupportedLocaleAndRegionCodes.keys) {
             localeCode
         } else {
             Constants.Locale.DEFAULT_LOCALE_TAG

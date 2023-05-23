@@ -33,15 +33,19 @@ object Constants {
     }
 
     object Locale {
-        const val ENGLISH_LOCALE_TAG = "en"
-        const val RUSSIAN_LOCALE_TAG = "ru"
+        private const val ENGLISH_LOCALE_TAG = "en"
+        private const val RUSSIAN_LOCALE_TAG = "ru"
+        private const val US_RFS_CODE = "US"
+        private const val RU_RFS_CODE = "RU"
         const val DEFAULT_LOCALE_TAG = ENGLISH_LOCALE_TAG
-        val SupportedLocalesTags = arrayOf(ENGLISH_LOCALE_TAG, RUSSIAN_LOCALE_TAG)
-    }
 
-    object Regions {
-        const val US_RFS_CODE = "US"
-        const val RU_RFS_CODE = "RU"
+        /**
+         * Holds all supported locale and regions codes in pairs
+         *
+         * For example: ru->RU, en->US
+         */
+        val SupportedLocaleAndRegionCodes =
+            mapOf(ENGLISH_LOCALE_TAG to US_RFS_CODE, RUSSIAN_LOCALE_TAG to RU_RFS_CODE)
     }
 
     const val MAP_API_KEY = "a122b20c-3546-43ca-8092-560ed12702f6"
