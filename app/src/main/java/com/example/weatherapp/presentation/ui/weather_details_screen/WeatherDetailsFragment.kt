@@ -1,6 +1,7 @@
 package com.example.weatherapp.presentation.ui.weather_details_screen
 
 import android.content.DialogInterface
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +25,10 @@ import com.example.weatherapp.presentation.ui.weather_details_screen.adapter.For
 import com.example.weatherapp.presentation.ui.weather_details_screen.adapter.ForecastsAdapter
 import com.example.weatherapp.presentation.ui_utils.*
 import com.example.weatherapp.utils.Constants
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import com.google.android.material.color.MaterialColors
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -49,6 +54,8 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
         factory.create(args.locationId)
     }
 
+    private var firstDataLoad = true
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -58,6 +65,7 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
         adapter = ForecastsAdapter(unitsSystemProvider())
         binding.forecastsRV.adapter = adapter
 
+        styleTemperatureChart()
         return binding.root
     }
 
@@ -76,21 +84,60 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
         }
     }
 
+    private fun styleTemperatureChart() = with(binding.temperatureChart) {
+        val context = requireContext()
+        val colorSurface = MaterialColors.getColor(
+            context, com.google.android.material.R.attr.colorSurface, Color.BLACK
+        )
+        val colorOnSurface = MaterialColors.getColor(
+            context, com.google.android.material.R.attr.colorOnSurface, Color.BLACK
+        )
+        setNoDataText(getString(R.string.temperature_chart_title))
+        setNoDataTextColor(colorOnSurface)
+        setBackgroundColor(colorSurface)
+
+        description.isEnabled = false
+        setTouchEnabled(false)
+        setScaleEnabled(false)
+        isDragEnabled = false
+        setDrawGridBackground(false)
+        setDrawBorders(false)
+        legend.isEnabled = false
+        xAxis.isEnabled = false
+        axisRight.isEnabled = false
+        axisLeft.isEnabled = true
+        axisLeft.axisLineColor = colorOnSurface
+        axisLeft.textColor = colorOnSurface
+    }
+
     private fun collectLocationWeatherUiState(uiState: UiState<LocationWeather>) {
-        hideSupportingViews()
+        binding.progressBar.visibility = View.INVISIBLE
         when (uiState) {
-            is UiState.Loading -> binding.progressBar.visibility = View.VISIBLE
-            is UiState.Success -> showLocationWeather(uiState.data)
+            is UiState.Loading -> {
+                if (firstDataLoad) {
+                    setContentViewsVisibility(View.INVISIBLE)
+                }
+                binding.progressBar.visibility = View.VISIBLE
+            }
+            is UiState.Success -> {
+                if (firstDataLoad) {
+                    setContentViewsVisibility(View.VISIBLE)
+                }
+                firstDataLoad = false
+                showLocationWeather(uiState.data)
+            }
             is UiState.Error -> showErrorDialog(uiState.exception?.message)
         }
     }
 
 
-    private fun hideSupportingViews() = with(binding) {
-        progressBar.visibility = View.INVISIBLE
-        horizontalBarrier.visibility = View.INVISIBLE
-        // make invisible all text views with drawable left
-        drawableStartTVGroup.visibility = View.INVISIBLE
+    // control the visibility of all views that are visible even with empty data
+    private fun setContentViewsVisibility(visibility: Int) = with(binding) {
+        horizontalBarrier.visibility = visibility
+        horizontalBarrier2.visibility = visibility
+        temperatureChartTitle.visibility = visibility
+        temperatureChartCV.visibility = visibility
+        drawableStartTVGroup.visibility = visibility
     }
 
     private fun showLocationWeather(locationWeather: LocationWeather) {
@@ -99,11 +146,6 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
                 viewModel.fetchLocationWeather()
             }
         }
-
-        // make visible all needed views (see hideSupportingViews)
-        binding.horizontalBarrier.visibility = View.VISIBLE
-        binding.drawableStartTVGroup.visibility = View.VISIBLE
-
         // show forecasts
         adapter.forecastsList = locationWeather.weatherForecasts.map {
             ForecastItem.fromForecast(it)
@@ -113,6 +155,9 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
         val currentWeather = locationWeather.currentWeather
         loadCurrentWeatherDataToTextViews(currentWeather)
         loadCurrentWeatherIcon(currentWeather.weatherIconName)
+
+        // show temperature chart
+        loadTemperatureChart(locationWeather)
     }
 
     private fun loadCurrentWeatherDataToTextViews(currentWeather: CurrentWeather) = with(binding) {
@@ -145,6 +190,33 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
             .error(R.drawable.icon_weather_cloudy_24)
             .placeholder(R.drawable.icon_weather_cloudy_24)
             .into(binding.currentWeatherIconIV)
+    }
+
+    private fun loadTemperatureChart(locationWeather: LocationWeather) {
+        val dataValues = mutableListOf<Entry>()
+        dataValues += (Entry(0.0f, locationWeather.currentWeather.temperature.toFloat()))
+        val forecasts = locationWeather.weatherForecasts
+        for (i in forecasts.indices) {
+            dataValues += Entry((i + 1).toFloat(), forecasts[i].temperature.toFloat())
+        }
+        val lineDataSet = LineDataSet(dataValues, getString(R.string.temperature_chart_title))
+        val context = requireContext()
+        val colorPrimary = MaterialColors.getColor(
+            requireContext(), com.google.android.material.R.attr.colorPrimary, Color.BLACK
+        )
+        val colorOnSurface = MaterialColors.getColor(
+            context, com.google.android.material.R.attr.colorOnSurface, Color.BLACK
+        )
+        with(lineDataSet) {
+            color = colorPrimary
+            setCircleColor(colorPrimary)
+            lineWidth = 1.75f
+            circleRadius = 3.0f
+            circleHoleRadius = 0.5f
+            valueTextColor = colorOnSurface
+            binding.temperatureChart.data = LineData(lineDataSet)
+            binding.temperatureChart.invalidate()
+        }
     }
 
     private fun showErrorDialog(message: String?) {

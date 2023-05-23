@@ -7,6 +7,7 @@
     android:layout_height="match_parent">
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
@@ -152,6 +153,42 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/humidityDataTV"
                 tools:text="pressure is 1016 hPa" />
+
+            <View
+                android:id="@+id/horizontalBarrier2"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="@dimen/common_margin"
+                android:background="?attr/colorSurface"
+                app:layout_constraintTop_toBottomOf="@+id/pressureDataTv"
+                tools:layout_editor_absoluteX="16dp" />
+
+            <TextView
+                android:id="@+id/temperatureChartTitle"
+                style="@style/WeatherDetailsTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:text="@string/temperature_chart_title"
+                app:layout_constraintEnd_toEndOf="@+id/horizontalBarrier2"
+                app:layout_constraintStart_toStartOf="@+id/horizontalBarrier2"
+                app:layout_constraintTop_toBottomOf="@+id/horizontalBarrier2" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/temperatureChartCV"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:backgroundTint="?attr/colorSurface"
+                app:cardCornerRadius="16dp"
+                app:layout_constraintStart_toStartOf="@+id/temperatureChartTitle"
+                app:layout_constraintTop_toBottomOf="@+id/temperatureChartTitle">
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/temperatureChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </androidx.cardview.widget.CardView>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
