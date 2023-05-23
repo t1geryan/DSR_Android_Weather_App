@@ -64,18 +64,20 @@ abstract class BaseLocationsListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewLifecycleOwner.collectFlow(viewModel.locationItems) { locationItemsUiState ->
-            collectLocationItemListUiState(locationItemsUiState)
-        }
-
-        viewLifecycleOwner.collectFlow(viewModel.showDetailsEvent) { event ->
-            collectShowDetailsEvent(event)
-        }
-
-        viewLifecycleOwner.collectFlow(viewModel.unitsSystemSetting) { unitsSystemUiState ->
-            if (unitsSystemUiState is UiState.Success)
-                viewModel.fetchLocationItems()
+        with(viewLifecycleOwner) {
+            collectFlow(viewModel.locationItems) { locationItemsUiState ->
+                collectLocationItemListUiState(locationItemsUiState)
+            }
+            collectFlow(viewModel.isLoadingState) { isLoading ->
+                binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.INVISIBLE
+            }
+            collectFlow(viewModel.showDetailsEvent) { event ->
+                collectShowDetailsEvent(event)
+            }
+            collectFlow(viewModel.unitsSystemSetting) { unitsSystemUiState ->
+                if (unitsSystemUiState is UiState.Success)
+                    viewModel.fetchLocationItems()
+            }
         }
 
         binding.locationsListSwipeRefresh.apply {

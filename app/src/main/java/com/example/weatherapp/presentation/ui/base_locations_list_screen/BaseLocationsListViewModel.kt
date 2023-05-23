@@ -30,6 +30,10 @@ abstract class BaseLocationsListViewModel(
     val unitsSystemSetting: StateFlow<UiState<AppUnitsSystem>>
         get() = _unitsSystemSetting.asStateFlow()
 
+    private val _isLoadingState = MutableStateFlow(false)
+    val isLoadingState: StateFlow<Boolean>
+        get() = _isLoadingState.asStateFlow()
+
     // heirs will independently determine how to get the list
     protected abstract suspend fun getLocationItemsFromRepository(): Flow<List<LocationItem>>
 
@@ -54,7 +58,9 @@ abstract class BaseLocationsListViewModel(
 
     override fun changeFavoriteStatus(locationItem: LocationItem) {
         viewModelScopeIO.launch {
+            _isLoadingState.value = false
             locationsWeatherRepository.changeLocationFavoriteStatusById(locationItem.location.id)
+            _isLoadingState.value = true
         }
     }
 
