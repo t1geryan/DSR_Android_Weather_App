@@ -33,7 +33,7 @@ fun Fragment.showRefreshRequest(
     snackbarProvider.showSnackBar(
         requireActivity().findViewById(android.R.id.content),
         R.string.no_network_connection_error,
-        Snackbar.LENGTH_INDEFINITE,
+        Snackbar.LENGTH_LONG,
         R.string.refresh
     ) {
         onRefresh()

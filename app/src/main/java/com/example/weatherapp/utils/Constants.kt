@@ -48,6 +48,14 @@ object Constants {
             mapOf(ENGLISH_LOCALE_TAG to US_RFS_CODE, RUSSIAN_LOCALE_TAG to RU_RFS_CODE)
     }
 
+    object Theme {
+        object LineChart {
+            const val CHART_LINE_WIDTH = 1.75f
+            const val CHART_CIRCLE_RADIUS = 3.0f
+            const val CHART_HOLE_RADIUS = 0.5f
+        }
+    }
+
     const val MAP_API_KEY = "a122b20c-3546-43ca-8092-560ed12702f6"
     const val OPEN_WEATHER_API_KEY = "0fd028a9364ad11692c9397667b1414f"
 }

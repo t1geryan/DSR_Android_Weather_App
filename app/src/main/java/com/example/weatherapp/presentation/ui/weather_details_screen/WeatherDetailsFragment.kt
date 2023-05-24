@@ -1,7 +1,6 @@
 package com.example.weatherapp.presentation.ui.weather_details_screen
 
 import android.content.DialogInterface
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,10 +25,8 @@ import com.example.weatherapp.presentation.ui.weather_details_screen.adapter.For
 import com.example.weatherapp.presentation.ui_utils.*
 import com.example.weatherapp.utils.Constants
 import com.example.weatherapp.utils.locale.CurrentLocaleProvider
-import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import com.google.android.material.color.MaterialColors
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -88,31 +85,10 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
         }
     }
 
-    private fun styleTemperatureChart() = with(binding.temperatureChart) {
-        val context = requireContext()
-        val colorSurface = MaterialColors.getColor(
-            context, com.google.android.material.R.attr.colorSurface, Color.BLACK
-        )
-        val colorOnSurface = MaterialColors.getColor(
-            context, com.google.android.material.R.attr.colorOnSurface, Color.BLACK
-        )
-        setNoDataText(getString(R.string.temperature_chart_title))
-        setNoDataTextColor(colorOnSurface)
-        setBackgroundColor(colorSurface)
-
-        description.isEnabled = false
-        setTouchEnabled(false)
-        setScaleEnabled(false)
-        isDragEnabled = false
-        setDrawGridBackground(false)
-        setDrawBorders(false)
-        legend.isEnabled = false
-        xAxis.isEnabled = false
-        axisRight.isEnabled = false
-        axisLeft.isEnabled = true
-        axisLeft.axisLineColor = colorOnSurface
-        axisLeft.textColor = colorOnSurface
-    }
+    private fun styleTemperatureChart() = binding.temperatureChart.styleTemperatureLineChart(
+        requireContext(),
+        R.string.temperature_chart_title
+    )
 
     private fun collectLocationWeatherUiState(uiState: UiState<LocationWeather>) {
         binding.progressBar.visibility = View.INVISIBLE
@@ -198,32 +174,11 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
     }
 
     private fun loadTemperatureChart(locationWeather: LocationWeather) {
-        val dataValues = mutableListOf<Entry>()
-        // first entry will be current weather temperature
-        dataValues += (Entry(0.0f, locationWeather.currentWeather.temperature.toFloat()))
-        val forecasts = locationWeather.weatherForecasts
-        // next entries will be each forecast temperature
-        for (i in forecasts.indices) {
-            dataValues += Entry((i + 1).toFloat(), forecasts[i].temperature.toFloat())
-        }
+        val dataValues = viewModel.createTemperatureChartEntries(locationWeather)
         val lineDataSet = LineDataSet(dataValues, getString(R.string.temperature_chart_title))
-        val context = requireContext()
-        val colorPrimary = MaterialColors.getColor(
-            requireContext(), com.google.android.material.R.attr.colorPrimary, Color.BLACK
-        )
-        val colorOnSurface = MaterialColors.getColor(
-            context, com.google.android.material.R.attr.colorOnSurface, Color.BLACK
-        )
-        with(lineDataSet) {
-            color = colorPrimary
-            setCircleColor(colorPrimary)
-            lineWidth = CHART_LINE_WIDTH
-            circleRadius = CHART_CIRCLE_RADIUS
-            circleHoleRadius = CHART_HOLE_RADIUS
-            valueTextColor = colorOnSurface
-            binding.temperatureChart.data = LineData(lineDataSet)
-            binding.temperatureChart.invalidate()
-        }
+        lineDataSet.styleTemperatureLineDataSet(requireContext())
+        binding.temperatureChart.data = LineData(lineDataSet)
+        binding.temperatureChart.invalidate()
     }
 
     private fun showErrorDialog(message: String?) {
@@ -262,11 +217,5 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
                 }
             }
         }
-    }
-
-    companion object {
-        private const val CHART_LINE_WIDTH = 1.75f
-        private const val CHART_CIRCLE_RADIUS = 3.0f
-        private const val CHART_HOLE_RADIUS = 0.5f
     }
 }
