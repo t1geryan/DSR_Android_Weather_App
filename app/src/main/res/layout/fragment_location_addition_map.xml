@@ -56,8 +56,8 @@
                 android:src="@drawable/icon_arrow_back_24"
                 app:tint="?attr/colorOnBackground" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/locationInputET"
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/locationsAutoCompleteTV"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/small_margin"

@@ -1,8 +1,10 @@
 package com.example.weatherapp.di
 
+import com.example.weatherapp.data.repositories.AutocompleteDataProviderRepositoryImpl
 import com.example.weatherapp.data.repositories.LocationTrackerRepositoryImpl
 import com.example.weatherapp.data.repositories.LocationsWeatherRepositoryImpl
 import com.example.weatherapp.data.repositories.SettingsRepositoryImpl
+import com.example.weatherapp.domain.repositories.AutocompleteDataProviderRepository
 import com.example.weatherapp.domain.repositories.LocationTrackerRepository
 import com.example.weatherapp.domain.repositories.LocationsWeatherRepository
 import com.example.weatherapp.domain.repositories.SettingsRepository
@@ -33,4 +35,10 @@ abstract class RepositoriesModule {
     abstract fun bindsLocationTrackerRepository(
         locationTrackerRepositoryImpl: LocationTrackerRepositoryImpl
     ): LocationTrackerRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindsAutocompleteDataProviderRepository(
+        autocompleteDataProviderRepositoryImpl: AutocompleteDataProviderRepositoryImpl
+    ): AutocompleteDataProviderRepository
 }

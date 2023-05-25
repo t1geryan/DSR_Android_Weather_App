@@ -1,7 +1,9 @@
 package com.example.weatherapp.presentation.ui.location_addition_map_screen
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.weatherapp.domain.models.LatLng
+import com.example.weatherapp.domain.repositories.AutocompleteDataProviderRepository
 import com.example.weatherapp.domain.repositories.LocationTrackerRepository
 import com.example.weatherapp.presentation.state.UiState
 import com.example.weatherapp.presentation.ui_utils.viewModelScopeIO
@@ -14,13 +16,19 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LocationAdditionMapViewModel @Inject constructor(
-    private val locationTrackerRepository: LocationTrackerRepository
+    private val locationTrackerRepository: LocationTrackerRepository,
+    private val autocompleteDataProviderRepository: AutocompleteDataProviderRepository,
 ) : ViewModel() {
 
     private val _currentLocation =
-        MutableSharedFlow<UiState<LatLng?>>()
-    val currentLocation: SharedFlow<UiState<LatLng?>>
+        MutableSharedFlow<UiState<LatLng>>()
+    val currentLocation: SharedFlow<UiState<LatLng>>
         get() = _currentLocation.asSharedFlow()
+
+    private val _autocompleteData =
+        MutableSharedFlow<List<String>>()
+    val autocompleteData: SharedFlow<List<String>>
+        get() = _autocompleteData.asSharedFlow()
 
     fun getCurrentLocation() {
         viewModelScopeIO.launch {
@@ -33,6 +41,16 @@ class LocationAdditionMapViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 _currentLocation.emit(UiState.Error(e))
+            }
+        }
+    }
+
+    fun getPlacesAutocompleteData() {
+        viewModelScopeIO.launch {
+            try {
+                _autocompleteData.emit(autocompleteDataProviderRepository.getAutocompleteData())
+            } catch (e: Exception) {
+                Log.d("Error", "Exception $e caught while getting autocomplete data")
             }
         }
     }

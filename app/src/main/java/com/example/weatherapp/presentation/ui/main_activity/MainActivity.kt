@@ -110,7 +110,7 @@ class MainActivity : AppCompatActivity(), PermissionsApi, UnitsSystemApi {
         allPermissionsGrantedCallback: PermissionCallback?
     ) {
         currentPermissionGrantedCallback = allPermissionsGrantedCallback
-        if (permissions.any { permission ->
+        if (permissions.all { permission ->
                 ActivityCompat.checkSelfPermission(
                     this,
                     permission
