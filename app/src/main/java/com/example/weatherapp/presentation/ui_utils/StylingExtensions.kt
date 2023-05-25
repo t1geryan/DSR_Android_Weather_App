@@ -8,6 +8,11 @@ import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.LineDataSet
 import com.google.android.material.color.MaterialColors
 
+fun String.capitalize(): String =
+    this.replaceFirstChar {
+        it.uppercaseChar()
+    }
+
 fun LineChart.styleTemperatureLineChart(context: Context, @StringRes titleRes: Int) {
     val colorSurface = MaterialColors.getColor(
         context, com.google.android.material.R.attr.colorSurface, Color.BLACK

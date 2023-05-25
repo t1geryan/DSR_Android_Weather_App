@@ -66,7 +66,11 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
         adapter = ForecastsAdapter(unitsSystemProvider())
         binding.forecastsRV.adapter = adapter
 
-        styleTemperatureChart()
+        binding.temperatureChart.styleTemperatureLineChart(
+            requireContext(),
+            R.string.temperature_chart_title
+        )
+
         return binding.root
     }
 
@@ -84,11 +88,6 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
             }
         }
     }
-
-    private fun styleTemperatureChart() = binding.temperatureChart.styleTemperatureLineChart(
-        requireContext(),
-        R.string.temperature_chart_title
-    )
 
     private fun collectLocationWeatherUiState(uiState: UiState<LocationWeather>) {
         binding.progressBar.visibility = View.INVISIBLE
@@ -147,14 +146,12 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
             // see string.xml
             temperatureTV.text =
                 context.getTemperatureString(temperature, currentUnitsSystemKey)
-            val forecastedTimeUnixMillis =
-                (dateTimeUnixUtc + shiftFromUtcSeconds) * Constants.Time.MILLIS_IN_SEC
-            currentDateTV.text = requireContext().unixUtcTimeToPattern(
-                forecastedTimeUnixMillis,
+            currentDateTV.text = unixUtcMillisTimeToPattern(
+                getCurrentLocationTimeUnixMillis(shiftFromUtcSeconds),
                 Constants.Time.WEEKDAY_HOUR_MINUTE_PATTERN,
                 currentLocaleProvider.provideIso3166Code(),
-            )
-            descriptionTV.text = weatherDescription
+            ).capitalize()
+            descriptionTV.text = weatherDescription.capitalize()
             windDataTV.text = getString(
                 R.string.wind_data,
                 context.getWindSpeedString(windSpeed, currentUnitsSystemKey),

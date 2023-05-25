@@ -3,15 +3,12 @@ package com.example.weatherapp.presentation.ui_utils
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.icu.text.SimpleDateFormat
-import android.icu.util.TimeZone
 import android.net.ConnectivityManager
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import com.example.weatherapp.R
 import com.example.weatherapp.domain.models.AppUnitsSystem
 import com.example.weatherapp.utils.Constants
-import java.util.*
 import kotlin.math.absoluteValue
 import kotlin.math.round
 import kotlin.math.roundToInt
@@ -47,27 +44,6 @@ fun Context.getBitmapFromVectorDrawable(drawableId: Int): Bitmap? {
 fun Context.getStringOrNull(@StringRes resId: Int?): String? {
     return resId?.let {
         getString(it)
-    }
-}
-
-/**
- * Wrapper for transform unix utc timestamp to pattern regardless of the location of the device
- *
- * For example: unixUtcTimeToPattern(1684175138, "HH::mm") -> "18:25"
- * @param unixUtcTime unix timestamp in utc
- * @param pattern the form to which the [unixUtcTime] will be cast
- * @return [unixUtcTime] in [pattern] format
- */
-fun Context.unixUtcTimeToPattern(
-    unixUtcTime: Long,
-    pattern: String,
-    localeCode: String = Constants.Locale.DEFAULT_LOCALE_TAG
-): String {
-    val simpleDateFormat = SimpleDateFormat(pattern, Locale.forLanguageTag(localeCode)).apply {
-        timeZone = TimeZone.getTimeZone(Constants.Time.UTC_TIME_ZONE_ID)
-    }
-    return simpleDateFormat.format(Date(unixUtcTime)).replaceFirstChar {
-        it.uppercaseChar()
     }
 }
 

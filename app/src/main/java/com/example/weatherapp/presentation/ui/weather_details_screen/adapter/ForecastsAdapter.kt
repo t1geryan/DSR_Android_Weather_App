@@ -9,7 +9,7 @@ import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ItemForecastBinding
 import com.example.weatherapp.presentation.contract.UnitsSystemApi
 import com.example.weatherapp.presentation.ui_utils.getTemperatureString
-import com.example.weatherapp.presentation.ui_utils.unixUtcTimeToPattern
+import com.example.weatherapp.presentation.ui_utils.unixUtcMillisTimeToPattern
 import com.example.weatherapp.utils.Constants
 
 class ForecastsAdapter(
@@ -65,7 +65,7 @@ class ForecastsAdapter(
 
                 val forecastedTimeUnixMillis =
                     (forecastItem.dateTimeUnixUtc + forecastItem.shiftFromUtcSeconds) * Constants.Time.MILLIS_IN_SEC
-                forecastTimeTV.text = context.unixUtcTimeToPattern(
+                forecastTimeTV.text = unixUtcMillisTimeToPattern(
                     forecastedTimeUnixMillis,
                     Constants.Time.HOUR_MINUTE_PATTERN
                 )
