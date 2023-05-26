@@ -15,7 +15,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object BaseRetrofitModule {
 
-    private const val BASE_URL = "https://api.openweathermap.org/data/"
+    private const val BASE_URL = "https://api.openweathermap.org/"
 
     @Provides
     @Singleton

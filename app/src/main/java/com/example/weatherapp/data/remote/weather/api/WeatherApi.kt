@@ -9,7 +9,7 @@ import retrofit2.http.Query
 
 interface WeatherApi {
 
-    @GET("2.5/weather")
+    @GET("data/2.5/weather")
     suspend fun getLocationCurrentWeather(
         @Query("lat") latitude: Float,
         @Query("lon") longitude: Float,
@@ -18,7 +18,7 @@ interface WeatherApi {
         @Query("lang") language: String,
     ): Response<CurrentWeatherResponseDto>
 
-    @GET("2.5/forecast")
+    @GET("data/2.5/forecast")
     suspend fun getLocationEvery3HoursWeatherForecast(
         @Query("lat") latitude: Float,
         @Query("lon") longitude: Float,
