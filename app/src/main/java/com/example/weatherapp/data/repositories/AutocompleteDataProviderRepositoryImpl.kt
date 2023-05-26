@@ -1,5 +1,6 @@
 package com.example.weatherapp.data.repositories
 
+import com.example.weatherapp.data.mappers.autocomplete.AutocompleteDtoToDomainMapper
 import com.example.weatherapp.data.remote.autocomplete.api.AutocompleteApi
 import com.example.weatherapp.domain.repositories.AutocompleteDataProviderRepository
 import com.example.weatherapp.utils.locale.CurrentLocaleProvider
@@ -8,6 +9,7 @@ import javax.inject.Inject
 class AutocompleteDataProviderRepositoryImpl @Inject constructor(
     private val autocompleteApi: AutocompleteApi,
     private val currentLocaleProvider: CurrentLocaleProvider,
+    private val autocompleteDtoToDomainMapper: AutocompleteDtoToDomainMapper,
 ) : AutocompleteDataProviderRepository {
 
     override suspend fun getAutocompleteData(input: String): List<String> {
@@ -22,7 +24,7 @@ class AutocompleteDataProviderRepositoryImpl @Inject constructor(
         val autocompleteData = if (autocompleteResponse.isSuccessful) {
             autocompleteResponse.body()?.let { autocompleteDtoList ->
                 autocompleteDtoList.map { autocompleteDto ->
-                    "${autocompleteDto.name}, ${autocompleteDto.countryName}"
+                    autocompleteDtoToDomainMapper.map(autocompleteDto)
                 }
             } ?: emptyList()
         } else {

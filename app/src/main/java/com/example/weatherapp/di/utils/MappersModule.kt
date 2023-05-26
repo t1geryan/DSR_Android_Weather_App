@@ -1,6 +1,8 @@
 package com.example.weatherapp.di.utils
 
 import com.example.weatherapp.data.mappers.*
+import com.example.weatherapp.data.mappers.autocomplete.AutocompleteDtoToDomainMapper
+import com.example.weatherapp.data.mappers.autocomplete.AutocompleteDtoToDomainMapperImpl
 import com.example.weatherapp.data.mappers.current_weather.CurrentWeatherDtoToEntityMapper
 import com.example.weatherapp.data.mappers.current_weather.CurrentWeatherDtoToEntityMapperImpl
 import com.example.weatherapp.data.mappers.current_weather.CurrentWeatherEntityToDomainMapper
@@ -66,4 +68,10 @@ abstract class MappersModule {
     abstract fun bindsUnitsSystemDomainEntityMapper(
         mapper: UnitsSystemDomainEntityMapperImpl
     ): UnitsSystemDomainEntityMapper
+
+    @Binds
+    @Singleton
+    abstract fun bindsAutocompleteDtoToDomainMapper(
+        autocompleteDtoToDomainMapperImpl: AutocompleteDtoToDomainMapperImpl
+    ): AutocompleteDtoToDomainMapper
 }
