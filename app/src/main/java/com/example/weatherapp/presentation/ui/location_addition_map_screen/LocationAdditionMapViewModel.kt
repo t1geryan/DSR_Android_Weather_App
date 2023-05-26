@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.weatherapp.domain.models.LatLng
 import com.example.weatherapp.domain.repositories.AutocompleteDataProviderRepository
+import com.example.weatherapp.domain.repositories.GeocoderRepository
 import com.example.weatherapp.domain.repositories.LocationTrackerRepository
 import com.example.weatherapp.presentation.state.UiState
 import com.example.weatherapp.presentation.ui_utils.viewModelScopeIO
@@ -18,6 +19,7 @@ import javax.inject.Inject
 class LocationAdditionMapViewModel @Inject constructor(
     private val locationTrackerRepository: LocationTrackerRepository,
     private val autocompleteDataProviderRepository: AutocompleteDataProviderRepository,
+    private val geocoderRepository: GeocoderRepository,
 ) : ViewModel() {
 
     private val _currentLocation =
@@ -29,6 +31,11 @@ class LocationAdditionMapViewModel @Inject constructor(
         MutableSharedFlow<List<String>>()
     val autocompleteData: SharedFlow<List<String>>
         get() = _autocompleteData.asSharedFlow()
+
+    private val _geocodingResult =
+        MutableSharedFlow<LatLng>()
+    val geocodingResult: SharedFlow<LatLng>
+        get() = _geocodingResult.asSharedFlow()
 
     fun getCurrentLocation() {
         viewModelScopeIO.launch {
@@ -51,6 +58,20 @@ class LocationAdditionMapViewModel @Inject constructor(
                 _autocompleteData.emit(autocompleteDataProviderRepository.getAutocompleteData(input))
             } catch (e: Exception) {
                 Log.e("AutocompleteError", "Exception $e caught while getting autocomplete data")
+            }
+        }
+    }
+
+    fun getCoordinatesByLocationName(locationName: String) {
+        viewModelScopeIO.launch {
+            try {
+                geocoderRepository.getCoordinatesByLocationName(locationName) { latLng ->
+                    viewModelScopeIO.launch {
+                        _geocodingResult.emit(latLng)
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("GeocodingError", "Exception $e caught while geocoding")
             }
         }
     }

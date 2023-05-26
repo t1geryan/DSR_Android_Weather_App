@@ -1,13 +1,7 @@
 package com.example.weatherapp.di.domain
 
-import com.example.weatherapp.data.repositories.AutocompleteDataProviderRepositoryImpl
-import com.example.weatherapp.data.repositories.LocationTrackerRepositoryImpl
-import com.example.weatherapp.data.repositories.LocationsWeatherRepositoryImpl
-import com.example.weatherapp.data.repositories.SettingsRepositoryImpl
-import com.example.weatherapp.domain.repositories.AutocompleteDataProviderRepository
-import com.example.weatherapp.domain.repositories.LocationTrackerRepository
-import com.example.weatherapp.domain.repositories.LocationsWeatherRepository
-import com.example.weatherapp.domain.repositories.SettingsRepository
+import com.example.weatherapp.data.repositories.*
+import com.example.weatherapp.domain.repositories.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -41,4 +35,10 @@ abstract class RepositoriesModule {
     abstract fun bindsAutocompleteDataProviderRepository(
         autocompleteDataProviderRepositoryImpl: AutocompleteDataProviderRepositoryImpl
     ): AutocompleteDataProviderRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindsGeocoderRepository(
+        geocoderRepositoryImpl: GeocoderRepositoryImpl
+    ): GeocoderRepository
 }

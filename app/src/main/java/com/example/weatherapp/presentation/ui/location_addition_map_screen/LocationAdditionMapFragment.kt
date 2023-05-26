@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -104,14 +105,11 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
                 }
             }
             collectFlow(viewModel.autocompleteData) { autocompleteData ->
-                locationsAutoCompleteTV.setAdapter(
-                    ArrayAdapter(
-                        requireContext(),
-                        android.R.layout.simple_dropdown_item_1line,
-                        autocompleteData
-                    )
-                )
+                setupAutocompleteAdapter(autocompleteData)
+            }
 
+            collectFlow(viewModel.geocodingResult) { latLng ->
+                showAndRememberResult(latLng.latitude, latLng.longitude)
             }
 
             nextButton.setOnClickListener {
@@ -128,6 +126,13 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
 
             locationsAutoCompleteTV.addTextChangedListener {
                 viewModel.getPlacesAutocompleteDataByInput(it.toString())
+            }
+            locationsAutoCompleteTV.setOnEditorActionListener { textView, actionId, _ ->
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    viewModel.getCoordinatesByLocationName(textView.text.toString())
+                    return@setOnEditorActionListener true
+                }
+                false
             }
         }
     }
@@ -158,6 +163,16 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
         outState.putBoolean(STATE_KEY_RESULT, hasResult)
         outState.putDouble(STATE_KEY_LATITUDE, latitude)
         outState.putDouble(STATE_KEY_LONGITUDE, longitude)
+    }
+
+    private fun setupAutocompleteAdapter(data: List<String>) {
+        binding.locationsAutoCompleteTV.setAdapter(
+            ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                data
+            )
+        )
     }
 
     @SuppressLint("MissingPermission")
@@ -221,8 +236,7 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
         )
     }
 
-//
-
+    //
     companion object {
         private const val STATE_KEY_RESULT = "STATE_KEY_RESULT"
         private const val STATE_KEY_LATITUDE = "STATE_KEY_LATITUDE"
