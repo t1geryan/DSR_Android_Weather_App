@@ -1,4 +1,4 @@
-package com.example.weatherapp.di
+package com.example.weatherapp.di.utils
 
 import com.example.weatherapp.utils.locale.CurrentLocaleProvider
 import com.example.weatherapp.utils.locale.CurrentLocaleProviderImpl
@@ -10,7 +10,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class UtilsModule {
+abstract class LocaleModule {
 
     @Binds
     @Singleton

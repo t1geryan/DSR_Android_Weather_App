@@ -1,4 +1,4 @@
-package com.example.weatherapp.di
+package com.example.weatherapp.di.utils
 
 import com.example.weatherapp.data.mappers.*
 import com.example.weatherapp.data.mappers.current_weather.CurrentWeatherDtoToEntityMapper

@@ -1,4 +1,4 @@
-package com.example.weatherapp.di
+package com.example.weatherapp.di.ui
 
 import com.example.weatherapp.presentation.contract.sideeffects.dialogs.SimpleDialogProvider
 import com.example.weatherapp.presentation.contract.sideeffects.dialogs.SimpleDialogProviderImpl

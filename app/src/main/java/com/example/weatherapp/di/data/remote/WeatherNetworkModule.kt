@@ -1,4 +1,4 @@
-package com.example.weatherapp.di
+package com.example.weatherapp.di.data.remote
 
 import com.example.weatherapp.data.remote.weather.api.WeatherApi
 import dagger.Module

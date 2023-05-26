@@ -1,4 +1,4 @@
-package com.example.weatherapp.di
+package com.example.weatherapp.di.domain
 
 import com.example.weatherapp.data.repositories.AutocompleteDataProviderRepositoryImpl
 import com.example.weatherapp.data.repositories.LocationTrackerRepositoryImpl
