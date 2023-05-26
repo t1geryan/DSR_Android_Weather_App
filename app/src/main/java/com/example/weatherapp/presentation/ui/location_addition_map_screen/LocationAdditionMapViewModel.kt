@@ -45,10 +45,10 @@ class LocationAdditionMapViewModel @Inject constructor(
         }
     }
 
-    fun getPlacesAutocompleteData() {
+    fun getPlacesAutocompleteDataByInput(input: String) {
         viewModelScopeIO.launch {
             try {
-                _autocompleteData.emit(autocompleteDataProviderRepository.getAutocompleteData())
+                _autocompleteData.emit(autocompleteDataProviderRepository.getAutocompleteData(input))
             } catch (e: Exception) {
                 Log.d("Error", "Exception $e caught while getting autocomplete data")
             }

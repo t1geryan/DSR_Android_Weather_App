@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -87,45 +88,49 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
-        super.onViewCreated(view, savedInstanceState)
-        collectFlow(viewModel.currentLocation) { uiState ->
-            mapProgressBar.visibility = View.INVISIBLE
-            when (uiState) {
-                is UiState.Loading -> mapProgressBar.visibility = View.VISIBLE
-                is UiState.Error -> onCurrentLocationGettingError(uiState.exception)
-                is UiState.Success -> {
-                    uiState.data.let {
-                        showAndRememberResult(it.latitude, it.longitude)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        with(binding) {
+            super.onViewCreated(view, savedInstanceState)
+            collectFlow(viewModel.currentLocation) { uiState ->
+                mapProgressBar.visibility = View.INVISIBLE
+                when (uiState) {
+                    is UiState.Loading -> mapProgressBar.visibility = View.VISIBLE
+                    is UiState.Error -> onCurrentLocationGettingError(uiState.exception)
+                    is UiState.Success -> {
+                        uiState.data.let {
+                            showAndRememberResult(it.latitude, it.longitude)
+                        }
                     }
                 }
             }
-        }
-        collectFlow(viewModel.autocompleteData) { autocompleteData ->
-            locationsAutoCompleteTV.setAdapter(
-                ArrayAdapter(
-                    requireContext(),
-                    android.R.layout.simple_dropdown_item_1line,
-                    autocompleteData
+            collectFlow(viewModel.autocompleteData) { autocompleteData ->
+                locationsAutoCompleteTV.setAdapter(
+                    ArrayAdapter(
+                        requireContext(),
+                        android.R.layout.simple_dropdown_item_1line,
+                        autocompleteData
+                    )
                 )
-            )
-        }
 
-        nextButton.setOnClickListener {
-            toNextScreen()
-        }
+            }
 
-        getCurrentLocationButton.setOnClickListener {
-            getCurrentLocation()
-        }
+            nextButton.setOnClickListener {
+                toNextScreen()
+            }
 
-        navigateUpButton.setOnClickListener {
-            findNavController().popBackStack(R.id.bottomNavigationFragment, false)
-        }
+            getCurrentLocationButton.setOnClickListener {
+                getCurrentLocation()
+            }
 
-        //viewModel.getPlacesAutocompleteData()
+            navigateUpButton.setOnClickListener {
+                findNavController().popBackStack(R.id.bottomNavigationFragment, false)
+            }
+
+            locationsAutoCompleteTV.addTextChangedListener {
+                viewModel.getPlacesAutocompleteDataByInput(it.toString())
+            }
+        }
     }
-
 
     override fun onStart() {
         super.onStart()
