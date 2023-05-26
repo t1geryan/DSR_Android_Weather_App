@@ -15,7 +15,7 @@ import java.util.*
 class LocationsAdapter(
     private val unitsSystemApi: UnitsSystemApi,
     private val listener: LocationItemClickListener
-) : RecyclerView.Adapter<LocationsAdapter.LocationsViewHolder>(), View.OnClickListener {
+) : RecyclerView.Adapter<LocationsAdapter.LocationsViewHolder>() {
 
     var locationsWithWeather: List<LocationItem> = emptyList()
         set(value) {
@@ -28,10 +28,6 @@ class LocationsAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LocationsViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemLocationBinding.inflate(inflater, parent, false)
-
-        binding.root.setOnClickListener(this)
-        binding.favoriteStatusIV.setOnClickListener(this)
-
         return LocationsViewHolder(binding)
     }
 
@@ -42,36 +38,23 @@ class LocationsAdapter(
 
     override fun getItemCount(): Int = locationsWithWeather.size
 
-    /**
-     * Add LocationItem to view.tag if want to get it in onClick
-     * Requires adding view.setOnClickListener(this) for view while creating View Holder
-     * @see onCreateViewHolder
-     * @see LocationsViewHolder.setTags
-     */
-    override fun onClick(view: View) {
-        val locationItem = view.tag as LocationItem
-        when (view.id) {
-            R.id.favoriteStatusIV -> listener.changeFavoriteStatus(locationItem)
-            else -> listener.showDetails(locationItem)
-        }
-    }
-
     inner class LocationsViewHolder(
         private val binding: ItemLocationBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        /**
-         * This function sets LocationItem to binding views tags so they can be taken in OnClick
-         * @see LocationItem
-         */
-        private fun setTags(data: Any) {
+
+        private fun setOnClickListeners(locationItem: LocationItem) {
             with(binding) {
-                root.tag = data
-                favoriteStatusIV.tag = data
+                root.setOnClickListener {
+                    listener.showDetails(locationItem)
+                }
+                favoriteStatusLayout.setOnClickListener {
+                    listener.changeFavoriteStatus(locationItem)
+                }
             }
         }
 
         fun bind(locationItem: LocationItem) {
-            setTags(locationItem)
+            setOnClickListeners(locationItem)
             val context = binding.root.context
             val currentUnitsSystem = unitsSystemApi.getCurrentUnitsSystem()
             with(binding) {

@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:textColor="?attr/colorOnBackground"
         android:textSize="@dimen/big_text_size"
-        app:layout_constraintEnd_toStartOf="@+id/favoriteStatusIV"
+        app:layout_constraintEnd_toStartOf="@+id/favoriteStatusLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Voronezh" />
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/small_margin"
         android:textSize="@dimen/common_text_size"
-        app:layout_constraintEnd_toStartOf="@+id/favoriteStatusIV"
+        app:layout_constraintEnd_toStartOf="@+id/favoriteStatusLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/locationNameTV"
         tools:text="Current temperature: 12 C" />
@@ -39,21 +39,29 @@
         android:layout_marginTop="@dimen/small_margin"
         android:textSize="@dimen/common_text_size"
         android:visibility="gone"
-        app:layout_constraintEnd_toStartOf="@+id/favoriteStatusIV"
+        app:layout_constraintEnd_toStartOf="@+id/favoriteStatusLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/currentTempTV"
         tools:text="Tomorrow temperature: 12 C" />
 
-    <ImageView
-        android:id="@+id/favoriteStatusIV"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:background="?attr/selectableItemBackground"
-        android:contentDescription="@string/favorite_icon"
+    <FrameLayout
+        android:id="@+id/favoriteStatusLayout"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="?attr/colorOnBackground"
-        tools:src="@drawable/icon_favorite_24" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/favoriteStatusIV"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:contentDescription="@string/favorite_icon"
+            app:tint="?attr/colorOnBackground"
+            tools:src="@drawable/icon_favorite_24" />
+    </FrameLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
