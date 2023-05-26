@@ -146,8 +146,8 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
             // see string.xml
             temperatureTV.text =
                 context.getTemperatureString(temperature, currentUnitsSystemKey)
-            currentDateTV.text = unixUtcMillisTimeToPattern(
-                getCurrentLocationTimeUnixMillis(shiftFromUtcSeconds),
+            currentDateTV.text = unixUtcSecondsTimeToPattern(
+                getCurrentLocationTimeUnixSeconds(shiftFromUtcSeconds),
                 Constants.Time.WEEKDAY_HOUR_MINUTE_PATTERN,
                 currentLocaleProvider.provideIso3166Code(),
             ).capitalize()
