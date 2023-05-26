@@ -1,6 +1,5 @@
 package com.example.weatherapp.di.data.remote
 
-import com.example.weatherapp.data.remote.weather.api.WeatherApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,7 +13,8 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object WeatherNetworkModule {
+object BaseRetrofitModule {
+
     private const val BASE_URL = "https://api.openweathermap.org/data/"
 
     @Provides
@@ -37,10 +37,4 @@ object WeatherNetworkModule {
         .client(client)
         .addConverterFactory(converterFactory)
         .build()
-
-    @Provides
-    @Singleton
-    fun providesApi(
-        retrofit: Retrofit
-    ): WeatherApi = retrofit.create(WeatherApi::class.java)
 }

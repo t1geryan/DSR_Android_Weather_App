@@ -24,6 +24,10 @@ object Constants {
         const val IMPERIAl_UNITS_SYSTEM_API_VALUE = "imperial"
     }
 
+    object AutocompleteApi {
+        const val TYPE_CITY = "city"
+    }
+
     object PrefDataStore {
         const val NAME = "APP_PREFERENCES_DATA_STORE"
     }

@@ -50,7 +50,7 @@ class LocationAdditionMapViewModel @Inject constructor(
             try {
                 _autocompleteData.emit(autocompleteDataProviderRepository.getAutocompleteData(input))
             } catch (e: Exception) {
-                Log.d("Error", "Exception $e caught while getting autocomplete data")
+                Log.e("AutocompleteError", "Exception $e caught while getting autocomplete data")
             }
         }
     }

@@ -14,8 +14,8 @@ interface WeatherApi {
         @Query("lat") latitude: Float,
         @Query("lon") longitude: Float,
         @Query("appid") apiKey: String,
-        @Query("units") units: String = "metric",
-        @Query("lang") language: String = "en",
+        @Query("units") units: String,
+        @Query("lang") language: String,
     ): Response<CurrentWeatherResponseDto>
 
     @GET("2.5/forecast")
@@ -24,7 +24,7 @@ interface WeatherApi {
         @Query("lon") longitude: Float,
         @Query("appid") apiKey: String,
         @Query("cnt") timestampsCount: UInt = Constants.Weather.FORECASTS_COUNT_FOR_3_DAYS,
-        @Query("units") units: String = "metric",
-        @Query("lang") language: String = "en",
+        @Query("units") units: String,
+        @Query("lang") language: String,
     ): Response<WeatherForecastResponseDto>
 }
