@@ -63,15 +63,17 @@ class LocationAdditionMapViewModel @Inject constructor(
     }
 
     fun getCoordinatesByLocationName(locationName: String) {
-        viewModelScopeIO.launch {
-            try {
-                geocoderRepository.getCoordinatesByLocationName(locationName) { latLng ->
-                    viewModelScopeIO.launch {
-                        _geocodingResult.emit(latLng)
+        if (locationName.isNotBlank()) {
+            viewModelScopeIO.launch {
+                try {
+                    geocoderRepository.getCoordinatesByLocationName(locationName) { latLng ->
+                        viewModelScopeIO.launch {
+                            _geocodingResult.emit(latLng)
+                        }
                     }
+                } catch (e: Exception) {
+                    Log.e("GeocodingError", "Exception $e caught while geocoding")
                 }
-            } catch (e: Exception) {
-                Log.e("GeocodingError", "Exception $e caught while geocoding")
             }
         }
     }

@@ -31,6 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/common_margin"
+        android:backgroundTint="?attr/colorBackgroundFloating"
         android:foregroundGravity="center"
         app:cardCornerRadius="@dimen/corner_radius"
         app:cardElevation="@dimen/cardview_default_elevation"
@@ -38,29 +39,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="?attr/colorBackgroundFloating"
-            android:gravity="center"
-            android:minHeight="70dp"
-            android:orientation="horizontal"
-            android:padding="@dimen/small_padding">
-
-            <ImageView
-                android:id="@+id/navigateUpButton"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:contentDescription="@string/navigate_back"
-                android:src="@drawable/icon_arrow_back_24"
-                app:tint="?attr/colorOnBackground" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/locationAutoCompleteLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            app:endIconContentDescription="@string/search"
+            app:endIconDrawable="@drawable/icon_search_24"
+            app:endIconMinSize="@dimen/common_icon_size"
+            app:endIconMode="custom"
+            app:endIconScaleType="center"
+            app:endIconTint="?attr/colorOnBackground"
+            app:expandedHintEnabled="true"
+            app:hintEnabled="false"
+            app:startIconContentDescription="@string/navigate_up"
+            app:startIconDrawable="@drawable/icon_arrow_back_24"
+            app:startIconMinSize="@dimen/common_icon_size"
+            app:startIconScaleType="center"
+            app:startIconTint="?attr/colorOnBackground">
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/locationsAutoCompleteTV"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/small_margin"
                 android:background="@android:color/transparent"
                 android:hint="@string/search"
                 android:imeOptions="actionDone"
@@ -68,8 +70,11 @@
                 android:maxWidth="500dp"
                 android:maxLength="30"
                 android:maxLines="1"
-                android:minWidth="300dp" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
+                android:minWidth="350dp"
+                android:minHeight="55dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
     </androidx.cardview.widget.CardView>
 
 

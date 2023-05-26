@@ -2,6 +2,7 @@ package com.example.weatherapp.presentation.ui.location_addition_map_screen
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,11 +17,13 @@ import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentLocationAdditionMapBinding
 import com.example.weatherapp.domain.GpsException
 import com.example.weatherapp.domain.PermissionException
+import com.example.weatherapp.domain.models.LatLng
 import com.example.weatherapp.presentation.contract.sideeffects.toasts.ToastProvider
 import com.example.weatherapp.presentation.contract.toolbar.HasNoActivityToolbar
 import com.example.weatherapp.presentation.state.UiState
 import com.example.weatherapp.presentation.ui_utils.collectFlow
 import com.example.weatherapp.presentation.ui_utils.getBitmapFromVectorDrawable
+import com.example.weatherapp.presentation.ui_utils.hideKeyboardFrom
 import com.example.weatherapp.presentation.ui_utils.permissionsProvider
 import com.google.android.gms.location.*
 import com.yandex.mapkit.Animation
@@ -33,6 +36,7 @@ import com.yandex.mapkit.map.PlacemarkMapObject
 import com.yandex.runtime.image.ImageProvider
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
@@ -94,15 +98,7 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
             super.onViewCreated(view, savedInstanceState)
             collectFlow(viewModel.currentLocation) { uiState ->
                 mapProgressBar.visibility = View.INVISIBLE
-                when (uiState) {
-                    is UiState.Loading -> mapProgressBar.visibility = View.VISIBLE
-                    is UiState.Error -> onCurrentLocationGettingError(uiState.exception)
-                    is UiState.Success -> {
-                        uiState.data.let {
-                            showAndRememberResult(it.latitude, it.longitude)
-                        }
-                    }
-                }
+                collectCurrentLocationUiState(uiState)
             }
             collectFlow(viewModel.autocompleteData) { autocompleteData ->
                 setupAutocompleteAdapter(autocompleteData)
@@ -120,16 +116,24 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
                 getCurrentLocation()
             }
 
-            navigateUpButton.setOnClickListener {
+            locationAutoCompleteLayout.setEndIconOnClickListener {
+                val input = locationsAutoCompleteTV.text.toString()
+                viewModel.getCoordinatesByLocationName(input)
+            }
+
+            locationAutoCompleteLayout.setStartIconOnClickListener {
                 findNavController().popBackStack(R.id.bottomNavigationFragment, false)
             }
 
             locationsAutoCompleteTV.addTextChangedListener {
                 viewModel.getPlacesAutocompleteDataByInput(it.toString())
             }
+
             locationsAutoCompleteTV.setOnEditorActionListener { textView, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     viewModel.getCoordinatesByLocationName(textView.text.toString())
+                    if (requireContext().resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
+                        hideKeyboardFrom(textView)
                     return@setOnEditorActionListener true
                 }
                 false
@@ -163,6 +167,18 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
         outState.putBoolean(STATE_KEY_RESULT, hasResult)
         outState.putDouble(STATE_KEY_LATITUDE, latitude)
         outState.putDouble(STATE_KEY_LONGITUDE, longitude)
+    }
+
+    private fun collectCurrentLocationUiState(uiState: UiState<LatLng>) {
+        when (uiState) {
+            is UiState.Loading -> binding.mapProgressBar.visibility = View.VISIBLE
+            is UiState.Error -> onCurrentLocationGettingError(uiState.exception)
+            is UiState.Success -> {
+                uiState.data.let {
+                    showAndRememberResult(it.latitude, it.longitude)
+                }
+            }
+        }
     }
 
     private fun setupAutocompleteAdapter(data: List<String>) {
@@ -237,6 +253,7 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
     }
 
     //
+
     companion object {
         private const val STATE_KEY_RESULT = "STATE_KEY_RESULT"
         private const val STATE_KEY_LATITUDE = "STATE_KEY_LATITUDE"

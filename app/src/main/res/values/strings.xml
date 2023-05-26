@@ -92,7 +92,7 @@
     <string name="location_adding_button">location adding button</string>
     <string name="weather_icon">weather icon</string>
     <string name="forecast_icon">forecast icon</string>
-    <string name="navigate_back">navigate back</string>
+    <string name="navigate_up">navigate up</string>
     <string name="search">Search</string>
 
     <!--Toolbar Actions Titles -->

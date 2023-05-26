@@ -46,8 +46,8 @@
 
     <FrameLayout
         android:id="@+id/favoriteStatusLayout"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="@dimen/common_icon_layout_size"
+        android:layout_height="@dimen/common_icon_layout_size"
         android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -55,8 +55,8 @@
 
         <ImageView
             android:id="@+id/favoriteStatusIV"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="@dimen/common_icon_size"
+            android:layout_height="@dimen/common_icon_size"
             android:layout_gravity="center"
             android:contentDescription="@string/favorite_icon"
             app:tint="?attr/colorOnBackground"

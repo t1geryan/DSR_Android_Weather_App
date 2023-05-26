@@ -1,5 +1,8 @@
 package com.example.weatherapp.presentation.ui_utils
 
+import android.app.Activity
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -38,6 +41,15 @@ fun Fragment.showRefreshRequest(
     ) {
         onRefresh()
     }
+}
+
+/**
+ * Function for hiding keyboard from view using [InputMethodManager]
+ */
+fun Fragment.hideKeyboardFrom(view: View) {
+    val inputMethodManager: InputMethodManager =
+        requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
 /**

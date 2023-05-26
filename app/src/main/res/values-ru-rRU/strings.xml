@@ -41,7 +41,7 @@
     <string name="location_adding_button">кнопка добавления локации</string>
     <string name="weather_icon">иконка погоды</string>
     <string name="forecast_icon">иконка прогноза</string>
-    <string name="navigate_back">назад</string>
+    <string name="navigate_up">назад</string>
     <string name="search">Поиск</string>
     <string name="delete_location">удалить локацию</string>
     <string name="default_exception_message">Произошла непредвиденная ошибка</string>
