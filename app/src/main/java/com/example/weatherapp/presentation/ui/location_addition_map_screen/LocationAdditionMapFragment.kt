@@ -54,7 +54,7 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
     private val mapInputListener = object : InputListener {
         override fun onMapTap(map: Map, point: Point) {
             val latLng = LatLng(point.latitude.toFloat(), point.longitude.toFloat())
-            showAndRememberResult(latLng, "", false)
+            showAndRememberResult(latLng, shouldMoveCameraPosition = false)
         }
 
         override fun onMapLongTap(map: Map, point: Point) {
@@ -166,7 +166,7 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
         when (uiState) {
             is UiState.Loading -> binding.mapProgressBar.visibility = View.VISIBLE
             is UiState.Error -> onCurrentLocationGettingError(uiState.exception)
-            is UiState.Success -> showAndRememberResult(uiState.data, "")
+            is UiState.Success -> showAndRememberResult(uiState.data)
         }
     }
 
@@ -224,7 +224,7 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
 
     private fun showAndRememberResult(
         latLng: LatLng,
-        locationName: String,
+        locationName: String = "",
         shouldMoveCameraPosition: Boolean = true
     ) {
         rememberResult(latLng, locationName)
