@@ -9,7 +9,7 @@ package com.example.weatherapp.domain.models
  * @param weatherForecasts stores list of weather information for few days
  */
 data class LocationWeather(
-    val location: Location = Location(),
+    val location: Location,
     val currentWeather: CurrentWeather,
-    val weatherForecasts: List<Forecast> = listOf(),
+    val weatherForecasts: List<Forecast>,
 )
