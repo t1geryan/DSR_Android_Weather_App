@@ -41,12 +41,10 @@ class LocationAdditionDetailsFragment : Fragment() {
         val hasNextDayForecast =
             binding.radioGroup.checkedRadioButtonId == binding.confirmRB.id
         viewModel.addLocationToList(
-            args.name,
-            args.longitude,
-            args.latitude,
-            hasNextDayForecast
+            args.locationName,
+            args.latLng,
+            hasNextDayForecast,
         )
         findNavController().popBackStack(R.id.bottomNavigationFragment, false)
     }
-
 }

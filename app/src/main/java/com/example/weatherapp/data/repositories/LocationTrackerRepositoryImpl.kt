@@ -55,7 +55,7 @@ class LocationTrackerRepositoryImpl @Inject constructor(
                 CancellationTokenSource().token
             ).addOnSuccessListener { location: Location? ->
                 if (location != null)
-                    onCallback(LatLng(location.latitude, location.longitude))
+                    onCallback(LatLng(location.latitude.toFloat(), location.longitude.toFloat()))
             }
         } catch (e: Exception) {
             throw AppException(e.message)

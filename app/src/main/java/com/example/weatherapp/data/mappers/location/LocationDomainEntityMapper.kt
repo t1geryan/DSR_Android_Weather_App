@@ -1,6 +1,7 @@
 package com.example.weatherapp.data.mappers.location
 
 import com.example.weatherapp.data.databases.location_database.entities.LocationEntity
+import com.example.weatherapp.domain.models.LatLng
 import com.example.weatherapp.domain.models.Location
 import com.example.weatherapp.utils.BidirectionalMapper
 import javax.inject.Inject
@@ -20,8 +21,8 @@ class LocationDomainEntityMapperImpl @Inject constructor() : LocationDomainEntit
         LocationEntity(
             id = id,
             name = name,
-            lat = lat,
-            lon = long,
+            lat = latLng.latitude,
+            lon = latLng.longitude,
             isFavorite = isFavorite,
             hasNextDayForecast = hasNextDayForecast
         )
@@ -34,10 +35,9 @@ class LocationDomainEntityMapperImpl @Inject constructor() : LocationDomainEntit
         Location(
             id = id,
             name = name,
-            lat = lat,
-            long = lon,
             isFavorite = isFavorite,
-            hasNextDayForecast = hasNextDayForecast
+            hasNextDayForecast = hasNextDayForecast,
+            latLng = LatLng(lat, lon),
         )
     }
 }

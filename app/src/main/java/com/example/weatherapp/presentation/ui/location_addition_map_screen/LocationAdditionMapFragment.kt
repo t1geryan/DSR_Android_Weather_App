@@ -1,7 +1,6 @@
 package com.example.weatherapp.presentation.ui.location_addition_map_screen
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,11 +21,7 @@ import com.example.weatherapp.domain.models.LatLng
 import com.example.weatherapp.presentation.contract.sideeffects.toasts.ToastProvider
 import com.example.weatherapp.presentation.contract.toolbar.HasNoActivityToolbar
 import com.example.weatherapp.presentation.state.UiState
-import com.example.weatherapp.presentation.ui_utils.collectFlow
-import com.example.weatherapp.presentation.ui_utils.getBitmapFromVectorDrawable
-import com.example.weatherapp.presentation.ui_utils.hideKeyboardFrom
-import com.example.weatherapp.presentation.ui_utils.permissionsProvider
-import com.google.android.gms.location.*
+import com.example.weatherapp.presentation.ui_utils.*
 import com.yandex.mapkit.Animation
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
@@ -42,10 +37,9 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
 
-    private var enteredName = ""
+    private var enteredLocationName = ""
     private var hasResult = false
-    private var latitude: Double = 0.0
-    private var longitude: Double = 0.0
+    private var latLng = LatLng(0.0f, 0.0f)
 
     private lateinit var binding: FragmentLocationAdditionMapBinding
 
@@ -58,11 +52,8 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
 
     private val mapInputListener = object : InputListener {
         override fun onMapTap(map: Map, point: Point) {
-            hasResult = true
-            latitude = point.latitude
-            longitude = point.longitude
-            addSinglePlacemarkToMap(point)
-            binding.nextButton.visibility = View.VISIBLE
+            val latLng = LatLng(point.latitude.toFloat(), point.longitude.toFloat())
+            showAndRememberResult(latLng, "", false)
         }
 
         override fun onMapLongTap(map: Map, point: Point) {
@@ -79,10 +70,11 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
 
         savedInstanceState?.let { bundle ->
             if (bundle.getBoolean(STATE_KEY_RESULT)) {
-                showAndRememberResult(
-                    bundle.getDouble(STATE_KEY_LATITUDE),
-                    bundle.getDouble(STATE_KEY_LONGITUDE)
-                )
+                enteredLocationName = bundle.getString(STATE_KEY_ENTERED_NAME, "")
+                val latLng = bundle.getParcelableData(STATE_KEY_LATLNG, LatLng::class.java)
+                latLng?.let {
+                    showAndRememberResult(it, enteredLocationName)
+                }
             }
         }
         MapKitFactory.initialize(requireContext())
@@ -147,7 +139,7 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
         binding.mapview.onStart()
         // show the previous result when returning back from next screen
         if (hasResult) {
-            showAndRememberResult(latitude, longitude)
+            showAndRememberResult(latLng, enteredLocationName)
         }
     }
 
@@ -157,27 +149,23 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
         binding.mapview.onStop()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
         binding.mapview.map.removeInputListener(mapInputListener)
+        super.onDestroyView()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putBoolean(STATE_KEY_RESULT, hasResult)
-        outState.putDouble(STATE_KEY_LATITUDE, latitude)
-        outState.putDouble(STATE_KEY_LONGITUDE, longitude)
+        outState.putParcelable(STATE_KEY_LATLNG, latLng)
+        outState.putString(STATE_KEY_ENTERED_NAME, enteredLocationName)
     }
 
     private fun collectCurrentLocationUiState(uiState: UiState<LatLng>) {
         when (uiState) {
             is UiState.Loading -> binding.mapProgressBar.visibility = View.VISIBLE
             is UiState.Error -> onCurrentLocationGettingError(uiState.exception)
-            is UiState.Success -> {
-                uiState.data.let {
-                    showAndRememberResult(it.latitude, it.longitude)
-                }
-            }
+            is UiState.Success -> showAndRememberResult(uiState.data, "")
         }
     }
 
@@ -193,12 +181,11 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
 
     private fun collectGeocodingResult(geocodingResult: GeocodingResult?) {
         geocodingResult?.let {
-            enteredName = "${it.locationName}, ${it.countryName}"
-            showAndRememberResult(it.latLng.latitude, it.latLng.longitude)
+            val locationName = "${it.locationName}, ${it.countryName}"
+            showAndRememberResult(it.latLng, locationName)
         } ?: toastProvider.showToast(R.string.empty_geocoding_result_message)
     }
 
-    @SuppressLint("MissingPermission")
     private fun getCurrentLocation() {
         var isCalled = false
         permissionsProvider().requestPermission(
@@ -228,19 +215,37 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
         if (hasResult) {
             val destination =
                 LocationAdditionMapFragmentDirections.actionLocationAdditionMapFragmentToLocationAdditionNameFragment(
-                    latitude.toFloat(), longitude.toFloat(), enteredName
+                    latLng, enteredLocationName
                 )
             findNavController().navigate(destination)
         }
     }
 
-    // Map
-
-    private fun showAndRememberResult(latitude: Double, longitude: Double) {
-        val point = Point(latitude, longitude)
-        mapInputListener.onMapTap(binding.mapview.map, point)
-        moveMapCameraPosition(point)
+    private fun showAndRememberResult(
+        latLng: LatLng,
+        locationName: String,
+        shouldMoveCameraPosition: Boolean = true
+    ) {
+        rememberResult(latLng, locationName)
+        showResult(latLng, shouldMoveCameraPosition)
     }
+
+    private fun rememberResult(latLng: LatLng, locationName: String) {
+        hasResult = true
+        this.latLng = latLng
+        enteredLocationName = locationName
+    }
+
+    private fun showResult(latLng: LatLng, shouldMoveCameraPosition: Boolean = true) {
+        binding.nextButton.visibility = View.VISIBLE
+
+        val point = Point(latLng.latitude.toDouble(), latLng.longitude.toDouble())
+        addSinglePlacemarkToMap(point)
+        if (shouldMoveCameraPosition)
+            moveMapCameraPosition(point)
+    }
+
+    // Map
 
     private fun moveMapCameraPosition(point: Point) = binding.mapview.map.move(
         CameraPosition(point, MAP_ZOOM, 0.0f, 0.0f),
@@ -263,8 +268,8 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
 
     companion object {
         private const val STATE_KEY_RESULT = "STATE_KEY_RESULT"
-        private const val STATE_KEY_LATITUDE = "STATE_KEY_LATITUDE"
-        private const val STATE_KEY_LONGITUDE = "STATE_KEY_LONGITUDE"
+        private const val STATE_KEY_LATLNG = "STATE_KEY_LATLNG"
+        private const val STATE_KEY_ENTERED_NAME = "STATE_KEY_ENTERED_NAME"
 
         private const val MAP_ZOOM = 8.0f
         private val INITIAL_CAMERA_POSITION = Point(55.751574, 37.573856)

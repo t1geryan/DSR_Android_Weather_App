@@ -1,6 +1,10 @@
 package com.example.weatherapp.domain.models
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class LatLng(
-    val latitude: Double,
-    val longitude: Double,
-)
+    val latitude: Float,
+    val longitude: Float,
+) : Parcelable

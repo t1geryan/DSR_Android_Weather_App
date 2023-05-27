@@ -19,7 +19,7 @@ class AddressToGeocodingResultMapperImpl @Inject constructor() : AddressToGeocod
      */
     override fun map(valueToMap: Address): GeocodingResult = with(valueToMap) {
         GeocodingResult(
-            LatLng(latitude, longitude),
+            LatLng(latitude.toFloat(), longitude.toFloat()),
             featureName,
             countryName
         )

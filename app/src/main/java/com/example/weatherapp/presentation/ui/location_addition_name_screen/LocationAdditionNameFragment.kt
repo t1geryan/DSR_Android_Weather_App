@@ -49,8 +49,7 @@ class LocationAdditionNameFragment : Fragment() {
         if (checkEnteredName()) {
             val destination =
                 LocationAdditionNameFragmentDirections.actionLocationAdditionNameFragmentToLocationAdditionDetailsFragment(
-                    args.latitude,
-                    args.longitude,
+                    args.latLng,
                     binding.nameInputET.text.toString()
                 )
             findNavController().navigate(destination)
