@@ -17,6 +17,7 @@ import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentLocationAdditionMapBinding
 import com.example.weatherapp.domain.GpsException
 import com.example.weatherapp.domain.PermissionException
+import com.example.weatherapp.domain.models.GeocodingResult
 import com.example.weatherapp.domain.models.LatLng
 import com.example.weatherapp.presentation.contract.sideeffects.toasts.ToastProvider
 import com.example.weatherapp.presentation.contract.toolbar.HasNoActivityToolbar
@@ -41,8 +42,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
 
-    // todo: add autocomplete
-
+    private var enteredName = ""
     private var hasResult = false
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
@@ -104,8 +104,8 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
                 setupAutocompleteAdapter(autocompleteData)
             }
 
-            collectFlow(viewModel.geocodingResult) { latLng ->
-                showAndRememberResult(latLng.latitude, latLng.longitude)
+            collectFlow(viewModel.geocodingResult) { geocodingResult ->
+                collectGeocodingResult(geocodingResult)
             }
 
             nextButton.setOnClickListener {
@@ -191,6 +191,13 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
         )
     }
 
+    private fun collectGeocodingResult(geocodingResult: GeocodingResult?) {
+        geocodingResult?.let {
+            enteredName = "${it.locationName}, ${it.countryName}"
+            showAndRememberResult(it.latLng.latitude, it.latLng.longitude)
+        } ?: toastProvider.showToast(R.string.empty_geocoding_result_message)
+    }
+
     @SuppressLint("MissingPermission")
     private fun getCurrentLocation() {
         var isCalled = false
@@ -221,7 +228,7 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
         if (hasResult) {
             val destination =
                 LocationAdditionMapFragmentDirections.actionLocationAdditionMapFragmentToLocationAdditionNameFragment(
-                    latitude.toFloat(), longitude.toFloat()
+                    latitude.toFloat(), longitude.toFloat(), enteredName
                 )
             findNavController().navigate(destination)
         }

@@ -11,6 +11,8 @@ import com.example.weatherapp.data.mappers.forecast.ForecastDtoToEntityMapper
 import com.example.weatherapp.data.mappers.forecast.ForecastDtoToEntityMapperImpl
 import com.example.weatherapp.data.mappers.forecast.WeatherForecastEntityToDomainMapper
 import com.example.weatherapp.data.mappers.forecast.WeatherForecastEntityToDomainMapperImpl
+import com.example.weatherapp.data.mappers.geocode.AddressToGeocodingResultMapper
+import com.example.weatherapp.data.mappers.geocode.AddressToGeocodingResultMapperImpl
 import com.example.weatherapp.data.mappers.location.LocationDomainEntityMapper
 import com.example.weatherapp.data.mappers.location.LocationDomainEntityMapperImpl
 import com.example.weatherapp.data.mappers.settings.AppThemeDomainEntityMapper
@@ -74,4 +76,10 @@ abstract class MappersModule {
     abstract fun bindsAutocompleteDtoToDomainMapper(
         autocompleteDtoToDomainMapperImpl: AutocompleteDtoToDomainMapperImpl
     ): AutocompleteDtoToDomainMapper
+
+    @Binds
+    @Singleton
+    abstract fun bindsAddressToGeocodingResultMapper(
+        addressToGeocodingResultMapperImpl: AddressToGeocodingResultMapperImpl
+    ): AddressToGeocodingResultMapper
 }

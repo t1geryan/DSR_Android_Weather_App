@@ -3,13 +3,14 @@ package com.example.weatherapp.data.repositories
 import android.location.Address
 import android.location.Geocoder
 import android.os.Build
-import com.example.weatherapp.domain.models.LatLng
+import com.example.weatherapp.data.mappers.geocode.AddressToGeocodingResultMapper
 import com.example.weatherapp.domain.repositories.GeocoderRepository
 import com.example.weatherapp.domain.repositories.GeocodingCallback
 import javax.inject.Inject
 
 class GeocoderRepositoryImpl @Inject constructor(
-    private val geocoder: Geocoder
+    private val geocoder: Geocoder,
+    private val addressToGeocodingResultMapper: AddressToGeocodingResultMapper,
 ) : GeocoderRepository {
 
     @Suppress("DEPRECATION")
@@ -36,10 +37,12 @@ class GeocoderRepositoryImpl @Inject constructor(
         addresses: MutableList<Address>?,
         callback: GeocodingCallback
     ) {
-        addresses?.firstOrNull()?.let { address ->
-            callback(LatLng(address.latitude, address.longitude))
-
-        }
+        // call callback with first address in list or with null if list is empty or null
+        callback(
+            addresses?.firstOrNull()?.let { address ->
+                addressToGeocodingResultMapper.map(address)
+            }
+        )
     }
 
     companion object {

@@ -13,6 +13,7 @@
     <string name="next">Далее</string>
     <string name="finish">Закончить</string>
     <string name="current_location_button">Текущая локация</string>
+    <string name="empty_geocoding_result_message">Локация не найдена. Пожалуйста, введите корректное название локации.</string>
     <string name="input_name_hint">Введите название</string>
     <string name="input_name_helper_text">Обязательно*</string>
     <string name="weather_details_message">Показать прогноз для локации</string>
@@ -71,4 +72,5 @@
     <string name="location_delete_message">Локация будет удалена навсегда</string>
     <string name="confirm">Подтвердить</string>
     <string name="deny">Отмена</string>
+    <string name="ok">ОК</string>
 </resources>

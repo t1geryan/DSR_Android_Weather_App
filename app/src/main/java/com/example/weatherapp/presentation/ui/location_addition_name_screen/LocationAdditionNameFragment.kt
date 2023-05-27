@@ -23,6 +23,9 @@ class LocationAdditionNameFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLocationAdditionNameBinding.inflate(inflater, container, false)
+
+        binding.nameInputET.setText(args.previouslyEnteredLocationName)
+
         return binding.root
     }
 

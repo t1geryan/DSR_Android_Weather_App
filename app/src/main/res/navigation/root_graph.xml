@@ -61,6 +61,10 @@
         <action
             android:id="@+id/action_locationAdditionNameFragment_to_locationAdditionMapFragment"
             app:popUpTo="@id/locationAdditionMapFragment" />
+        <argument
+            android:name="previouslyEnteredLocationName"
+            android:defaultValue=""
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/locationAdditionDetailsFragment"

@@ -1,8 +1,8 @@
 package com.example.weatherapp.domain.repositories
 
-import com.example.weatherapp.domain.models.LatLng
+import com.example.weatherapp.domain.models.GeocodingResult
 
-typealias GeocodingCallback = (LatLng) -> Unit
+typealias GeocodingCallback = (GeocodingResult?) -> Unit
 
 interface GeocoderRepository {
 

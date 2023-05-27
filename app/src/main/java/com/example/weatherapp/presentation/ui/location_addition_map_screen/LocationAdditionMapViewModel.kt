@@ -2,6 +2,7 @@ package com.example.weatherapp.presentation.ui.location_addition_map_screen
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.example.weatherapp.domain.models.GeocodingResult
 import com.example.weatherapp.domain.models.LatLng
 import com.example.weatherapp.domain.repositories.AutocompleteDataProviderRepository
 import com.example.weatherapp.domain.repositories.GeocoderRepository
@@ -33,8 +34,8 @@ class LocationAdditionMapViewModel @Inject constructor(
         get() = _autocompleteData.asSharedFlow()
 
     private val _geocodingResult =
-        MutableSharedFlow<LatLng>()
-    val geocodingResult: SharedFlow<LatLng>
+        MutableSharedFlow<GeocodingResult?>()
+    val geocodingResult: SharedFlow<GeocodingResult?>
         get() = _geocodingResult.asSharedFlow()
 
     fun getCurrentLocation() {
@@ -66,9 +67,9 @@ class LocationAdditionMapViewModel @Inject constructor(
         if (locationName.isNotBlank()) {
             viewModelScopeIO.launch {
                 try {
-                    geocoderRepository.getCoordinatesByLocationName(locationName) { latLng ->
+                    geocoderRepository.getCoordinatesByLocationName(locationName) { geocodingResult ->
                         viewModelScopeIO.launch {
-                            _geocodingResult.emit(latLng)
+                            _geocodingResult.emit(geocodingResult)
                         }
                     }
                 } catch (e: Exception) {
