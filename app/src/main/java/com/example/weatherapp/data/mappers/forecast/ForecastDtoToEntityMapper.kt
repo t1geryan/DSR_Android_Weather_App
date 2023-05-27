@@ -30,7 +30,7 @@ class ForecastDtoToEntityMapperImpl @Inject constructor() :
                     locationId = parameter,
                     weatherIconName = currentWeather.icon,
                     temperature = main.temp.toFloat(),
-                    dateTimeUnixUTC = dt,
+                    dateTimeUnixUtc = dt,
                     shiftFromUtcSec = city.timezoneUtc
                 )
             }

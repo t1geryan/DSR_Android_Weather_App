@@ -19,17 +19,17 @@ class CurrentWeatherEntityToDomainMapperImpl @Inject constructor() :
      */
     override fun map(valueToMap: CurrentWeatherEntity): CurrentWeather = with(valueToMap) {
         CurrentWeather(
-            weatherConditionId,
-            weatherName,
-            weatherDescription,
-            weatherIconName,
-            temperature.toInt(),
-            pressure,
-            humidity,
-            windSpeed,
-            windDegree,
-            dateTimeUnixUtc,
-            shiftFromUtcSec
+            weatherConditionId = weatherConditionId,
+            weatherName = weatherName,
+            weatherDescription = weatherDescription,
+            weatherIconName = weatherIconName,
+            temperature = temperature.toInt(),
+            pressure = pressure,
+            humidity = humidity,
+            windSpeed = windSpeed,
+            windDirectionDegrees = windDegree,
+            dateTimeUnixUtc = dateTimeUnixUtc,
+            shiftFromUtcSeconds = shiftFromUtcSec
         )
     }
 

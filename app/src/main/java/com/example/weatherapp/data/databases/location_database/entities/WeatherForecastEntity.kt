@@ -25,6 +25,6 @@ data class WeatherForecastEntity(
     @ColumnInfo("location_id") val locationId: Long,
     @ColumnInfo("weather_icon_name") val weatherIconName: String,
     val temperature: Float,
-    @ColumnInfo("date_time_unix_utc") val dateTimeUnixUTC: Long,
+    @ColumnInfo("date_time_unix_utc") val dateTimeUnixUtc: Long,
     @ColumnInfo("shift_from_utc_sec") val shiftFromUtcSec: Long,
 )

@@ -21,10 +21,10 @@ class WeatherForecastEntityToDomainMapperImpl @Inject constructor() :
      */
     override fun map(valueToMap: WeatherForecastEntity): Forecast = with(valueToMap) {
         Forecast(
-            weatherIconName,
-            temperature.toInt(),
-            dateTimeUnixUTC,
-            shiftFromUtcSec,
+            weatherIconName = weatherIconName,
+            temperature = temperature.toInt(),
+            dateTimeUnixUtc = dateTimeUnixUtc,
+            shiftFromUtcSeconds = shiftFromUtcSec,
         )
     }
 }
