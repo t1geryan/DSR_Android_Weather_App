@@ -36,6 +36,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
+    // todo: move state saving to LocationAdditionMapViewModel
 
     private var enteredLocationName = ""
     private var hasResult = false
