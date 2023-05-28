@@ -21,7 +21,11 @@ import com.example.weatherapp.domain.models.LatLng
 import com.example.weatherapp.presentation.contract.sideeffects.toasts.ToastProvider
 import com.example.weatherapp.presentation.contract.toolbar.HasNoActivityToolbar
 import com.example.weatherapp.presentation.state.UiState
-import com.example.weatherapp.presentation.ui_utils.*
+import com.example.weatherapp.presentation.ui.location_addition_map_screen.state.LocationAdditionState
+import com.example.weatherapp.presentation.ui_utils.collectFlow
+import com.example.weatherapp.presentation.ui_utils.getBitmapFromVectorDrawable
+import com.example.weatherapp.presentation.ui_utils.hideKeyboardFrom
+import com.example.weatherapp.presentation.ui_utils.permissionsProvider
 import com.yandex.mapkit.Animation
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
@@ -36,11 +40,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
-    // todo: move state saving to LocationAdditionMapViewModel
-
-    private var enteredLocationName = ""
-    private var hasResult = false
-    private var latLng = LatLng(0.0f, 0.0f)
 
     private lateinit var binding: FragmentLocationAdditionMapBinding
 
@@ -54,7 +53,7 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
     private val mapInputListener = object : InputListener {
         override fun onMapTap(map: Map, point: Point) {
             val latLng = LatLng(point.latitude.toFloat(), point.longitude.toFloat())
-            showAndRememberResult(latLng, shouldMoveCameraPosition = false)
+            rememberResult(latLng, shouldMoveCameraPosition = false)
         }
 
         override fun onMapLongTap(map: Map, point: Point) {
@@ -69,19 +68,7 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
         binding.nextButton.visibility = View.INVISIBLE
         binding.mapProgressBar.visibility = View.INVISIBLE
 
-        savedInstanceState?.let { bundle ->
-            if (bundle.getBoolean(STATE_KEY_RESULT)) {
-                enteredLocationName = bundle.getString(STATE_KEY_ENTERED_NAME, "")
-                val latLng = bundle.getParcelableData(STATE_KEY_LATLNG, LatLng::class.java)
-                latLng?.let {
-                    showAndRememberResult(it, enteredLocationName)
-                }
-            }
-        }
         MapKitFactory.initialize(requireContext())
-        binding.mapview.map.move(
-            CameraPosition(INITIAL_CAMERA_POSITION, MAP_ZOOM, 0.0f, 0.0f)
-        )
         binding.mapview.map.addInputListener(mapInputListener)
         return binding.root
     }
@@ -99,6 +86,9 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
 
             collectFlow(viewModel.geocodingResult) { geocodingResult ->
                 collectGeocodingResult(geocodingResult)
+            }
+            collectFlow(viewModel.locationAdditionState) { locationAdditionState ->
+                showResult(locationAdditionState)
             }
 
             nextButton.setOnClickListener {
@@ -138,10 +128,8 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
         super.onStart()
         MapKitFactory.getInstance().onStart()
         binding.mapview.onStart()
-        // show the previous result when returning back from next screen
-        if (hasResult) {
-            showAndRememberResult(latLng, enteredLocationName)
-        }
+        // be sure to move the camera when returning from the next fragment
+        showResult(viewModel.locationAdditionState.value.copy(shouldMoveCameraPosition = true))
     }
 
     override fun onStop() {
@@ -155,19 +143,19 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
         super.onDestroyView()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putBoolean(STATE_KEY_RESULT, hasResult)
-        outState.putParcelable(STATE_KEY_LATLNG, latLng)
-        outState.putString(STATE_KEY_ENTERED_NAME, enteredLocationName)
-    }
-
     private fun collectCurrentLocationUiState(uiState: UiState<LatLng>) {
         when (uiState) {
             is UiState.Loading -> binding.mapProgressBar.visibility = View.VISIBLE
             is UiState.Error -> onCurrentLocationGettingError(uiState.exception)
-            is UiState.Success -> showAndRememberResult(uiState.data)
+            is UiState.Success -> rememberResult(uiState.data)
         }
+    }
+
+    private fun collectGeocodingResult(geocodingResult: GeocodingResult?) {
+        geocodingResult?.let {
+            val locationName = "${it.locationName}, ${it.countryName}"
+            rememberResult(it.latLng, locationName)
+        } ?: toastProvider.showToast(R.string.empty_geocoding_result_message)
     }
 
     private fun setupAutocompleteAdapter(data: List<String>) {
@@ -180,19 +168,11 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
         )
     }
 
-    private fun collectGeocodingResult(geocodingResult: GeocodingResult?) {
-        geocodingResult?.let {
-            val locationName = "${it.locationName}, ${it.countryName}"
-            showAndRememberResult(it.latLng, locationName)
-        } ?: toastProvider.showToast(R.string.empty_geocoding_result_message)
-    }
-
     private fun getCurrentLocation() {
         var isCalled = false
+        val locationPermissions = arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION)
         permissionsProvider().requestPermission(
-            arrayOf(
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-            )
+            locationPermissions
         ) {
             isCalled = true
             viewModel.getCurrentLocation()
@@ -213,43 +193,48 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
     }
 
     private fun toNextScreen() {
-        if (hasResult) {
-            val destination =
-                LocationAdditionMapFragmentDirections.actionLocationAdditionMapFragmentToLocationAdditionNameFragment(
-                    latLng, enteredLocationName
-                )
-            findNavController().navigate(destination)
+        with(viewModel.locationAdditionState.value) {
+            if (hasResult) {
+                val destination =
+                    LocationAdditionMapFragmentDirections.actionLocationAdditionMapFragmentToLocationAdditionNameFragment(
+                        latLng, enteredLocationName
+                    )
+                findNavController().navigate(destination)
+            }
         }
     }
 
-    private fun showAndRememberResult(
+    private fun rememberResult(
         latLng: LatLng,
         locationName: String = "",
-        shouldMoveCameraPosition: Boolean = true
+        shouldMoveCameraPosition: Boolean = true,
     ) {
-        rememberResult(latLng, locationName)
-        showResult(latLng, shouldMoveCameraPosition)
+        viewModel.updateLocationAdditionState(
+            LocationAdditionState(
+                latLng,
+                true,
+                locationName,
+                shouldMoveCameraPosition,
+                binding.mapview.map.cameraPosition.zoom,
+            )
+        )
     }
 
-    private fun rememberResult(latLng: LatLng, locationName: String) {
-        hasResult = true
-        this.latLng = latLng
-        enteredLocationName = locationName
+    private fun showResult(locationAdditionState: LocationAdditionState) {
+        with(locationAdditionState) {
+            val point = Point(latLng.latitude.toDouble(), latLng.longitude.toDouble())
+            if (shouldMoveCameraPosition) {
+                moveMapCameraPosition(point, currentMapZoom)
+            }
+            if (hasResult) {
+                binding.nextButton.visibility = View.VISIBLE
+                addSinglePlacemarkToMap(point)
+            }
+        }
     }
 
-    private fun showResult(latLng: LatLng, shouldMoveCameraPosition: Boolean = true) {
-        binding.nextButton.visibility = View.VISIBLE
-
-        val point = Point(latLng.latitude.toDouble(), latLng.longitude.toDouble())
-        addSinglePlacemarkToMap(point)
-        if (shouldMoveCameraPosition)
-            moveMapCameraPosition(point)
-    }
-
-    // Map
-
-    private fun moveMapCameraPosition(point: Point) = binding.mapview.map.move(
-        CameraPosition(point, MAP_ZOOM, 0.0f, 0.0f),
+    private fun moveMapCameraPosition(point: Point, zoom: Float) = binding.mapview.map.move(
+        CameraPosition(point, zoom, 0.0f, 0.0f),
         Animation(Animation.Type.SMOOTH, 0.0f),
         null
     )
@@ -258,21 +243,9 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
         singlePlacemark?.let {
             it.isVisible = false // make previous placemark invisible
         }
-        // add new placemark
         singlePlacemark = binding.mapview.map.mapObjects.addPlacemark(
             point,
             ImageProvider.fromBitmap(requireContext().getBitmapFromVectorDrawable(R.drawable.icon_location_on_24))
         )
-    }
-
-    //
-
-    companion object {
-        private const val STATE_KEY_RESULT = "STATE_KEY_RESULT"
-        private const val STATE_KEY_LATLNG = "STATE_KEY_LATLNG"
-        private const val STATE_KEY_ENTERED_NAME = "STATE_KEY_ENTERED_NAME"
-
-        private const val MAP_ZOOM = 8.0f
-        private val INITIAL_CAMERA_POSITION = Point(55.751574, 37.573856)
     }
 }
