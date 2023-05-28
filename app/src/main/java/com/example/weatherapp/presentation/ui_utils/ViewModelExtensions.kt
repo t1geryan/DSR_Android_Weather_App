@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
  * viewModelScope with [Dispatchers.IO]
  * written to reduce the amount of code
  */
-val ViewModel.viewModelScopeIO: CoroutineScope
+val ViewModel.viewModelScopeIO
     get() = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
 /**

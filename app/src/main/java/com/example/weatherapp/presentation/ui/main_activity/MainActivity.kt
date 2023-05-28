@@ -27,7 +27,10 @@ import com.example.weatherapp.domain.models.AppUnitsSystem
 import com.example.weatherapp.presentation.contract.PermissionCallback
 import com.example.weatherapp.presentation.contract.PermissionsApi
 import com.example.weatherapp.presentation.contract.UnitsSystemApi
-import com.example.weatherapp.presentation.contract.toolbar.*
+import com.example.weatherapp.presentation.contract.toolbar.HasCustomActionToolbar
+import com.example.weatherapp.presentation.contract.toolbar.HasCustomTitleToolbar
+import com.example.weatherapp.presentation.contract.toolbar.ScreenContainer
+import com.example.weatherapp.presentation.contract.toolbar.ToolbarAction
 import com.example.weatherapp.presentation.state.UiState
 import com.example.weatherapp.presentation.ui_utils.collectFlow
 import com.google.android.material.color.MaterialColors
@@ -168,23 +171,16 @@ class MainActivity : AppCompatActivity(), PermissionsApi, UnitsSystemApi {
 
     // Updates Toolbar for each started Fragment
     private fun updateToolbar(fragment: Fragment) {
-        if (fragment is HasNoActivityToolbar) {
-            binding.materialToolbar.visibility = View.GONE
-        } else {
-            // todo: bug: fix blinking when returning from map fragment to tabs fragment
-            binding.materialToolbar.visibility = View.VISIBLE
+        // if current fragment implements HasCustomTitleToolbar returns its custom title
+        val customTitle: String? = (fragment as? HasCustomTitleToolbar)?.getTitle()
+        binding.materialToolbar.title =
+            customTitle ?: currentFragmentNavController?.currentDestination?.label
+                    ?: getString(R.string.app_name)
 
-            // if current fragment implements HasCustomTitleToolbar returns its custom title
-            val customTitle: String? = (fragment as? HasCustomTitleToolbar)?.getTitle()
-            binding.materialToolbar.title =
-                customTitle ?: currentFragmentNavController?.currentDestination?.label
-                        ?: getString(R.string.app_name)
-
-            // updating custom actions
-            binding.materialToolbar.menu.clear()
-            if (fragment is HasCustomActionToolbar)
-                addCustomToolbarAction(fragment.getCustomAction())
-        }
+        // updating custom actions
+        binding.materialToolbar.menu.clear()
+        if (fragment is HasCustomActionToolbar)
+            addCustomToolbarAction(fragment.getCustomAction())
     }
 
     private fun addCustomToolbarAction(action: ToolbarAction) {
@@ -200,7 +196,7 @@ class MainActivity : AppCompatActivity(), PermissionsApi, UnitsSystemApi {
         iconDrawable.setTint(colorOnPrimary)
 
         val menuItem = binding.materialToolbar.menu.add(action.title)
-        menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+        menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
         menuItem.icon = iconDrawable
         menuItem.setOnMenuItemClickListener {
             action.onAction.run()

@@ -48,7 +48,8 @@
             android:clickable="true"
             android:contentDescription="@string/location_adding_button"
             app:elevation="@dimen/elevation_level_3"
-            app:srcCompat="@drawable/icon_add_24" />
+            app:srcCompat="@drawable/icon_add_24"
+            tools:ignore="ImageContrastCheck" />
     </FrameLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

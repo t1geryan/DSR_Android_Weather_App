@@ -90,11 +90,12 @@
 
     <!--Content Descriptions -->
     <string name="favorite_icon">favorite icon</string>
-    <string name="location_adding_button">location adding button</string>
+    <string name="location_adding_button">location adding</string>
     <string name="weather_icon">weather icon</string>
     <string name="forecast_icon">forecast icon</string>
     <string name="navigate_up">navigate up</string>
     <string name="search">Search</string>
+    <string name="clear_text">clear text</string>
 
     <!--Toolbar Actions Titles -->
     <string name="delete_location">delete location</string>

@@ -11,7 +11,9 @@
     <dimen name="big_text_size">18sp</dimen>
     <dimen name="huge_text_size">22sp</dimen>
 
-    <dimen name="corner_radius">64dp</dimen>
+    <dimen name="big_corner_radius">64dp</dimen>
+    <dimen name="medium_corner_radius">32dp</dimen>
+    <dimen name="small_corner_radius">16dp</dimen>
 
     <dimen name="elevation_level_1">1dp</dimen>
     <dimen name="elevation_level_2">4dp</dimen>
@@ -20,4 +22,9 @@
 
     <dimen name="common_icon_size">30dp</dimen>
     <dimen name="common_icon_layout_size">48dp</dimen>
+
+    <dimen name="max_edit_text_width">488dp</dimen>
+    <dimen name="min_edit_text_height">55dp</dimen>
+    <dimen name="min_edit_text_width">400dp</dimen>
+    <dimen name="horizontal_barrier_height">2dp</dimen>
 </resources>

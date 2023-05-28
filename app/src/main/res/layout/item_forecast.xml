@@ -16,8 +16,8 @@
 
     <ImageView
         android:id="@+id/forecastIcon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="@dimen/common_icon_layout_size"
+        android:layout_height="@dimen/common_icon_layout_size"
         android:layout_marginTop="@dimen/small_margin"
         android:contentDescription="@string/forecast_icon"
         tools:src="@drawable/icon_weather_cloudy_24" />

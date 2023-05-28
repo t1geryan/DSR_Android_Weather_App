@@ -42,7 +42,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/locationAutoCompleteLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             app:endIconContentDescription="@string/clear_text"
@@ -67,7 +67,9 @@
                 android:imeOptions="actionDone"
                 android:inputType="text"
                 android:lines="1"
-                android:minHeight="55dp" />
+                android:maxWidth="@dimen/max_edit_text_width"
+                android:minWidth="@dimen/max_edit_text_width"
+                android:minHeight="@dimen/min_edit_text_height" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.cardview.widget.CardView>

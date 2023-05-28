@@ -73,4 +73,5 @@
     <string name="confirm">Подтвердить</string>
     <string name="deny">Отмена</string>
     <string name="ok">ОК</string>
+    <string name="clear_text">очистить текст</string>
 </resources>

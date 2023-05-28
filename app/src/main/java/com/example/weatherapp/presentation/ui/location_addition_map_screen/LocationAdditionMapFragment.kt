@@ -19,7 +19,6 @@ import com.example.weatherapp.domain.PermissionException
 import com.example.weatherapp.domain.models.GeocodingResult
 import com.example.weatherapp.domain.models.LatLng
 import com.example.weatherapp.presentation.contract.sideeffects.toasts.ToastProvider
-import com.example.weatherapp.presentation.contract.toolbar.HasNoActivityToolbar
 import com.example.weatherapp.presentation.state.UiState
 import com.example.weatherapp.presentation.ui.location_addition_map_screen.state.LocationAdditionState
 import com.example.weatherapp.presentation.ui_utils.collectFlow
@@ -39,7 +38,7 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
+class LocationAdditionMapFragment : Fragment() {
 
     private lateinit var binding: FragmentLocationAdditionMapBinding
 
@@ -99,13 +98,9 @@ class LocationAdditionMapFragment : Fragment(), HasNoActivityToolbar {
                 getCurrentLocation()
             }
 
-            locationAutoCompleteLayout.setEndIconOnClickListener {
+            locationAutoCompleteLayout.setStartIconOnClickListener {
                 val input = locationsAutoCompleteTV.text.toString()
                 viewModel.getCoordinatesByLocationName(input)
-            }
-
-            locationAutoCompleteLayout.setStartIconOnClickListener {
-                findNavController().popBackStack(R.id.bottomNavigationFragment, false)
             }
 
             locationsAutoCompleteTV.addTextChangedListener {

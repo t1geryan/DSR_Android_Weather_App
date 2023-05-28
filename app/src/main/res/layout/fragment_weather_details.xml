@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/common_margin"
                 android:backgroundTint="?attr/colorSurface"
-                app:cardCornerRadius="32dp"
+                app:cardCornerRadius="@dimen/medium_corner_radius"
                 app:cardElevation="@dimen/elevation_level_2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -109,7 +109,7 @@
             <View
                 android:id="@+id/horizontalBarrier"
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
+                android:layout_height="@dimen/horizontal_barrier_height"
                 android:layout_marginTop="@dimen/common_margin"
                 android:background="?attr/colorSurface"
                 app:layout_constraintTop_toBottomOf="@+id/forecastListCardView"
@@ -157,7 +157,7 @@
             <View
                 android:id="@+id/horizontalBarrier2"
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
+                android:layout_height="@dimen/horizontal_barrier_height"
                 android:layout_marginTop="@dimen/common_margin"
                 android:background="?attr/colorSurface"
                 app:layout_constraintTop_toBottomOf="@+id/pressureDataTv"
@@ -179,7 +179,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:backgroundTint="?attr/colorSurface"
-                app:cardCornerRadius="16dp"
+                app:cardCornerRadius="@dimen/small_corner_radius"
                 app:layout_constraintStart_toStartOf="@+id/temperatureChartTitle"
                 app:layout_constraintTop_toBottomOf="@+id/temperatureChartTitle">
 
