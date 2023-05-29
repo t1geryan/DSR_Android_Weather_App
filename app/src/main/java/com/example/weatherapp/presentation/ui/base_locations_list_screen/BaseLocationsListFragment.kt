@@ -74,9 +74,8 @@ abstract class BaseLocationsListFragment : Fragment() {
             collectFlow(viewModel.showDetailsEvent) { event ->
                 collectShowDetailsEvent(event)
             }
-            collectFlow(viewModel.unitsSystemSetting) { unitsSystemUiState ->
-                if (unitsSystemUiState is UiState.Success)
-                    viewModel.fetchLocationItems()
+            collectFlow(viewModel.unitsSystemSetting) {
+                viewModel.fetchLocationItems()
             }
         }
 

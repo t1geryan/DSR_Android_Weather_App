@@ -1,5 +1,6 @@
 package com.example.weatherapp.presentation.ui_utils
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.weatherapp.presentation.state.UiState
 import kotlinx.coroutines.CoroutineScope
@@ -7,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 /**
@@ -18,19 +20,53 @@ val ViewModel.viewModelScopeIO
 
 /**
  * wrapper for getting data from the repository layer with errors and ui states handling
- * @param dataFlow is the data from the repository layer that needs to be handled
- * @param stateFlow is the [MutableStateFlow] which will accept UiState to value property
+ * @param stateFlow the [MutableStateFlow] which will accept UiState to value property
+ * @param collectBlock the block of code which will set value to [StateFlow.value] on success
  */
 fun <T> ViewModel.collectUiState(
-    dataFlow: Flow<T>,
     stateFlow: MutableStateFlow<UiState<T>>,
-) = viewModelScopeIO.launch {
-    stateFlow.value = UiState.Loading()
-    try {
-        dataFlow.collect { data ->
+    collectBlock: suspend () -> Unit
+) {
+    viewModelScopeIO.launch {
+        stateFlow.value = UiState.Loading()
+        try {
+            collectBlock()
+        } catch (e: Exception) {
+            stateFlow.value = UiState.Error(e)
+        }
+    }
+}
+
+/**
+ * wrapper for getting data from the repository layer with errors and ui states handling
+ * @param stateFlow the [MutableStateFlow] which will accept UiState to value property
+ * @param getDataFlowBlock the block which returns flow which will be collected
+ * @see collectUiState
+ */
+fun <T> ViewModel.collectUiStateFromFlow(
+    stateFlow: MutableStateFlow<UiState<T>>,
+    getDataFlowBlock: suspend () -> Flow<T>,
+) {
+    collectUiState(stateFlow) {
+        getDataFlowBlock().collect { data ->
             stateFlow.value = UiState.Success(data)
         }
-    } catch (e: Exception) {
-        stateFlow.value = UiState.Error(e)
+    }
+}
+
+/**
+ * wrapper for outputting errors when emit Flow or set StateFlow value
+ * @param emitBlock block of code where emitting Flow or setting StateFlow value
+ */
+fun ViewModel.tryEmitFlow(
+    emitBlock: suspend () -> Unit,
+) {
+    viewModelScopeIO.launch {
+        try {
+            emitBlock()
+        } catch (e: Exception) {
+            Log.w("Flow Emit Error", "Exception $e caught when emit flow")
+            e.printStackTrace()
+        }
     }
 }

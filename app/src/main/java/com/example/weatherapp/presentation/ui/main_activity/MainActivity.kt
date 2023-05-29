@@ -31,7 +31,6 @@ import com.example.weatherapp.presentation.contract.toolbar.HasCustomActionToolb
 import com.example.weatherapp.presentation.contract.toolbar.HasCustomTitleToolbar
 import com.example.weatherapp.presentation.contract.toolbar.ScreenContainer
 import com.example.weatherapp.presentation.contract.toolbar.ToolbarAction
-import com.example.weatherapp.presentation.state.UiState
 import com.example.weatherapp.presentation.ui_utils.collectFlow
 import com.google.android.material.color.MaterialColors
 import dagger.hilt.android.AndroidEntryPoint
@@ -82,14 +81,12 @@ class MainActivity : AppCompatActivity(), PermissionsApi, UnitsSystemApi {
 
         supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentCreateViewListener, true)
 
-        collectFlow(viewModel.unitsSystemSetting) { unitsSystemUiState ->
-            if (unitsSystemUiState is UiState.Success) {
-                appCurrentUnitsSystem = unitsSystemUiState.data
-            }
+        collectFlow(viewModel.unitsSystemSetting) { appUnitsSystemSetting ->
+            appCurrentUnitsSystem = appUnitsSystemSetting
+
         }
-        collectFlow(viewModel.appThemeSetting) { appThemeUiState ->
-            if (appThemeUiState is UiState.Success)
-                changeAppTheme(appThemeUiState.data)
+        collectFlow(viewModel.appThemeSetting) { appThemeSetting ->
+            changeAppTheme(appThemeSetting)
         }
     }
 

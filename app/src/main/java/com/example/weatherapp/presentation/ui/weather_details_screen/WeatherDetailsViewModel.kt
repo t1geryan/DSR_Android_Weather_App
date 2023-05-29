@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.example.weatherapp.domain.models.LocationWeather
 import com.example.weatherapp.domain.repositories.LocationsWeatherRepository
 import com.example.weatherapp.presentation.state.UiState
-import com.example.weatherapp.presentation.ui_utils.collectUiState
+import com.example.weatherapp.presentation.ui_utils.collectUiStateFromFlow
 import com.example.weatherapp.presentation.ui_utils.viewModelScopeIO
 import com.github.mikephil.charting.data.Entry
 import dagger.assisted.Assisted
@@ -26,17 +26,12 @@ class WeatherDetailsViewModel @AssistedInject constructor(
         get() = _locationWeather.asStateFlow()
 
     init {
-        viewModelScopeIO.launch {
-            fetchLocationWeather()
-        }
+        fetchLocationWeather()
     }
 
     fun fetchLocationWeather() {
-        viewModelScopeIO.launch {
-            collectUiState(
-                locationsWeatherRepository.getLocationWeatherById(locationId),
-                _locationWeather,
-            )
+        collectUiStateFromFlow(_locationWeather) {
+            locationsWeatherRepository.getLocationWeatherById(locationId)
         }
     }
 

@@ -4,13 +4,12 @@ import androidx.lifecycle.ViewModel
 import com.example.weatherapp.domain.models.AppTheme
 import com.example.weatherapp.domain.models.AppUnitsSystem
 import com.example.weatherapp.domain.repositories.SettingsRepository
-import com.example.weatherapp.presentation.state.UiState
-import com.example.weatherapp.presentation.ui_utils.collectUiState
+import com.example.weatherapp.presentation.ui_utils.tryEmitFlow
 import com.example.weatherapp.presentation.ui_utils.viewModelScopeIO
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,24 +18,32 @@ class MainActivityViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 
-    private val _unitsSystemSetting = MutableStateFlow<UiState<AppUnitsSystem>>(UiState.Loading())
-    val unitsSystemSetting: StateFlow<UiState<AppUnitsSystem>>
-        get() = _unitsSystemSetting.asStateFlow()
+    private val _unitsSystemSetting = MutableSharedFlow<AppUnitsSystem>()
+    val unitsSystemSetting: SharedFlow<AppUnitsSystem>
+        get() = _unitsSystemSetting.asSharedFlow()
 
-    private val _appThemeSetting = MutableStateFlow<UiState<AppTheme>>(UiState.Loading())
-    val appThemeSetting: StateFlow<UiState<AppTheme>>
-        get() = _appThemeSetting.asStateFlow()
+    private val _appThemeSetting = MutableSharedFlow<AppTheme>()
+    val appThemeSetting: SharedFlow<AppTheme>
+        get() = _appThemeSetting.asSharedFlow()
 
     init {
-        viewModelScopeIO.launch {
-            collectUiState(
-                settingsRepository.getCurrentUnitsSystem(),
-                _unitsSystemSetting
-            )
-            collectUiState(
-                settingsRepository.getCurrentAppTheme(),
-                _appThemeSetting
-            )
+        fetchUnitsSystemSetting()
+        fetchAppThemeSetting()
+    }
+
+    private fun fetchUnitsSystemSetting() {
+        tryEmitFlow {
+            settingsRepository.getCurrentUnitsSystem().collect {
+                _unitsSystemSetting.emit(it)
+            }
+        }
+    }
+
+    private fun fetchAppThemeSetting() {
+        tryEmitFlow {
+            settingsRepository.getCurrentAppTheme().collect {
+                _appThemeSetting.emit(it)
+            }
         }
     }
 

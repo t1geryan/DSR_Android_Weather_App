@@ -9,7 +9,8 @@ import com.example.weatherapp.presentation.event.SingleEvent
 import com.example.weatherapp.presentation.state.UiState
 import com.example.weatherapp.presentation.ui.base_locations_list_screen.adapter.LocationItem
 import com.example.weatherapp.presentation.ui.base_locations_list_screen.adapter.LocationItemClickListener
-import com.example.weatherapp.presentation.ui_utils.collectUiState
+import com.example.weatherapp.presentation.ui_utils.collectUiStateFromFlow
+import com.example.weatherapp.presentation.ui_utils.tryEmitFlow
 import com.example.weatherapp.presentation.ui_utils.viewModelScopeIO
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -26,8 +27,8 @@ abstract class BaseLocationsListViewModel(
     val showDetailsEvent: SharedFlow<Event<LocationItem>>
         get() = _showDetailsEvent.asSharedFlow()
 
-    private val _unitsSystemSetting = MutableStateFlow<UiState<AppUnitsSystem>>(UiState.Loading())
-    val unitsSystemSetting: StateFlow<UiState<AppUnitsSystem>>
+    private val _unitsSystemSetting = MutableStateFlow<AppUnitsSystem?>(null)
+    val unitsSystemSetting: StateFlow<AppUnitsSystem?>
         get() = _unitsSystemSetting.asStateFlow()
 
     private val _isLoadingState = MutableStateFlow(false)
@@ -38,21 +39,21 @@ abstract class BaseLocationsListViewModel(
     protected abstract suspend fun getLocationItemsFromRepository(): Flow<List<LocationItem>>
 
     init {
-        viewModelScopeIO.launch {
-            collectUiState(
-                settingsRepository.getCurrentUnitsSystem(),
-                _unitsSystemSetting
-            )
-        }
+        fetchUnitsSystemSetting()
         fetchLocationItems()
     }
 
+    private fun fetchUnitsSystemSetting() {
+        tryEmitFlow {
+            settingsRepository.getCurrentUnitsSystem().collect {
+                _unitsSystemSetting.emit(it)
+            }
+        }
+    }
+
     fun fetchLocationItems() {
-        viewModelScopeIO.launch {
-            collectUiState(
-                getLocationItemsFromRepository(),
-                _locationItems,
-            )
+        collectUiStateFromFlow(_locationItems) {
+            getLocationItemsFromRepository()
         }
     }
 

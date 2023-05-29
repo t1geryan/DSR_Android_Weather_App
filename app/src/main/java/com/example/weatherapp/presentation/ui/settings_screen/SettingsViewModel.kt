@@ -5,7 +5,7 @@ import com.example.weatherapp.domain.models.AppTheme
 import com.example.weatherapp.domain.models.AppUnitsSystem
 import com.example.weatherapp.domain.repositories.SettingsRepository
 import com.example.weatherapp.presentation.state.UiState
-import com.example.weatherapp.presentation.ui_utils.collectUiState
+import com.example.weatherapp.presentation.ui_utils.collectUiStateFromFlow
 import com.example.weatherapp.presentation.ui_utils.viewModelScopeIO
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,9 +28,11 @@ class SettingsViewModel @Inject constructor(
         get() = _appThemeSetting.asStateFlow()
 
     init {
-        viewModelScopeIO.launch {
-            collectUiState(settingsRepository.getCurrentAppTheme(), _appThemeSetting)
-            collectUiState(settingsRepository.getCurrentUnitsSystem(), _unitsSystemSetting)
+        collectUiStateFromFlow(_appThemeSetting) {
+            settingsRepository.getCurrentAppTheme()
+        }
+        collectUiStateFromFlow(_unitsSystemSetting) {
+            settingsRepository.getCurrentUnitsSystem()
         }
     }
 

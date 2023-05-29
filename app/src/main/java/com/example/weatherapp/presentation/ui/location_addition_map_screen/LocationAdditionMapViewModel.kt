@@ -1,6 +1,5 @@
 package com.example.weatherapp.presentation.ui.location_addition_map_screen
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.example.weatherapp.domain.models.GeocodingResult
@@ -10,6 +9,7 @@ import com.example.weatherapp.domain.repositories.GeocoderRepository
 import com.example.weatherapp.domain.repositories.LocationTrackerRepository
 import com.example.weatherapp.presentation.state.UiState
 import com.example.weatherapp.presentation.ui.location_addition_map_screen.state.LocationAdditionState
+import com.example.weatherapp.presentation.ui_utils.tryEmitFlow
 import com.example.weatherapp.presentation.ui_utils.viewModelScopeIO
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -64,26 +64,18 @@ class LocationAdditionMapViewModel @Inject constructor(
     }
 
     fun getPlacesAutocompleteDataByInput(input: String) {
-        viewModelScopeIO.launch {
-            try {
-                _autocompleteData.emit(autocompleteDataProviderRepository.getAutocompleteData(input))
-            } catch (e: Exception) {
-                Log.e("AutocompleteError", "Exception $e caught while getting autocomplete data")
-            }
+        tryEmitFlow {
+            _autocompleteData.emit(autocompleteDataProviderRepository.getAutocompleteData(input))
         }
     }
 
     fun getCoordinatesByLocationName(locationName: String) {
         if (locationName.isNotBlank()) {
-            viewModelScopeIO.launch {
-                try {
-                    geocoderRepository.getCoordinatesByLocationName(locationName) { geocodingResult ->
-                        viewModelScopeIO.launch {
-                            _geocodingResult.emit(geocodingResult)
-                        }
+            tryEmitFlow {
+                geocoderRepository.getCoordinatesByLocationName(locationName) { geocodingResult ->
+                    viewModelScopeIO.launch {
+                        _geocodingResult.emit(geocodingResult)
                     }
-                } catch (e: Exception) {
-                    Log.e("GeocodingError", "Exception $e caught while geocoding")
                 }
             }
         }
