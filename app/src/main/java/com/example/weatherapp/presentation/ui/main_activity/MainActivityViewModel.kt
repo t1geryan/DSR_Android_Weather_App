@@ -7,7 +7,9 @@ import com.example.weatherapp.domain.repositories.SettingsRepository
 import com.example.weatherapp.presentation.ui_utils.tryEmitFlow
 import com.example.weatherapp.presentation.ui_utils.viewModelScopeIO
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
