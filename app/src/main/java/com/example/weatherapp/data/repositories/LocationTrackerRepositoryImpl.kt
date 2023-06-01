@@ -23,12 +23,6 @@ class LocationTrackerRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context
 ) : LocationTrackerRepository {
 
-    /**
-     * @throws GpsException
-     * @throws PermissionException
-     * @throws AppException
-     * @see LocationTrackerRepository.getCurrentLocation
-     */
     override fun getCurrentLocation(onCallback: CurrentLocationCallback) {
         val locationManager = context.getSystemService(
             Context.LOCATION_SERVICE
