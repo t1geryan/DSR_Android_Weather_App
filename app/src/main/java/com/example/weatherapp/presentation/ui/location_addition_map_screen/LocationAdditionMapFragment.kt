@@ -14,10 +14,12 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentLocationAdditionMapBinding
+import com.example.weatherapp.domain.ConnectionException
 import com.example.weatherapp.domain.GpsException
 import com.example.weatherapp.domain.PermissionException
 import com.example.weatherapp.domain.models.GeocodingResult
 import com.example.weatherapp.domain.models.LatLng
+import com.example.weatherapp.presentation.contract.sideeffects.dialogs.SimpleDialogProvider
 import com.example.weatherapp.presentation.contract.sideeffects.toasts.ToastProvider
 import com.example.weatherapp.presentation.state.UiState
 import com.example.weatherapp.presentation.ui.location_addition_map_screen.state.LocationAdditionState
@@ -44,6 +46,9 @@ class LocationAdditionMapFragment : Fragment() {
 
     @Inject
     lateinit var toastProvider: ToastProvider
+
+    @Inject
+    lateinit var dialogProvider: SimpleDialogProvider
 
     private val viewModel: LocationAdditionMapViewModel by viewModels()
 
@@ -79,8 +84,8 @@ class LocationAdditionMapFragment : Fragment() {
                 mapProgressBar.visibility = View.INVISIBLE
                 collectCurrentLocationUiState(uiState)
             }
-            collectFlow(viewModel.autocompleteData) { autocompleteData ->
-                setupAutocompleteAdapter(autocompleteData)
+            collectFlow(viewModel.autocompleteData) { autocompleteUiState ->
+                collectAutocompleteUiState(autocompleteUiState)
             }
 
             collectFlow(viewModel.geocodingResult) { geocodingResult ->
@@ -138,19 +143,19 @@ class LocationAdditionMapFragment : Fragment() {
         super.onDestroyView()
     }
 
-    private fun collectCurrentLocationUiState(uiState: UiState<LatLng>) {
-        when (uiState) {
-            is UiState.Loading -> binding.mapProgressBar.visibility = View.VISIBLE
-            is UiState.Error -> onCurrentLocationGettingError(uiState.exception)
-            is UiState.Success -> rememberResult(uiState.data)
+    // autocomplete api
+    private fun collectAutocompleteUiState(uiState: UiState<List<String>>) {
+        binding.locationsAutoCompleteTV.error = when (uiState) {
+            is UiState.Loading -> null
+            is UiState.Success -> {
+                setupAutocompleteAdapter(uiState.data)
+                null
+            }
+            is UiState.Error -> when (uiState.exception) {
+                is ConnectionException -> getString(R.string.network_error)
+                else -> getString(R.string.error)
+            }
         }
-    }
-
-    private fun collectGeocodingResult(geocodingResult: GeocodingResult?) {
-        geocodingResult?.let {
-            val locationName = "${it.locationName}, ${it.countryName}"
-            rememberResult(it.latLng, locationName)
-        } ?: toastProvider.showToast(R.string.empty_geocoding_result_message)
     }
 
     private fun setupAutocompleteAdapter(data: List<String>) {
@@ -162,7 +167,18 @@ class LocationAdditionMapFragment : Fragment() {
             )
         )
     }
+    //
 
+    // geocoding api
+    private fun collectGeocodingResult(geocodingResult: GeocodingResult?) {
+        geocodingResult?.let {
+            val locationName = "${it.locationName}, ${it.countryName}"
+            rememberResult(it.latLng, locationName)
+        } ?: toastProvider.showToast(R.string.empty_geocoding_result_message)
+    }
+    //
+
+    // current location api
     private fun getCurrentLocation() {
         var isCalled = false
         val locationPermissions = arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -176,6 +192,14 @@ class LocationAdditionMapFragment : Fragment() {
             toastProvider.showToast(R.string.current_location_permissions_exception)
     }
 
+    private fun collectCurrentLocationUiState(uiState: UiState<LatLng>) {
+        when (uiState) {
+            is UiState.Loading -> binding.mapProgressBar.visibility = View.VISIBLE
+            is UiState.Error -> onCurrentLocationGettingError(uiState.exception)
+            is UiState.Success -> rememberResult(uiState.data)
+        }
+    }
+
     private fun onCurrentLocationGettingError(exception: Exception?) {
         when (exception) {
             is GpsException -> toastProvider.showToast(R.string.gps_off_error)
@@ -186,6 +210,7 @@ class LocationAdditionMapFragment : Fragment() {
             )
         }
     }
+    //
 
     private fun toNextScreen() {
         with(viewModel.locationAdditionState.value) {
@@ -199,6 +224,7 @@ class LocationAdditionMapFragment : Fragment() {
         }
     }
 
+    // work with state
     private fun rememberResult(
         latLng: LatLng,
         locationName: String = "",
@@ -227,7 +253,9 @@ class LocationAdditionMapFragment : Fragment() {
             }
         }
     }
+    //
 
+    // map
     private fun moveMapCameraPosition(point: Point, zoom: Float) = binding.mapview.map.move(
         CameraPosition(point, zoom, 0.0f, 0.0f),
         Animation(Animation.Type.SMOOTH, 0.0f),
@@ -243,4 +271,5 @@ class LocationAdditionMapFragment : Fragment() {
             ImageProvider.fromBitmap(requireContext().getBitmapFromVectorDrawable(R.drawable.icon_location_on_24))
         )
     }
+    //
 }

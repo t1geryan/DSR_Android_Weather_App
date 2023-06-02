@@ -33,8 +33,8 @@ abstract class RepositoriesModule {
     @Binds
     @Singleton
     abstract fun bindsAutocompleteDataProviderRepository(
-        autocompleteDataProviderRepositoryImpl: AutocompleteDataProviderRepositoryImpl
-    ): AutocompleteDataProviderRepository
+        locationsAutocompleteDataProviderRepositoryImpl: LocationsAutocompleteDataProviderRepositoryImpl
+    ): LocationsAutocompleteDataProviderRepository
 
     @Binds
     @Singleton

@@ -6,6 +6,7 @@ import android.os.Build
 import com.example.weatherapp.data.mappers.geocode.AddressToGeocodingResultMapper
 import com.example.weatherapp.domain.repositories.GeocoderRepository
 import com.example.weatherapp.domain.repositories.GeocodingCallback
+import com.example.weatherapp.utils.extensions.wrapRetrofitExceptions
 import javax.inject.Inject
 
 class GeocoderRepositoryImpl @Inject constructor(
@@ -18,17 +19,19 @@ class GeocoderRepositoryImpl @Inject constructor(
         locationName: String,
         callback: GeocodingCallback
     ) {
-        if (Geocoder.isPresent()) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                geocoder.getFromLocationName(
-                    locationName,
-                    MAX_RESULTS_COUNT,
-                ) { addresses ->
+        wrapRetrofitExceptions {
+            if (Geocoder.isPresent()) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    geocoder.getFromLocationName(
+                        locationName,
+                        MAX_RESULTS_COUNT,
+                    ) { addresses ->
+                        invokeCallbackOnFirstAddress(addresses, callback)
+                    }
+                } else {
+                    val addresses = geocoder.getFromLocationName(locationName, MAX_RESULTS_COUNT)
                     invokeCallbackOnFirstAddress(addresses, callback)
                 }
-            } else {
-                val addresses = geocoder.getFromLocationName(locationName, MAX_RESULTS_COUNT)
-                invokeCallbackOnFirstAddress(addresses, callback)
             }
         }
     }

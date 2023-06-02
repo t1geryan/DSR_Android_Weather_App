@@ -12,20 +12,18 @@ import com.example.weatherapp.data.mappers.location.LocationDomainEntityMapper
 import com.example.weatherapp.data.pref_datastore.settings_datastore.dao.SettingsDao
 import com.example.weatherapp.data.pref_datastore.settings_datastore.entities.UnitsSystemEntity
 import com.example.weatherapp.data.remote.weather.api.WeatherApi
-import com.example.weatherapp.domain.AppException
-import com.example.weatherapp.domain.BackendException
+import com.example.weatherapp.domain.ConnectionException
 import com.example.weatherapp.domain.models.CurrentWeather
 import com.example.weatherapp.domain.models.Forecast
 import com.example.weatherapp.domain.models.Location
 import com.example.weatherapp.domain.models.LocationWeather
 import com.example.weatherapp.domain.repositories.LocationsWeatherRepository
 import com.example.weatherapp.utils.Constants
+import com.example.weatherapp.utils.extensions.wrapRetrofitExceptions
 import com.example.weatherapp.utils.locale.CurrentLocaleProvider
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import retrofit2.HttpException
-import java.io.IOException
 import javax.inject.Inject
 
 
@@ -78,26 +76,22 @@ class LocationsWeatherRepositoryImpl @Inject constructor(
 
     /**
      * Creates LocationWeather class for location
-     * @throws AppException
-     * @throws BackendException
      * @return weather for location from [weatherApi] or non-updated data from db if there is no internet connection
      */
     private suspend fun createLocationWeatherByLocationEntity(locationEntity: LocationEntity): LocationWeather {
         try {
-            updateWeatherForecastForLocationInDb(locationEntity)
-            updateCurrentWeatherForLocationInDb(locationEntity)
-        } catch (_: IOException) {
-        } catch (e: HttpException) {
-            throw BackendException(e.code(), e.message().toString())
-        } catch (e: Exception) {
-            throw AppException(e.message)
+            wrapRetrofitExceptions {
+                updateWeatherForecastForLocationInDb(locationEntity)
+                updateCurrentWeatherForLocationInDb(locationEntity)
+            }
+        } catch (_: ConnectionException) {
+            // return non-updated data if catch ConnectionException
         }
         return LocationWeather(
             locationMapper.reverseMap(locationEntity),
             getLocationCurrentWeather(locationEntity),
             getLocationWeatherForecast(locationEntity)
         )
-
     }
 
     private suspend fun getLocationWeatherForecast(locationEntity: LocationEntity): List<Forecast> =

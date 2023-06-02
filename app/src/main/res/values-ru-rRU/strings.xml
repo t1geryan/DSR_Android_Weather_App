@@ -52,6 +52,7 @@
     <string name="location_list_loading_exception">Произошла ошибка при получения списка локаций</string>
     <string name="location_weather_loading_exception">Произошла ошибка при получении прогноза для локации</string>
     <string name="current_location_permissions_exception">Отсутствуют разрешения для получения текущего местоположения</string>
+    <string name="check_internet_connection_message">Невозможно получить данные.Пожалуйста, проверьте подключение к интернету!</string>
     <string name="refresh">Попробовать снова</string>
     <string name="close">Закрыть</string>
     <string-array name="wind_speed_units">
@@ -74,4 +75,7 @@
     <string name="deny">Отмена</string>
     <string name="ok">ОК</string>
     <string name="clear_text">очистить текст</string>
+    <string name="unable_to_get_data">Невозможно получить данные!</string>
+    <string name="error">Ошибка!</string>
+    <string name="network_error">Ошибка сети!</string>
 </resources>

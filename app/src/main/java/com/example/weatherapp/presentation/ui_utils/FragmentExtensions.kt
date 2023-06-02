@@ -27,6 +27,12 @@ fun Fragment.findTopLevelNavController(): NavController {
 }
 
 /**
+ * Wrapper for getting android.R.id.content view from [Activity]
+ */
+val Fragment.contentView: View
+    get() = requireActivity().findViewById(android.R.id.content)
+
+/**
  * Function to show the user a simple prompt to refresh the screen when not connected to the network.
  */
 fun Fragment.showRefreshRequest(
@@ -34,7 +40,7 @@ fun Fragment.showRefreshRequest(
     onRefresh: () -> Unit
 ) {
     snackbarProvider.showSnackBar(
-        requireActivity().findViewById(android.R.id.content),
+        contentView,
         R.string.no_network_connection_error,
         Snackbar.LENGTH_LONG,
         R.string.refresh

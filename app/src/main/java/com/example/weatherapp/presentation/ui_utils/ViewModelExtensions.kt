@@ -7,6 +7,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -17,6 +18,25 @@ import kotlinx.coroutines.launch
  */
 val ViewModel.viewModelScopeIO
     get() = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
+/**
+ * wrapper for getting data from the repository layer with errors and ui states handling
+ * @param sharedFlow the [MutableSharedFlow] which will accept UiState with emit method
+ * @param emitBlock the block of code which will emit [UiState.Success] value with [MutableSharedFlow.emit] on success
+ */
+fun <T> ViewModel.emitUiState(
+    sharedFlow: MutableSharedFlow<UiState<T>>,
+    emitBlock: suspend () -> Unit
+) {
+    viewModelScopeIO.launch {
+        sharedFlow.emit(UiState.Loading())
+        try {
+            emitBlock()
+        } catch (e: Exception) {
+            sharedFlow.emit(UiState.Error(e))
+        }
+    }
+}
 
 /**
  * wrapper for getting data from the repository layer with errors and ui states handling

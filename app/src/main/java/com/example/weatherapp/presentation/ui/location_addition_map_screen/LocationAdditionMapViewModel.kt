@@ -4,11 +4,12 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.example.weatherapp.domain.models.GeocodingResult
 import com.example.weatherapp.domain.models.LatLng
-import com.example.weatherapp.domain.repositories.AutocompleteDataProviderRepository
 import com.example.weatherapp.domain.repositories.GeocoderRepository
 import com.example.weatherapp.domain.repositories.LocationTrackerRepository
+import com.example.weatherapp.domain.repositories.LocationsAutocompleteDataProviderRepository
 import com.example.weatherapp.presentation.state.UiState
 import com.example.weatherapp.presentation.ui.location_addition_map_screen.state.LocationAdditionState
+import com.example.weatherapp.presentation.ui_utils.emitUiState
 import com.example.weatherapp.presentation.ui_utils.tryEmitFlow
 import com.example.weatherapp.presentation.ui_utils.viewModelScopeIO
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +23,7 @@ import javax.inject.Inject
 class LocationAdditionMapViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val locationTrackerRepository: LocationTrackerRepository,
-    private val autocompleteDataProviderRepository: AutocompleteDataProviderRepository,
+    private val locationsAutocompleteDataProviderRepository: LocationsAutocompleteDataProviderRepository,
     private val geocoderRepository: GeocoderRepository,
 ) : ViewModel() {
 
@@ -32,8 +33,8 @@ class LocationAdditionMapViewModel @Inject constructor(
         get() = _currentLocation.asSharedFlow()
 
     private val _autocompleteData =
-        MutableSharedFlow<List<String>>()
-    val autocompleteData: SharedFlow<List<String>>
+        MutableSharedFlow<UiState<List<String>>>()
+    val autocompleteData: SharedFlow<UiState<List<String>>>
         get() = _autocompleteData.asSharedFlow()
 
     private val _geocodingResult =
@@ -64,9 +65,16 @@ class LocationAdditionMapViewModel @Inject constructor(
     }
 
     fun getPlacesAutocompleteDataByInput(input: String) {
-        tryEmitFlow {
-            _autocompleteData.emit(autocompleteDataProviderRepository.getAutocompleteData(input))
+        emitUiState(_autocompleteData) {
+            _autocompleteData.emit(
+                UiState.Success(
+                    locationsAutocompleteDataProviderRepository.getAutocompleteData(
+                        input
+                    )
+                )
+            )
         }
+
     }
 
     fun getCoordinatesByLocationName(locationName: String) {

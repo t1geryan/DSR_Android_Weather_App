@@ -3,15 +3,19 @@ package com.example.weatherapp.domain
 open class AppException : RuntimeException {
     constructor() : super()
     constructor(message: String?) : super(message)
-    constructor(cause: Throwable) : super(cause)
+    constructor(cause: Throwable?) : super(cause)
 }
 
-class ConnectionException(cause: Throwable) : AppException(cause)
+class ConnectionException(cause: Throwable?) : AppException(cause)
 
-class BackendException(
-    val code: Int,
-    message: String
-) : AppException(message)
+open class BackendException(
+    val code: Int?,
+    cause: Throwable?
+) : AppException(cause)
+
+class ParseBackendResponseException(
+    cause: Throwable?
+) : BackendException(null, cause)
 
 class GpsException : AppException()
 
