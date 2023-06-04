@@ -2,13 +2,12 @@ package com.example.weatherapp.data.mappers.current_weather
 
 import com.example.weatherapp.data.databases.location_database.entities.CurrentWeatherEntity
 import com.example.weatherapp.data.remote.weather.dto.CurrentWeatherResponseDto
-import com.example.weatherapp.utils.Mapper
 import com.example.weatherapp.utils.ParameterizedMapper
 import javax.inject.Inject
 
 /**
  * Interface for mapping [CurrentWeatherResponseDto] -> [CurrentWeatherEntity]
- * @see Mapper
+ * @see ParameterizedMapper
  */
 interface CurrentWeatherDtoToEntityMapper :
     ParameterizedMapper<CurrentWeatherResponseDto, CurrentWeatherEntity, Long>
@@ -18,6 +17,7 @@ class CurrentWeatherDtoToEntityMapperImpl @Inject constructor() :
 
     /**
      * Maps from [CurrentWeatherResponseDto] to [CurrentWeatherEntity]
+     * Creates a [CurrentWeatherEntity] for [CurrentWeatherResponseDto] with the locationId sent in [parameter]
      */
     override fun mapWithParameter(
         valueToMap: CurrentWeatherResponseDto,

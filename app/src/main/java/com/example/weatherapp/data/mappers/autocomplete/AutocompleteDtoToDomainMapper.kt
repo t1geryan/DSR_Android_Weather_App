@@ -15,6 +15,7 @@ class AutocompleteDtoToDomainMapperImpl @Inject constructor() : AutocompleteDtoT
 
     /**
      * Maps [CurrentWeatherResponseDto] -> [String]
+     * @return string in format "city_name, country_name"
      */
     override fun map(valueToMap: AutocompleteResponseDto): String = with(valueToMap) {
         "$name, $countryName"

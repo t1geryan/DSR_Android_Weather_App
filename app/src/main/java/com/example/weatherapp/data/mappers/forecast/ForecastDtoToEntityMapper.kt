@@ -18,6 +18,7 @@ class ForecastDtoToEntityMapperImpl @Inject constructor() :
 
     /**
      * Maps from [WeatherForecastResponseDto] to [List] of [WeatherForecastEntity]
+     * Creates a [List] of [WeatherForecastEntity] for [WeatherForecastResponseDto] with the locationId sent in [parameter]
      */
     override fun mapWithParameter(
         valueToMap: WeatherForecastResponseDto,
