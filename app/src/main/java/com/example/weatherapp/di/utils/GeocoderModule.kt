@@ -1,8 +1,11 @@
-package com.example.weatherapp.di.data.local
+package com.example.weatherapp.di.utils
 
 import android.content.Context
 import android.location.Geocoder
+import com.example.weatherapp.utils.geocoder.GeocoderWrapper
+import com.example.weatherapp.utils.geocoder.GeocoderWrapperImpl
 import com.example.weatherapp.utils.locale.CurrentLocaleProvider
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,4 +24,15 @@ object GeocoderModule {
         @ApplicationContext context: Context,
         localeProvider: CurrentLocaleProvider,
     ): Geocoder = Geocoder(context, Locale.forLanguageTag(localeProvider.provideIso3166Code()))
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class GeocoderWrapperModule {
+
+    @Binds
+    @Singleton
+    abstract fun bindsGeocoderWrapper(
+        geocoderWrapperImpl: GeocoderWrapperImpl
+    ): GeocoderWrapper
 }

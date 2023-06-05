@@ -26,13 +26,11 @@ class LocationTrackerRepositoryImplTest {
     @MockK
     lateinit var currentLocationGettingAbilityChecker: CurrentLocationGettingAbilityChecker
 
-    @RelaxedMockK
+    @MockK
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     @RelaxedMockK
     lateinit var callback: CurrentLocationCallback
-
-    private val latLng = LatLng(15.0f, 23.0f)
 
     private lateinit var repositoryImpl: LocationTrackerRepositoryImpl
 
@@ -94,5 +92,9 @@ class LocationTrackerRepositoryImplTest {
         repositoryImpl.getCurrentLocation(callback)
 
         asserted()
+    }
+
+    companion object {
+        private val latLng = LatLng(15.0f, 23.0f)
     }
 }
