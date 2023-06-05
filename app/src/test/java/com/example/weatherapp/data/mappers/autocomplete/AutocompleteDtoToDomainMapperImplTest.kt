@@ -11,8 +11,9 @@ class AutocompleteDtoToDomainMapperImplTest {
     @Test
     fun mapFromAutocompleteDtoTODomainReturnsAutocompleteDomainClass() {
         val mapperImpl = AutocompleteDtoToDomainMapperImpl()
-        val expectedAutocompleteData = createAutocompleteData()
-        val autocompleteDto = createAutocompleteResponseDto()
+        val expectedAutocompleteData = createAutocompleteData("city name, country name")
+        val autocompleteDto =
+            createAutocompleteResponseDto(name = "city name", countryName = "country name")
 
         val actualAutocompleteData = mapperImpl.map(autocompleteDto)
 

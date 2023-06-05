@@ -10,8 +10,9 @@ class AddressToGeocodingResultMapperImplTest {
     @Test
     fun mapAddressToGeocodingResultReturnsGeocodingResult() {
         val mapperImpl = AddressToGeocodingResultMapperImpl()
-        val expectedGeocodingResult = createGeocodingResult()
-        val address = createAddress()
+        val expectedGeocodingResult =
+            createGeocodingResult(locationName = "city name", countryName = "country name")
+        val address = createAddress(featureName = "city name", countryName = "country name")
 
         val actualGeocodingResult = mapperImpl.map(address)
 

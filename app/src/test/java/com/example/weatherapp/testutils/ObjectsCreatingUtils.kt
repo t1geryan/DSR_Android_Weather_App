@@ -15,12 +15,12 @@ import io.mockk.mockk
 import com.example.weatherapp.domain.models.CurrentWeather as DomainCurrentWeather
 
 fun createAutocompleteResponseDto(
-    id: String = "123",
-    type: String = "country",
-    code: String = "code",
-    name: String = "name",
-    countryCode: String = "country code",
-    countryName: String = "country name",
+    id: String = "",
+    type: String = "",
+    code: String = "",
+    name: String = "",
+    countryCode: String = "",
+    countryName: String = "",
     stateCode: String? = null,
     coordinates: Coord = Coord(0.0f, 0.0f),
     indexString: List<String> = listOf(),
@@ -44,7 +44,7 @@ fun createAutocompleteResponseDto(
     mainAirportName
 )
 
-fun createAutocompleteData(textLine: String = "name, country name") = textLine
+fun createAutocompleteData(textLine: String = "") = textLine
 
 fun createCurrentWeatherDto(
     coord: Coord = Coord(0.0f, 0.0f),
@@ -194,17 +194,22 @@ fun createForecastDomain(
 ) = Forecast(weatherIconName, temperature, dateTimeUnixUtc, shiftFromUtcSeconds)
 
 fun createGeocodingResult(
-    latLng: LatLng = LatLng(12.0f, 24.0f),
-    locationName: String = "location name",
-    countryName: String = "country name"
+    latLng: LatLng = LatLng(0.0f, 0.0f),
+    locationName: String = "",
+    countryName: String = ""
 ) = GeocodingResult(latLng, locationName, countryName)
 
-fun createAddress(): Address {
+fun createAddress(
+    latitude: Double = 0.0,
+    longitude: Double = 0.0,
+    featureName: String = "",
+    countryName: String = ""
+): Address {
     val addressMock = mockk<Address>()
-    every { addressMock.latitude } returns 12.0
-    every { addressMock.longitude } returns 24.0
-    every { addressMock.featureName } returns "location name"
-    every { addressMock.countryName } returns "country name"
+    every { addressMock.latitude } returns latitude
+    every { addressMock.longitude } returns longitude
+    every { addressMock.featureName } returns featureName
+    every { addressMock.countryName } returns countryName
     return addressMock
 }
 

@@ -10,8 +10,8 @@ class LocationDomainEntityMapperImplTest {
     @Test
     fun mapLocationDomainClassToEntityReturnsLocationEntity() {
         val mapperImpl = getMapperImpl()
-        val expectedLocationEntity = createLocationEntity()
-        val locationDomain = createLocationDomain()
+        val expectedLocationEntity = createLocationEntity(id = 43, name = "Voronezh")
+        val locationDomain = createLocationDomain(id = 43, name = "Voronezh")
 
         val actualLocationEntity = mapperImpl.map(locationDomain)
 

@@ -10,8 +10,8 @@ class WeatherForecastEntityToDomainMapperImplTest {
     @Test
     fun mapForecastEntityToDomainReturnForecastDomainClass() {
         val mapperImpl = WeatherForecastEntityToDomainMapperImpl()
-        val expectedForecast = createForecastDomain()
-        val forecastEntity = createForecastEntity()
+        val expectedForecast = createForecastDomain(temperature = 34, dateTimeUnixUtc = 12345)
+        val forecastEntity = createForecastEntity(temperature = 34.2f, dateTimeUnixUtc = 12345)
 
         val actualForecast = mapperImpl.map(forecastEntity)
 
