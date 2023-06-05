@@ -48,14 +48,14 @@ class LocationsWeatherRepositoryImpl @Inject constructor(
             locationsDao.getAllLocations()
         }
 
-    override suspend fun getAllLocationsWeather(onlyFavorites: Boolean): Flow<List<LocationWeather>> =
+    override fun getAllLocationsWeather(onlyFavorites: Boolean): Flow<List<LocationWeather>> =
         getLocationsFromDatabase(onlyFavorites).map { list ->
             list.map { locationEntity ->
                 createLocationWeatherByLocationEntity(locationEntity)
             }
         }
 
-    override suspend fun getLocationWeatherById(locationId: Long): Flow<LocationWeather> =
+    override fun getLocationWeatherById(locationId: Long): Flow<LocationWeather> =
         locationsDao.getLocationById(locationId).map { locationEntity ->
             createLocationWeatherByLocationEntity(locationEntity)
         }

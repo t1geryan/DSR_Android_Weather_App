@@ -6,11 +6,11 @@ import kotlinx.coroutines.flow.Flow
 
 interface SettingsDao {
 
-    suspend fun getUnitsSystem(): Flow<UnitsSystemEntity>
+    fun getUnitsSystem(): Flow<UnitsSystemEntity>
 
     suspend fun setUnitsSystem(value: UnitsSystemEntity)
 
-    suspend fun getAppTheme(): Flow<AppThemeEntity>
+    fun getAppTheme(): Flow<AppThemeEntity>
 
     suspend fun setAppTheme(value: AppThemeEntity)
 }

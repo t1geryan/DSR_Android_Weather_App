@@ -7,7 +7,7 @@ import com.example.weatherapp.domain.ConnectionException
 interface LocationsAutocompleteDataProviderRepository {
 
     /**
-     * Function for getting locations autocomplete
+     * The function of obtaining a list of locations for autocompletion at the input
      * @throws ConnectionException
      * @throws BackendException
      * @throws AppException

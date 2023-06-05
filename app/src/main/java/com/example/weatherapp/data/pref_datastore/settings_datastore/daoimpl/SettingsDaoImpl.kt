@@ -22,7 +22,7 @@ class SettingsDaoImpl @Inject constructor(
     private val appThemeEntityValues = AppThemeEntity.values()
     private val unitsSystemEntityValues = UnitsSystemEntity.values()
 
-    override suspend fun getUnitsSystem(): Flow<UnitsSystemEntity> = dataStore.getValue(
+    override fun getUnitsSystem(): Flow<UnitsSystemEntity> = dataStore.getValue(
         UNITS_SYSTEM_PREF_KEY, UnitsSystemEntity.METRIC_SYSTEM.ordinal
     ).map {
         unitsSystemEntityValues[it]
@@ -31,7 +31,7 @@ class SettingsDaoImpl @Inject constructor(
     override suspend fun setUnitsSystem(value: UnitsSystemEntity) =
         dataStore.setValue(UNITS_SYSTEM_PREF_KEY, value.ordinal)
 
-    override suspend fun getAppTheme(): Flow<AppThemeEntity> = dataStore.getValue(
+    override fun getAppTheme(): Flow<AppThemeEntity> = dataStore.getValue(
         APP_THEME_PREF_KEY, AppThemeEntity.SYSTEM_THEME.ordinal
     ).map {
         appThemeEntityValues[it]

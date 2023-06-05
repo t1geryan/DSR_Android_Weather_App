@@ -4,9 +4,11 @@ import android.location.Address
 import android.location.Geocoder
 import android.os.Build
 import com.example.weatherapp.data.mappers.geocode.AddressToGeocodingResultMapper
+import com.example.weatherapp.domain.AppException
+import com.example.weatherapp.domain.ConnectionException
 import com.example.weatherapp.domain.repositories.GeocoderRepository
 import com.example.weatherapp.domain.repositories.GeocodingCallback
-import com.example.weatherapp.utils.extensions.wrapRetrofitExceptions
+import java.io.IOException
 import javax.inject.Inject
 
 class GeocoderRepositoryImpl @Inject constructor(
@@ -15,11 +17,11 @@ class GeocoderRepositoryImpl @Inject constructor(
 ) : GeocoderRepository {
 
     @Suppress("DEPRECATION")
-    override suspend fun getCoordinatesByLocationName(
+    override fun getCoordinatesByLocationName(
         locationName: String,
         callback: GeocodingCallback
     ) {
-        wrapRetrofitExceptions {
+        try {
             if (Geocoder.isPresent()) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     geocoder.getFromLocationName(
@@ -33,6 +35,10 @@ class GeocoderRepositoryImpl @Inject constructor(
                     invokeCallbackOnFirstAddress(addresses, callback)
                 }
             }
+        } catch (e: IOException) {
+            throw ConnectionException(e)
+        } catch (e: Exception) {
+            throw AppException(e)
         }
     }
 

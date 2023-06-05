@@ -15,7 +15,7 @@ class SettingsRepositoryImpl @Inject constructor(
     private val appThemeDomainEntityMapper: AppThemeDomainEntityMapper,
     private val unitsSystemDomainEntityMapper: UnitsSystemDomainEntityMapper
 ) : SettingsRepository {
-    override suspend fun getCurrentAppTheme(): Flow<AppTheme> =
+    override fun getCurrentAppTheme(): Flow<AppTheme> =
         settingsDao.getAppTheme().map {
             appThemeDomainEntityMapper.reverseMap(it)
         }
@@ -27,7 +27,7 @@ class SettingsRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun getCurrentUnitsSystem(): Flow<AppUnitsSystem> =
+    override fun getCurrentUnitsSystem(): Flow<AppUnitsSystem> =
         settingsDao.getUnitsSystem().map {
             unitsSystemDomainEntityMapper.reverseMap(it)
         }

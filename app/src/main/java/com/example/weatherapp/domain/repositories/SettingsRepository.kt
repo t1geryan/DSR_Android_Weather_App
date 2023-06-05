@@ -6,11 +6,11 @@ import kotlinx.coroutines.flow.Flow
 
 interface SettingsRepository {
 
-    suspend fun getCurrentAppTheme(): Flow<AppTheme>
+    fun getCurrentAppTheme(): Flow<AppTheme>
 
     suspend fun setAppTheme(value: AppTheme)
 
-    suspend fun getCurrentUnitsSystem(): Flow<AppUnitsSystem>
+    fun getCurrentUnitsSystem(): Flow<AppUnitsSystem>
 
     suspend fun setUnitsSystem(value: AppUnitsSystem)
 }
