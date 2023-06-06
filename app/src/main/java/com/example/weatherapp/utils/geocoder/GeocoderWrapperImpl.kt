@@ -2,7 +2,7 @@ package com.example.weatherapp.utils.geocoder
 
 import android.location.Geocoder
 import android.os.Build
-import com.example.weatherapp.domain.AppException
+import com.example.weatherapp.domain.GeocoderMissingException
 import javax.inject.Inject
 
 class GeocoderWrapperImpl @Inject constructor(
@@ -30,7 +30,6 @@ class GeocoderWrapperImpl @Inject constructor(
                 )
                 callback(addresses)
             }
-        } else
-            throw AppException()
+        } else throw GeocoderMissingException()
     }
 }

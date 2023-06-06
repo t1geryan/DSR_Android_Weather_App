@@ -20,3 +20,5 @@ class ParseBackendResponseException(
 class GpsException : AppException()
 
 class PermissionException : AppException()
+
+class GeocoderMissingException : AppException()
