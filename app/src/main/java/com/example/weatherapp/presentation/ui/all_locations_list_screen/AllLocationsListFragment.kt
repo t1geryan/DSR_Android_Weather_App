@@ -20,12 +20,12 @@ class AllLocationsListFragment : BaseLocationsListFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.addLocationFAB.setOnClickListener {
-            addNewLocation()
+        binding.itemAddingFab.setOnClickListener {
+            startLocationAddingWizard()
         }
     }
 
-    private fun addNewLocation() {
+    private fun startLocationAddingWizard() {
         findTopLevelNavController().navigate(R.id.action_bottomNavigationFragment_to_locationAdditionMapFragment)
     }
 }

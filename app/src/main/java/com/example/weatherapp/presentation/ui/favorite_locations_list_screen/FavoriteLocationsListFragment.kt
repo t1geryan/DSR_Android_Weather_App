@@ -25,7 +25,7 @@ class FavoriteLocationsListFragment : BaseLocationsListFragment() {
         savedInstanceState: Bundle?
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
-        binding.addLocationFAB.visibility = View.GONE
+        binding.itemAddingFab.visibility = View.GONE
         return binding.root
     }
 }

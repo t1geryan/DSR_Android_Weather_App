@@ -9,10 +9,10 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.ui.base_locations_list_screen.BaseLocationsListFragment">
+        tools:context=".presentation.ui.base_list_screen.BaseListFragment">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/locationsRV"
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -40,7 +40,7 @@
             tools:text="@string/empty_locations_list_message" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/addLocationFAB"
+            android:id="@+id/itemAddingFab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"

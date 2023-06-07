@@ -7,35 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.core.os.postDelayed
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.weatherapp.R
-import com.example.weatherapp.databinding.FragmentLocationsListBinding
-import com.example.weatherapp.presentation.contract.sideeffects.dialogs.SimpleDialogProvider
-import com.example.weatherapp.presentation.contract.sideeffects.snakbars.SnackbarProvider
 import com.example.weatherapp.presentation.event.Event
 import com.example.weatherapp.presentation.state.UiState
+import com.example.weatherapp.presentation.ui.base_list_screen.BaseListFragment
 import com.example.weatherapp.presentation.ui.base_locations_list_screen.adapter.LocationItem
 import com.example.weatherapp.presentation.ui.base_locations_list_screen.adapter.LocationsAdapter
 import com.example.weatherapp.presentation.ui.bottom_navigation_screen.BottomNavigationFragmentDirections
 import com.example.weatherapp.presentation.ui_utils.*
 import com.example.weatherapp.utils.Constants
-import javax.inject.Inject
 
-abstract class BaseLocationsListFragment : Fragment() {
-
-    protected lateinit var binding: FragmentLocationsListBinding
-
-    private lateinit var adapter: LocationsAdapter
+abstract class BaseLocationsListFragment : BaseListFragment() {
 
     abstract val viewModel: BaseLocationsListViewModel
 
-    @Inject
-    lateinit var dialogProvider: SimpleDialogProvider
-
-    @Inject
-    lateinit var snackbarProvider: SnackbarProvider
+    private lateinit var adapter: LocationsAdapter
 
     @StringRes
     abstract fun getEmptyListMessage(): Int
@@ -43,21 +29,10 @@ abstract class BaseLocationsListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        binding = FragmentLocationsListBinding.inflate(inflater, container, false)
-
-        // Add divider between recycler view elements
-        binding.locationsRV.addItemDecoration(
-            DividerItemDecoration(
-                requireContext(), DividerItemDecoration.VERTICAL
-            )
-        )
+        super.onCreateView(inflater, container, savedInstanceState)
 
         adapter = LocationsAdapter(unitsSystemProvider(), listener = viewModel)
-        binding.locationsRV.adapter = adapter
-
-        // Remove default item change animation (reason: annoying blinking)
-        val itemAnimator = binding.locationsRV.itemAnimator
-        if (itemAnimator is DefaultItemAnimator) itemAnimator.supportsChangeAnimations = false
+        binding.recyclerView.adapter = adapter
 
         return binding.root
     }
@@ -100,7 +75,7 @@ abstract class BaseLocationsListFragment : Fragment() {
                 }
                 showLocationItemList(uiState.data)
             }
-            is UiState.Error -> showErrorDialog(uiState.exception?.message)
+            is UiState.Error -> showErrorDialogOnLocationListFetching(uiState.exception?.message)
         }
     }
 
@@ -124,28 +99,12 @@ abstract class BaseLocationsListFragment : Fragment() {
         }
     }
 
-    private fun hideSupportingViews() = with(binding) {
-        progressBar.visibility = View.GONE
-        emptyListMessageTV.visibility = View.GONE
-    }
-
-    private fun showEmptyListMessage(message: String) = with(binding.emptyListMessageTV) {
-        text = message
-        visibility = View.VISIBLE
-    }
-
-    private fun showErrorDialog(message: String?) {
-        dialogProvider.showSimpleDialog(
-            getString(R.string.location_list_loading_exception),
-            message ?: getString(R.string.default_exception_message),
-            true,
-            getString(R.string.refresh),
-            null,
-            getString(R.string.close),
-        ) { _, which ->
+    private fun showErrorDialogOnLocationListFetching(message: String?) {
+        showErrorDialog(getString(R.string.location_list_loading_exception), message) { _, which ->
             when (which) {
                 DialogInterface.BUTTON_POSITIVE -> viewModel.fetchLocationItems()
             }
         }
     }
+
 }
