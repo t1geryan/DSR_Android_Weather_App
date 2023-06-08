@@ -22,7 +22,7 @@ fun createAutocompleteResponseDto(
     countryCode: String = "",
     countryName: String = "",
     stateCode: String? = null,
-    coordinates: Coord = Coord(0.0f, 0.0f),
+    coordinates: Coordinates = Coordinates(0.0f, 0.0f),
     indexString: List<String> = listOf(),
     weight: Long = 0,
     cases: Map<String, String>? = null,
@@ -47,7 +47,7 @@ fun createAutocompleteResponseDto(
 fun createAutocompleteData(textLine: String = "") = textLine
 
 fun createCurrentWeatherDto(
-    coord: Coord = Coord(0.0f, 0.0f),
+    coordinates: Coordinates = Coordinates(0.0f, 0.0f),
     weather: List<CurrentWeather> = listOf(CurrentWeather(0, "", "", "")),
     base: String = "",
     main: CurrentMain = CurrentMain(0.0, 0.0, 0.0, 0.0, 0, 0),
@@ -63,7 +63,7 @@ fun createCurrentWeatherDto(
     name: String = "",
     cod: Int = 0,
 ) = CurrentWeatherResponseDto(
-    coord,
+    coordinates,
     weather,
     base,
     main,
@@ -143,7 +143,7 @@ fun createWeatherForecastDto(
     ) {
         createForecastWeatherForDto()
     },
-    city: City = City(0, "", Coord(0.0f, 0.0f), "", 0, 0, 0, 0),
+    city: City = City(0, "", Coordinates(0.0f, 0.0f), "", 0, 0, 0, 0),
 ) = WeatherForecastResponseDto(cod, message, timestampsCount, forecastWeatherList, city)
 
 fun createForecastWeatherForDto(

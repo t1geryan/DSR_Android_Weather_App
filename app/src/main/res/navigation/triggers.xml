@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/triggers"
-    app:startDestination="@id/triggersFragment">
+    app:startDestination="@id/triggersListFragment">
 
     <fragment
-        android:id="@+id/triggersFragment"
-        android:name="com.example.weatherapp.presentation.ui.triggers_screen.TriggersFragment"
+        android:id="@+id/triggersListFragment"
+        android:name="com.example.weatherapp.presentation.ui.triggers_list_screen.TriggersListFragment"
         android:label="@string/triggers_title"
-        tools:layout="@layout/fragment_triggers" />
+        tools:layout="@layout/fragment_list" />
 </navigation>

@@ -1,6 +1,6 @@
 package com.example.weatherapp.data.remote.autocomplete.dto
 
-import com.example.weatherapp.data.remote.weather.dto.Coord
+import com.example.weatherapp.data.remote.weather.dto.Coordinates
 import com.google.gson.annotations.SerializedName
 
 data class AutocompleteResponseDto(
@@ -11,7 +11,7 @@ data class AutocompleteResponseDto(
     @SerializedName("country_code") val countryCode: String,
     @SerializedName("country_name") val countryName: String,
     @SerializedName("state_code") val stateCode: String?,
-    @SerializedName("coordinated") val coordinates: Coord,
+    @SerializedName("coordinated") val coordinates: Coordinates,
     @SerializedName("index_strings") val indexString: List<String>,
     @SerializedName("weight ") val weight: Long,
     @SerializedName("cases") val cases: Map<String, String>?,

@@ -58,7 +58,7 @@ data class ForecastSys(
 data class City(
     @SerializedName("id") val id: Int,
     @SerializedName("name") val name: String,
-    @SerializedName("coord") val coord: Coord,
+    @SerializedName("coord") val coordinates: Coordinates,
     @SerializedName("country") val country: String,
     @SerializedName("population") val population: Int,
     @SerializedName("timezone") val timezoneUtc: Long,

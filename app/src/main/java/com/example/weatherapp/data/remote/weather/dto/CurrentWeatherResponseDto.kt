@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 
 data class CurrentWeatherResponseDto(
-    @SerializedName("coord") val coord: Coord,
+    @SerializedName("coord") val coordinates: Coordinates,
     @SerializedName("weather") val weather: List<CurrentWeather>,
     @SerializedName("base") val base: String,
     @SerializedName("main") val main: CurrentMain,
@@ -31,7 +31,7 @@ data class CurrentRain(
     @SerializedName("3h") val volumeLast3Hours: Float?,
 )
 
-data class Coord(
+data class Coordinates(
     @SerializedName("lon") val lon: Float,
     @SerializedName("lat") val lat: Float,
 )
