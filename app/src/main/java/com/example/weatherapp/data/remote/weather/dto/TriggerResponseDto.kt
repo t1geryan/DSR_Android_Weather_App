@@ -34,7 +34,7 @@ typealias TriggerResponseTimePeriod = TriggerRequestTimePeriod
 data class TriggerResponseCondition(
     @SerializedName("name") val name: String,
     @SerializedName("expression") val expression: String,
-    @SerializedName("amount") val amount: Int,
+    @SerializedName("amount") val amount: Double,
     @SerializedName("_id") val id: String,
 )
 
