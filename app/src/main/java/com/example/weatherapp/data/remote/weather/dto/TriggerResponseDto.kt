@@ -16,8 +16,7 @@ data class TriggerResponseAlert(
     @SerializedName("lat_update") val lastUpdateUnix: Long,
     @SerializedName("date") val dateUnix: Long,
     @SerializedName("coordinates") val coordinates: Coordinates,
-
-    )
+)
 
 data class TriggerResponseAlertCondition(
     @SerializedName("current_value") val currentValue: AlertCurrentValue,
