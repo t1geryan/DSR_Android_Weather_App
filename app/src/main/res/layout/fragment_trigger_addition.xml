@@ -140,7 +140,7 @@
                     app:endIconMinSize="@dimen/common_icon_size"
                     app:endIconMode="custom"
                     app:endIconScaleType="center"
-                    app:endtIconTint="?attr/colorOnBackground">
+                    app:endIconTint="?attr/colorOnBackground">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/datePeriodInputEditText"
