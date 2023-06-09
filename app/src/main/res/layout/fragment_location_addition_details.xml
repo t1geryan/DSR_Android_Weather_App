@@ -30,14 +30,12 @@
 
         <com.google.android.material.radiobutton.MaterialRadioButton
             android:id="@+id/confirmRB"
-            style="@style/RadioButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/confirm_next_day_forecast" />
 
         <com.google.android.material.radiobutton.MaterialRadioButton
             android:id="@+id/denyRB"
-            style="@style/RadioButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/deny_next_day_forecast" />

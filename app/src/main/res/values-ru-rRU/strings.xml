@@ -83,11 +83,10 @@
     <string name="add_new_condition">Add new condition</string>
     <string name="select_condition_type">Select condition type</string>
     <string name="concrete_date_period">Concrete time period</string>
-    <string name="days_of_the_week">Days of the week</string>
-    <string name="certain_days">Certain days</string>
     <string name="select_time_period">Select time period:</string>
     <string name="add_conditions">Add conditions:</string>
     <string name="choose_locations">Choose Locations:</string>
     <string name="no_locations_while_creating_trigger_message">You don\'t have any added locations.\nPlease add locations before creating triggers.</string>
     <string name="input_date_period">Input time period</string>
+    <string name="the_next_day">The next day</string>
 </resources>

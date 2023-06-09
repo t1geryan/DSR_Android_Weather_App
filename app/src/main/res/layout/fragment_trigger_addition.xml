@@ -111,13 +111,18 @@
             android:id="@+id/timePeriodSelectionRG"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/small_margin"
-            android:checkedButton="@+id/concreteDatePeriodButton"
+            android:checkedButton="@+id/nextDayRB"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/timePeriodSelectionTitle">
 
             <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/concreteDatePeriodButton"
+                android:id="@+id/nextDayRB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/the_next_day" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/concreteDatePeriodRB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/concrete_date_period" />
@@ -125,15 +130,13 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/amountInputLayout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:id="@+id/datePeriodInputLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/small_margin"
                     android:hint="@string/input_date_period"
                     android:minWidth="@dimen/min_edit_text_width"
                     app:endIconDrawable="@drawable/icon_calendar_month_24"
@@ -142,40 +145,42 @@
                     app:endIconScaleType="center"
                     app:endIconTint="?attr/colorOnBackground">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/datePeriodInputEditText"
+                    <AutoCompleteTextView
+                        android:id="@+id/datePeriodInputTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:imeOptions="actionDone"
                         android:inputType="none"
-                        android:maxLines="1"
-                        tools:text="12.10.2004 - 12.11.2004" />
+                        tools:ignore="LabelFor" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/weekDaysButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/days_of_the_week" />
-
-            <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/certainDaysButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/certain_days" />
         </RadioGroup>
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/materialButton2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/common_margin"
+            android:maxWidth="@dimen/max_button_width"
+            android:minWidth="@dimen/min_button_width"
             android:text="@string/finish"
             app:layout_constraintEnd_toEndOf="@+id/timePeriodSelectionRG"
             app:layout_constraintStart_toStartOf="@+id/timePeriodSelectionRG"
             app:layout_constraintTop_toBottomOf="@+id/timePeriodSelectionRG" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:elevation="@dimen/elevation_level_3"
+            app:elevation="@dimen/elevation_level_3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

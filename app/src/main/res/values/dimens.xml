@@ -3,6 +3,7 @@
     <dimen name="common_screen_padding">16dp</dimen>
     <dimen name="small_textview_padding">8dp</dimen>
     <dimen name="small_padding">8dp</dimen>
+    <dimen name="radio_button_padding">14dp</dimen>
 
     <dimen name="common_margin">16dp</dimen>
     <dimen name="small_margin">8dp</dimen>
@@ -27,4 +28,6 @@
     <dimen name="min_edit_text_height">55dp</dimen>
     <dimen name="min_edit_text_width">400dp</dimen>
     <dimen name="horizontal_barrier_height">2dp</dimen>
+    <dimen name="max_button_width">320dp</dimen>
+    <dimen name="min_button_width">260dp</dimen>
 </resources>

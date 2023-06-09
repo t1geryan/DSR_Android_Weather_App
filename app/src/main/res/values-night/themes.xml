@@ -14,5 +14,7 @@
         <!-- Customize your theme here. -->
         <item name="colorSurface">@color/gray_black</item>
         <item name="colorOnSurface">?attr/colorOnBackground</item>
+
+        <item name="radioButtonStyle">@style/RadioButtonStyle</item>
     </style>
 </resources>

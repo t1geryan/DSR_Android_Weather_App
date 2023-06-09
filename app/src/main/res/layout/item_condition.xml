@@ -60,9 +60,10 @@
             android:id="@+id/amountInputET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:digits="0123456789."
             android:ellipsize="end"
             android:imeOptions="actionNext"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:maxLength="10"
             android:maxLines="1" />
 
