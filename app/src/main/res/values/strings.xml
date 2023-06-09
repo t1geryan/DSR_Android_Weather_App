@@ -43,6 +43,20 @@
     <string name="system_theme">System Theme</string>
     <string name="app_version">App version is %1$s</string>
 
+    <!--Trigger Addition Screen-->
+    <string name="select_condition_type">Select condition type</string>
+    <string name="input_amount">Input amount</string>
+    <string name="select_expression">Select expression</string>
+    <string name="add_new_condition">Add new condition</string>
+    <string name="concrete_date_period">Concrete date period</string>
+    <string name="input_date_period">Input date period</string>
+    <string name="days_of_the_week">Days of the week</string>
+    <string name="certain_days">Certain days</string>
+    <string name="select_time_period">Select time period:</string>
+    <string name="add_conditions">Add conditions:</string>
+    <string name="choose_locations">Choose Locations:</string>
+    <string name="no_locations_while_creating_trigger_message">You don\'t have any added locations.\nPlease add locations before creating triggers.</string>
+
     <!--Weather Details-->
     <!--p1 is weather icon name e.g. 10d-->
     <string name="weather_icon_path" translatable="false">"https://openweathermap.org/img/wn/%1$s@2x.png"</string>

@@ -22,6 +22,15 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_bottomNavigationFragment_to_triggerAdditionFragment"
+            app:destination="@id/triggerAdditionFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/bottomNavigationFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/locationAdditionMapFragment"
@@ -96,4 +105,9 @@
             android:name="title"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/triggerAdditionFragment"
+        android:name="com.example.weatherapp.presentation.ui.trigger_addition_screen.TriggerAdditionFragment"
+        android:label="TriggerAdditionFragment"
+        tools:layout="@layout/fragment_trigger_addition" />
 </navigation>

@@ -3,6 +3,8 @@ package com.example.weatherapp.presentation.ui_utils
 import android.content.Context
 import android.graphics.Color
 import androidx.annotation.StringRes
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.utils.Constants
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.LineDataSet
@@ -12,6 +14,14 @@ fun String.capitalize(): String =
     this.replaceFirstChar {
         it.uppercaseChar()
     }
+
+fun RecyclerView.addVerticalDividerItemDecoration(context: Context) {
+    addItemDecoration(
+        DividerItemDecoration(
+            context, DividerItemDecoration.VERTICAL
+        )
+    )
+}
 
 fun LineChart.styleTemperatureLineChart(context: Context, @StringRes titleRes: Int) {
     val colorSurface = MaterialColors.getColor(

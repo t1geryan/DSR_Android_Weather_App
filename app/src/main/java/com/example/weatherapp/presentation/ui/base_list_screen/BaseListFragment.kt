@@ -7,11 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentListBinding
 import com.example.weatherapp.presentation.contract.sideeffects.dialogs.SimpleDialogProvider
 import com.example.weatherapp.presentation.contract.sideeffects.snakbars.SnackbarProvider
+import com.example.weatherapp.presentation.ui_utils.addVerticalDividerItemDecoration
 import javax.inject.Inject
 
 abstract class BaseListFragment : Fragment() {
@@ -30,11 +30,7 @@ abstract class BaseListFragment : Fragment() {
         binding = FragmentListBinding.inflate(inflater, container, false)
 
         // Add divider between recycler view elements
-        binding.recyclerView.addItemDecoration(
-            DividerItemDecoration(
-                requireContext(), DividerItemDecoration.VERTICAL
-            )
-        )
+        binding.recyclerView.addVerticalDividerItemDecoration(requireContext())
 
         // Remove default item change animation (reason: annoying blinking)
         val itemAnimator = binding.recyclerView.itemAnimator
