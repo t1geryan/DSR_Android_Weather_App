@@ -1,4 +1,4 @@
-package com.example.weatherapp.di.utils
+package com.example.weatherapp.di.data
 
 import com.example.weatherapp.data.mappers.*
 import com.example.weatherapp.data.mappers.autocomplete.AutocompleteDtoToDomainMapper

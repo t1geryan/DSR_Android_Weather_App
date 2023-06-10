@@ -6,6 +6,24 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/small_padding">
 
+    <FrameLayout
+        android:id="@+id/deleteConditionLayout"
+        android:layout_width="@dimen/common_icon_layout_size"
+        android:layout_height="@dimen/common_icon_layout_size"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:layout_constraintEnd_toEndOf="@+id/conditionTypeSelectLayout"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/deleteConditionButton"
+            android:layout_width="@dimen/common_icon_size"
+            android:layout_height="@dimen/common_icon_size"
+            android:layout_gravity="center"
+            android:contentDescription="@string/favorite_icon"
+            android:src="@drawable/icon_delete_outline_24"
+            app:tint="?attr/colorOnBackground" />
+    </FrameLayout>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/conditionTypeSelectLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
@@ -15,14 +33,15 @@
         android:maxWidth="@dimen/max_edit_text_width"
         android:minWidth="@dimen/min_edit_text_width"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/deleteConditionLayout">
 
         <AutoCompleteTextView
             android:id="@+id/conditionTypeSelectTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="none"
-            tools:ignore="LabelFor" />
+            tools:ignore="LabelFor"
+            tools:text="Temperature" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -41,7 +60,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="none"
-            tools:ignore="LabelFor" />
+            tools:ignore="LabelFor"
+            tools:text="Greater Or Equal" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -65,7 +85,8 @@
             android:imeOptions="actionNext"
             android:inputType="numberDecimal"
             android:maxLength="10"
-            android:maxLines="1" />
+            android:maxLines="1"
+            tools:text="26.4" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

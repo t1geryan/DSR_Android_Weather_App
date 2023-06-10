@@ -56,6 +56,24 @@
     <string name="no_locations_while_creating_trigger_message">You don\'t have any added locations.\nPlease add locations before creating triggers.</string>
     <string name="the_next_day">The next day</string>
 
+    <!--Trigger Condition-->
+    <string-array name="condition_types">
+        <item>Temperature</item>
+        <item>Pressure</item>
+        <item>Humidity</item>
+        <item>Wind Speed</item>
+        <item>Wind Direction</item>
+    </string-array>
+
+    <string-array name="condition_expression_types">
+        <item> Greater </item>
+        <item> Less </item>
+        <item> Greater or equal</item>
+        <item> Less or equal</item>
+        <item> Equal </item>
+        <item> Not equal </item>
+    </string-array>
+
     <!--Weather Details-->
     <!--p1 is weather icon name e.g. 10d-->
     <string name="weather_icon_path" translatable="false">"https://openweathermap.org/img/wn/%1$s@2x.png"</string>

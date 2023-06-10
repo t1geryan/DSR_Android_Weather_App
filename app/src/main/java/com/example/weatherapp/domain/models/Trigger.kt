@@ -21,10 +21,10 @@ enum class ConditionType {
 }
 
 enum class ExpressionType {
-    Greater,
-    Less,
-    GreaterOrEqual,
-    LessOrEqual,
-    Equal,
-    NotEqual
+    GREATER,
+    LESS,
+    GREATER_OR_EQUAL,
+    LESS_OR_EQUAL,
+    EQUAL,
+    NOT_EQUAL,
 }

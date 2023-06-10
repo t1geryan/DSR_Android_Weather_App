@@ -36,6 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/small_margin"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/locationsChoosingTitle"
@@ -80,11 +81,27 @@
             android:id="@+id/conditionsRV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/small_margin"
+            android:minWidth="@dimen/min_edit_text_width"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/conditionsAdditionTitle"
             tools:itemCount="2"
             tools:listitem="@layout/item_condition" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addConditionButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin"
+            android:text="@string/add_new_condition"
+            android:textSize="@dimen/big_text_size"
+            app:icon="@drawable/icon_add_24"
+            app:iconGravity="textStart"
+            app:layout_constraintEnd_toEndOf="@+id/conditionsRV"
+            app:layout_constraintStart_toStartOf="@+id/conditionsRV"
+            app:layout_constraintTop_toBottomOf="@+id/conditionsRV"
+            app:strokeColor="?attr/colorPrimary" />
 
         <com.google.android.material.divider.MaterialDivider
             android:id="@+id/materialDivider2"
@@ -93,7 +110,7 @@
             android:layout_marginTop="@dimen/small_margin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/conditionsRV" />
+            app:layout_constraintTop_toBottomOf="@+id/addConditionButton" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/timePeriodSelectionTitle"

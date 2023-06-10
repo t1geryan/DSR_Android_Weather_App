@@ -89,4 +89,21 @@
     <string name="no_locations_while_creating_trigger_message">You don\'t have any added locations.\nPlease add locations before creating triggers.</string>
     <string name="input_date_period">Input time period</string>
     <string name="the_next_day">The next day</string>
+    <!--Trigger Condition-->
+    <string-array name="condition_types">
+        <item>Температура</item>
+        <item>Давление</item>
+        <item>Влажность</item>
+        <item>Скорость ветра</item>
+        <item>Направление ветра</item>
+    </string-array>
+
+    <string-array name="condition_expression_types">
+        <item>Больше</item>
+        <item>Меньше</item>
+        <item>Больше или равно</item>
+        <item>Меньше или равно</item>
+        <item>Равно</item>
+        <item>Не равно</item>
+    </string-array>
 </resources>
