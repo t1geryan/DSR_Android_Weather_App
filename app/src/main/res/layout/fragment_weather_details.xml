@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/weatherDetailsSwipeRefresh"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".presentation.ui.weather_details_screen.WeatherDetailsFragment">
 
     <ScrollView
         android:id="@+id/scrollView"

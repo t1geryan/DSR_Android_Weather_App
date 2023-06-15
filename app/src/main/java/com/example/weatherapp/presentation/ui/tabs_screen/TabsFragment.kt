@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentTabsBinding
 import com.example.weatherapp.presentation.contract.toolbar.ScreenContainer
-import com.example.weatherapp.presentation.ui.all_locations_list_screen.AllLocationsListFragment
-import com.example.weatherapp.presentation.ui.favorite_locations_list_screen.FavoriteLocationsListFragment
+import com.example.weatherapp.presentation.ui.locations_lists.all_locations_list_screen.AllLocationsListFragment
+import com.example.weatherapp.presentation.ui.locations_lists.favorite_locations_list_screen.FavoriteLocationsListFragment
 import com.example.weatherapp.presentation.ui.tabs_screen.adapter.PagerFragmentAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 

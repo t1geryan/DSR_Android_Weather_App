@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/common_screen_padding">
+    android:padding="@dimen/common_screen_padding"
+    tools:context=".presentation.ui.trigger_addition_wizard.trigger_addition_time_screen.TriggerAdditionTimeFragment">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/timePeriodSelectionHint"

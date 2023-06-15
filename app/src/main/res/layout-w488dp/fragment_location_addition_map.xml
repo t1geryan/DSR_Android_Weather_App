@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.ui.location_addition_map_screen.LocationAdditionMapFragment">
+    tools:context=".presentation.ui.location_addition_wizard.location_addition_map_screen.LocationAdditionMapFragment">
 
     <com.yandex.mapkit.mapview.MapView
         android:id="@+id/mapview"

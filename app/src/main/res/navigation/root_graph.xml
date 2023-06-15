@@ -35,7 +35,7 @@
     </fragment>
     <fragment
         android:id="@+id/locationAdditionMapFragment"
-        android:name="com.example.weatherapp.presentation.ui.location_addition_map_screen.LocationAdditionMapFragment"
+        android:name="com.example.weatherapp.presentation.ui.location_addition_wizard.location_addition_map_screen.LocationAdditionMapFragment"
         android:label="@string/location_addition_map_title"
         tools:layout="@layout/fragment_location_addition_map">
         <action
@@ -49,7 +49,7 @@
     </fragment>
     <fragment
         android:id="@+id/locationAdditionNameFragment"
-        android:name="com.example.weatherapp.presentation.ui.location_addition_name_screen.LocationAdditionNameFragment"
+        android:name="com.example.weatherapp.presentation.ui.location_addition_wizard.location_addition_name_screen.LocationAdditionNameFragment"
         android:label="@string/location_addition_name_title"
         tools:layout="@layout/fragment_location_addition_name">
         <action
@@ -71,7 +71,7 @@
     </fragment>
     <fragment
         android:id="@+id/locationAdditionDetailsFragment"
-        android:name="com.example.weatherapp.presentation.ui.location_addition_details_screen.LocationAdditionDetailsFragment"
+        android:name="com.example.weatherapp.presentation.ui.location_addition_wizard.location_addition_details_screen.LocationAdditionDetailsFragment"
         android:label="@string/location_addition_details_title"
         tools:layout="@layout/fragment_location_addition_details">
         <action
@@ -98,7 +98,7 @@
     </fragment>
     <fragment
         android:id="@+id/triggerAdditionsLocationsFragment"
-        android:name="com.example.weatherapp.presentation.ui.trigger_addition_locations_screen.TriggerAdditionsLocationsFragment"
+        android:name="com.example.weatherapp.presentation.ui.trigger_addition_wizard.trigger_addition_locations_screen.TriggerAdditionLocationsFragment"
         android:label="@string/trigger_addition_locations_title"
         tools:layout="@layout/fragment_trigger_addition_locations">
         <action
@@ -112,7 +112,7 @@
     </fragment>
     <fragment
         android:id="@+id/triggerAdditionConditionsFragment"
-        android:name="com.example.weatherapp.presentation.ui.trigger_addition_conditions_screen.TriggerAdditionConditionsFragment"
+        android:name="com.example.weatherapp.presentation.ui.trigger_addition_wizard.trigger_addition_conditions_screen.TriggerAdditionConditionsFragment"
         android:label="@string/trigger_addition_conditions_title"
         tools:layout="@layout/fragment_trigger_addition_conditions">
         <action
@@ -126,7 +126,7 @@
     </fragment>
     <fragment
         android:id="@+id/triggerAdditionTimeFragment"
-        android:name="com.example.weatherapp.presentation.ui.trigger_addition_time_screen.TriggerAdditionTimeFragment"
+        android:name="com.example.weatherapp.presentation.ui.trigger_addition_wizard.trigger_addition_time_screen.TriggerAdditionTimeFragment"
         android:label="@string/trigger_addition_time_title"
         tools:layout="@layout/fragment_trigger_addition_time">
         <action

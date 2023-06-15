@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/common_screen_padding">
+    android:padding="@dimen/common_screen_padding"
+    tools:context=".presentation.ui.trigger_addition_wizard.trigger_addition_locations_screen.TriggerAdditionLocationsFragment">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/locationsChoosingHint"
@@ -37,13 +38,13 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="@dimen/small_textview_padding"
+        android:text="@string/no_locations_while_creating_trigger_message"
         android:textColor="?attr/colorOnBackground"
         android:textSize="@dimen/big_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/no_locations_while_creating_trigger_message" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
         android:id="@+id/progressBar"
