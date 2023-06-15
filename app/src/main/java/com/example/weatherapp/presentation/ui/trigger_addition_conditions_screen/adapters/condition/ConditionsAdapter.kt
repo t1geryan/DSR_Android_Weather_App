@@ -1,4 +1,4 @@
-package com.example.weatherapp.presentation.ui.trigger_addition_screen.adapters.condition
+package com.example.weatherapp.presentation.ui.trigger_addition_conditions_screen.adapters.condition
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ItemConditionBinding
-import com.example.weatherapp.presentation.ui.trigger_addition_screen.adapters.condition.conditionitem.ConditionItem
-import com.example.weatherapp.presentation.ui.trigger_addition_screen.adapters.condition.conditionitem.ConditionItemClickListener
+import com.example.weatherapp.presentation.ui.trigger_addition_conditions_screen.adapters.condition.conditionitem.ConditionItem
+import com.example.weatherapp.presentation.ui.trigger_addition_conditions_screen.adapters.condition.conditionitem.ConditionItemClickListener
 
 class ConditionsAdapter(
     private val listener: ConditionItemClickListener,

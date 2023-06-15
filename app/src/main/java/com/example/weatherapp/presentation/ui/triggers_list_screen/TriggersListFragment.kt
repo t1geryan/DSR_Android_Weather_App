@@ -29,6 +29,6 @@ class TriggersListFragment : BaseListFragment() {
     }
 
     private fun startTriggerAddingWizard() {
-        findTopLevelNavController().navigate(R.id.action_bottomNavigationFragment_to_triggerAdditionFragment)
+        findTopLevelNavController().navigate(R.id.action_bottomNavigationFragment_to_triggerAdditionsLocationsFragment)
     }
 }

@@ -1,4 +1,4 @@
-package com.example.weatherapp.presentation.ui.trigger_addition_screen.adapters.condition.conditionitem
+package com.example.weatherapp.presentation.ui.trigger_addition_conditions_screen.adapters.condition.conditionitem
 
 import com.example.weatherapp.domain.models.TriggerCondition
 import com.example.weatherapp.utils.BidirectionalMapper

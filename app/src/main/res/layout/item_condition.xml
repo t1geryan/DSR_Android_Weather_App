@@ -48,10 +48,11 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/expressionSelectLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small_margin"
         android:hint="@string/select_expression"
-        android:minWidth="120dp"
+        app:layout_constraintEnd_toEndOf="@+id/conditionTypeSelectLayout"
         app:layout_constraintStart_toStartOf="@+id/conditionTypeSelectLayout"
         app:layout_constraintTop_toBottomOf="@+id/conditionTypeSelectLayout">
 
@@ -70,20 +71,20 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/small_margin"
+        android:layout_marginTop="@dimen/small_margin"
         android:hint="@string/input_amount"
-        app:layout_constraintEnd_toEndOf="@+id/conditionTypeSelectLayout"
-        app:layout_constraintStart_toEndOf="@+id/expressionSelectLayout"
-        app:layout_constraintTop_toBottomOf="@+id/conditionTypeSelectLayout">
+        app:layout_constraintEnd_toEndOf="@+id/expressionSelectLayout"
+        app:layout_constraintStart_toStartOf="@+id/expressionSelectLayout"
+        app:layout_constraintTop_toBottomOf="@+id/expressionSelectLayout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/amountInputET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:digits="0123456789."
+            android:digits="@string/signed_decimal_digits"
             android:ellipsize="end"
             android:imeOptions="actionNext"
-            android:inputType="numberDecimal"
+            android:inputType="numberSigned"
             android:maxLength="10"
             android:maxLines="1"
             tools:text="26.4" />

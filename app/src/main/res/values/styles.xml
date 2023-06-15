@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="LocationAdditionButtonStyle">
+    <style name="WizardButtonStyle">
         <item name="android:textAllCaps">true</item>
         <item name="android:minWidth">@dimen/min_button_width</item>
         <item name="android:maxWidth">@dimen/max_button_width</item>

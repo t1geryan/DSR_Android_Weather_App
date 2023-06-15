@@ -1,7 +1,7 @@
-package com.example.weatherapp.presentation.ui.trigger_addition_screen.adapters.condition
+package com.example.weatherapp.presentation.ui.trigger_addition_conditions_screen.adapters.condition
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.weatherapp.presentation.ui.trigger_addition_screen.adapters.condition.conditionitem.ConditionItem
+import com.example.weatherapp.presentation.ui.trigger_addition_conditions_screen.adapters.condition.conditionitem.ConditionItem
 
 class ConditionsDiffCallback(
     private val oldList: List<ConditionItem>,

@@ -2,11 +2,14 @@
     <!--App Name and Screen Titles-->
     <string name="app_name">Weather App</string>
     <string name="locations_title">Locations</string>
-    <string name="location_addition_map_title">Location Coordinates</string>
-    <string name="location_addition_name_title">Location Name</string>
-    <string name="location_addition_details_title">Weather Details</string>
+    <string name="location_addition_map_title">Location coordinates</string>
+    <string name="location_addition_name_title">Location name</string>
+    <string name="location_addition_details_title">Weather details</string>
     <string name="settings_title">Settings</string>
     <string name="triggers_title">Triggers</string>
+    <string name="trigger_addition_locations_title">Trigger locations</string>
+    <string name="trigger_addition_conditions_title">Trigger conditions</string>
+    <string name="trigger_addition_time_title">Trigger time</string>
 
     <!--Locations Screen-->
     <string name="empty_locations_list_message">You don\'t have any added locations.\nTap the button below to get started.</string>

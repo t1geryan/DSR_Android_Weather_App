@@ -78,17 +78,17 @@
     <string name="unable_to_get_data">Невозможно получить данные!</string>
     <string name="error">Ошибка!</string>
     <string name="network_error">Ошибка сети!</string>
-    <string name="input_amount">Input amount</string>
-    <string name="select_expression">Select expression</string>
-    <string name="add_new_condition">Add new condition</string>
-    <string name="select_condition_type">Select condition type</string>
-    <string name="concrete_date_period">Concrete time period</string>
-    <string name="select_time_period">Select time period:</string>
-    <string name="add_conditions">Add conditions:</string>
-    <string name="choose_locations">Choose Locations:</string>
-    <string name="no_locations_while_creating_trigger_message">You don\'t have any added locations.\nPlease add locations before creating triggers.</string>
-    <string name="input_date_period">Input time period</string>
-    <string name="the_next_day">The next day</string>
+    <string name="input_amount">Введите сумму</string>
+    <string name="select_expression">Выберите выражение</string>
+    <string name="add_new_condition">Добавить новое условие</string>
+    <string name="select_condition_type">Выбрать тип условия</string>
+    <string name="concrete_date_period">Конкретный период времени</string>
+    <string name="select_time_period">Выберите период времени:</string>
+    <string name="add_conditions">Добавьте условия срабатывания:</string>
+    <string name="choose_locations">Выберите локации:</string>
+    <string name="no_locations_while_creating_trigger_message">У вас нет добавленных локаций. Пожалуйста, добавьте локации перед созданием триггеров.</string>
+    <string name="input_date_period">Введите временной период</string>
+    <string name="the_next_day">Следующий день</string>
     <!--Trigger Condition-->
     <string-array name="condition_types">
         <item>Температура</item>
@@ -97,7 +97,6 @@
         <item>Скорость ветра</item>
         <item>Направление ветра</item>
     </string-array>
-
     <string-array name="condition_expression_types">
         <item>Больше</item>
         <item>Меньше</item>
@@ -106,4 +105,7 @@
         <item>Равно</item>
         <item>Не равно</item>
     </string-array>
+    <string name="trigger_addition_locations_title">Локации триггера</string>
+    <string name="trigger_addition_conditions_title">Условия триггера</string>
+    <string name="trigger_addition_time_title">Время триггера</string>
 </resources>
