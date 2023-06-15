@@ -14,14 +14,16 @@
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/bottomNavigationFragment" />
         <action
             android:id="@+id/action_bottomNavigationFragment_to_weatherFragment"
             app:destination="@id/weatherFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/bottomNavigationFragment" />
         <action
             android:id="@+id/action_bottomNavigationFragment_to_triggerAdditionsLocationsFragment"
             app:destination="@id/triggerAdditionsLocationsFragment"
@@ -42,10 +44,8 @@
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        <action
-            android:id="@+id/action_locationAdditionMapFragment_to_bottomNavigationFragment"
-            app:popUpTo="@id/bottomNavigationFragment" />
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/locationAdditionMapFragment" />
     </fragment>
     <fragment
         android:id="@+id/locationAdditionNameFragment"
@@ -58,10 +58,8 @@
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        <action
-            android:id="@+id/action_locationAdditionNameFragment_to_locationAdditionMapFragment"
-            app:popUpTo="@id/locationAdditionMapFragment" />
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/locationAdditionNameFragment" />
 
         <argument
             android:name="previouslyEnteredLocationName"
@@ -76,9 +74,6 @@
         android:name="com.example.weatherapp.presentation.ui.location_addition_details_screen.LocationAdditionDetailsFragment"
         android:label="@string/location_addition_details_title"
         tools:layout="@layout/fragment_location_addition_details">
-        <action
-            android:id="@+id/action_locationAdditionDetailsFragment_to_locationAdditionNameFragment"
-            app:popUpTo="@id/locationAdditionNameFragment" />
         <action
             android:id="@+id/action_locationAdditionDetailsFragment_to_bottomNavigationFragment"
             app:popUpTo="@id/bottomNavigationFragment" />
@@ -97,9 +92,6 @@
         <argument
             android:name="locationId"
             app:argType="long" />
-        <action
-            android:id="@+id/action_weatherFragment_to_bottomNavigationFragment"
-            app:popUpTo="@id/bottomNavigationFragment" />
         <argument
             android:name="title"
             app:argType="string" />
