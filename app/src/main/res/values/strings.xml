@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--App Name and Screen Titles-->
     <string name="app_name">Weather App</string>
@@ -37,14 +38,20 @@
     <string name="tomorrow_temperature">Tomorrow temperature: %1$s</string>
 
     <!--Setting Screen-->
-    <string name="units_system_choosing_title">Units System:</string>
+    <string name="units_system_title">Units system</string>
     <string name="metric_units">Metric Units</string>
     <string name="imperial_units">Imperial Units</string>
-    <string name="application_theme_choosing_title">Application Theme:</string>
+    <string name="application_theme_title">App theme</string>
     <string name="day_theme">Day Theme</string>
     <string name="night_theme">Night Theme</string>
     <string name="system_theme">System Theme</string>
+    <string name="app_version_title">App version</string>
     <string name="app_version">App version is %1$s</string>
+    <string name="units_system_summary">Click to select the units system</string>
+    <string name="app_theme_summary">Click to select an app theme</string>
+    <string name="themes_preference_category_title">Themes and styles</string>
+    <string name="units_preference_category_title">Units</string>
+    <string name="app_info_preference_category_title">Application info</string>
 
     <!--Trigger Addition Screen-->
     <string name="select_condition_type">Select condition type</string>
@@ -58,24 +65,6 @@
     <string name="choose_locations">Choose Locations:</string>
     <string name="no_locations_while_creating_trigger_message">You don\'t have any added locations.\nPlease add locations before creating triggers.</string>
     <string name="the_next_day">The next day</string>
-
-    <!--Trigger Condition-->
-    <string-array name="condition_types">
-        <item>Temperature</item>
-        <item>Pressure</item>
-        <item>Humidity</item>
-        <item>Wind Speed</item>
-        <item>Wind Direction</item>
-    </string-array>
-
-    <string-array name="condition_expression_types">
-        <item> Greater </item>
-        <item> Less </item>
-        <item> Greater or equal</item>
-        <item> Less or equal</item>
-        <item> Equal </item>
-        <item> Not equal </item>
-    </string-array>
 
     <!--Weather Details-->
     <!--p1 is weather icon name e.g. 10d-->
@@ -92,26 +81,6 @@
     <!--Wind-->
     <!--p1 is a value, p2 is the unit (m/s or mi/h)-->
     <string name="wind_speed" translatable="false">%1$d %2$s</string>
-
-    <!--Units-->
-    <string-array name="temperature_units">
-        <item>°C</item>
-        <item>°F</item>
-    </string-array>
-    <string-array name="wind_speed_units">
-        <item>m/s</item>
-        <item>mi/h</item>
-    </string-array>
-    <string-array name="directions">
-        <item>N</item>
-        <item>NE</item>
-        <item>E</item>
-        <item>SE</item>
-        <item>S</item>
-        <item>SW</item>
-        <item>W</item>
-        <item>NW</item>
-    </string-array>
 
     <!--TabLayout Items-->
     <string name="all">ALL</string>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--Units-->
+    <string-array name="temperature_units">
+        <item>°C</item>
+        <item>°F</item>
+    </string-array>
+    <string-array name="wind_speed_units">
+        <item>m/s</item>
+        <item>mi/h</item>
+    </string-array>
+    <string-array name="directions">
+        <item>N</item>
+        <item>NE</item>
+        <item>E</item>
+        <item>SE</item>
+        <item>S</item>
+        <item>SW</item>
+        <item>W</item>
+        <item>NW</item>
+    </string-array>
+
+    <!--Trigger Condition-->
+    <string-array name="condition_types">
+        <item>Temperature</item>
+        <item>Pressure</item>
+        <item>Humidity</item>
+        <item>Wind Speed</item>
+        <item>Wind Direction</item>
+    </string-array>
+
+    <string-array name="condition_expression_types">
+        <item> Greater </item>
+        <item> Less </item>
+        <item> Greater or equal</item>
+        <item> Less or equal</item>
+        <item> Equal </item>
+        <item> Not equal </item>
+    </string-array>
+
+    <!-- Settings -->
+    <string-array name="units_system_settings" translatable="false">
+        <item>@string/metric_units</item>
+        <item>@string/imperial_units</item>
+    </string-array>
+
+    <string-array name="app_theme_settings" translatable="false">
+        <item>@string/day_theme</item>
+        <item>@string/night_theme</item>
+        <item>@string/system_theme</item>
+    </string-array>
+
+    <!--see domain/models/Settings.kt-->
+    <string-array name="units_system_values" translatable="false">
+        <item>@string/metric_units_system_value</item>
+        <item>@string/imperial_units_system_value</item>
+    </string-array>
+    <string name="metric_units_system_value" translatable="false">0</string>
+    <string name="imperial_units_system_value" translatable="false">1</string>
+
+    <string-array name="app_theme_values" translatable="false">
+        <item>@string/day_theme_value</item>
+        <item>@string/night_theme_value</item>
+        <item>@string/system_theme_value</item>
+    </string-array>
+    <string name="day_theme_value" translatable="false">0</string>
+    <string name="night_theme_value" translatable="false">1</string>
+    <string name="system_theme_value" translatable="false">2</string>
+</resources>

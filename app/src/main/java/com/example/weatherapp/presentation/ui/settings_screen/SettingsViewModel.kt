@@ -36,11 +36,24 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun setAppTheme(value: AppTheme) = viewModelScopeIO.launch {
-        settingsRepository.setAppTheme(value)
+    fun setAppThemeByOrdinal(ordinal: Int) = viewModelScopeIO.launch {
+        settingsRepository.setAppTheme(getAppThemeByOrdinal(ordinal))
     }
 
-    fun setAppUnitsSystem(value: AppUnitsSystem) = viewModelScopeIO.launch {
-        settingsRepository.setUnitsSystem(value)
+    fun setAppUnitsSystemByOrdinal(ordinal: Int) = viewModelScopeIO.launch {
+        settingsRepository.setUnitsSystem(getAppUnitsSystemByOrdinal(ordinal))
+    }
+
+    private fun getAppThemeByOrdinal(ordinal: Int): AppTheme {
+        return APP_THEMES[ordinal % APP_THEMES.size]
+    }
+
+    private fun getAppUnitsSystemByOrdinal(ordinal: Int): AppUnitsSystem {
+        return UNITS_SYSTEMS[ordinal % APP_THEMES.size]
+    }
+
+    companion object {
+        private val APP_THEMES = AppTheme.values()
+        private val UNITS_SYSTEMS = AppUnitsSystem.values()
     }
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:fragment="com.example.weatherapp.presentation.ui.settings_screen.SettingsFragment"
+    app:key="@string/settings_key">
+
+    <PreferenceCategory app:title="@string/units_preference_category_title">
+        <ListPreference
+            app:defaultValue="@string/metric_units_system_value"
+            app:entries="@array/units_system_settings"
+            app:entryValues="@array/units_system_values"
+            app:key="@string/units_system_preference_key"
+            app:summary="@string/units_system_summary"
+            app:title="@string/units_system_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/themes_preference_category_title">
+        <ListPreference
+            app:defaultValue="@string/system_theme_value"
+            app:entries="@array/app_theme_settings"
+            app:entryValues="@array/app_theme_values"
+            app:key="@string/app_theme_preference_key"
+            app:summary="@string/app_theme_summary"
+            app:title="@string/application_theme_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/app_info_preference_category_title">
+        <Preference
+            app:key="@string/app_version_preference_key"
+            app:title="@string/app_version_title"
+            tools:summary="Current app version is 1.0" />
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -21,10 +21,10 @@
     <string name="deny_next_day_forecast">Без прогноза на следующий день</string>
     <string name="current_temperature">Текущая температура: %1$s</string>
     <string name="tomorrow_temperature">Завтрашняя температура: %1$s</string>
-    <string name="units_system_choosing_title">Система единиц измерения</string>
+    <string name="units_system_title">Система единиц измерения</string>
     <string name="metric_units">Метрическая</string>
     <string name="imperial_units">Имперская</string>
-    <string name="application_theme_choosing_title">Тема приложения:</string>
+    <string name="application_theme_title">Тема приложения:</string>
     <string name="day_theme">Светлая Тема</string>
     <string name="night_theme">Тёмная Тема</string>
     <string name="system_theme">Системная Тема</string>
@@ -55,20 +55,6 @@
     <string name="check_internet_connection_message">Невозможно получить данные.Пожалуйста, проверьте подключение к интернету!</string>
     <string name="refresh">Попробовать снова</string>
     <string name="close">Закрыть</string>
-    <string-array name="wind_speed_units">
-        <item>м/с</item>
-        <item>ми/ч</item>
-    </string-array>
-    <string-array name="directions">
-        <item>С</item>
-        <item>СВ</item>
-        <item>В</item>
-        <item>ЮВ</item>
-        <item>Ю</item>
-        <item>ЮЗ</item>
-        <item>З</item>
-        <item>СЗ</item>
-    </string-array>
     <string name="confirm_title">Вы уверены?</string>
     <string name="location_delete_message">Локация будет удалена навсегда</string>
     <string name="confirm">Подтвердить</string>
@@ -89,23 +75,13 @@
     <string name="no_locations_while_creating_trigger_message">У вас нет добавленных локаций. Пожалуйста, добавьте локации перед созданием триггеров.</string>
     <string name="input_date_period">Введите временной период</string>
     <string name="the_next_day">Следующий день</string>
-    <!--Trigger Condition-->
-    <string-array name="condition_types">
-        <item>Температура</item>
-        <item>Давление</item>
-        <item>Влажность</item>
-        <item>Скорость ветра</item>
-        <item>Направление ветра</item>
-    </string-array>
-    <string-array name="condition_expression_types">
-        <item>Больше</item>
-        <item>Меньше</item>
-        <item>Больше или равно</item>
-        <item>Меньше или равно</item>
-        <item>Равно</item>
-        <item>Не равно</item>
-    </string-array>
     <string name="trigger_addition_locations_title">Локации триггера</string>
     <string name="trigger_addition_conditions_title">Условия триггера</string>
     <string name="trigger_addition_time_title">Время триггера</string>
+    <string name="app_version_title">Версия приложения</string>
+    <string name="units_system_summary">Нажмите чтобы выбрать систему единиц измерения</string>
+    <string name="app_theme_summary">Выберите тему приложения</string>
+    <string name="themes_preference_category_title">Темы и стили</string>
+    <string name="units_preference_category_title">Единицы измерения</string>
+    <string name="app_info_preference_category_title">Информация о приложении</string>
 </resources>

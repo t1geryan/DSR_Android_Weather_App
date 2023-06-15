@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_key" translatable="false">settings_key</string>
+    <string name="app_theme_preference_key" translatable="false">app_theme_preference_key</string>
+    <string name="units_system_preference_key" translatable="false">units_system_preference_key</string>
+    <string name="app_version_preference_key" translatable="false">app_version_preference_key</string>
+</resources>
