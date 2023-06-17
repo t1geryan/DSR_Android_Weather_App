@@ -1,6 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:padding="@dimen/common_screen_padding"
+    tools:ignore="Overdraw">
+
+    <TextView
+        android:id="@+id/triggerNameTV"
+        style="@style/SingleLineTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorOnBackground"
+        android:textSize="@dimen/huge_text_size"
+        app:layout_constraintEnd_toStartOf="@+id/deleteTriggerIVLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Trigger #1" />
+
+    <TextView
+        android:id="@+id/selectedLocationsTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small_margin"
+        android:textColor="?attr/colorOnBackground"
+        android:textSize="@dimen/big_text_size"
+        app:layout_constraintEnd_toStartOf="@+id/deleteTriggerIVLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/triggerNameTV"
+        tools:text="Voronezh, Russia\nNew York, USA" />
+
+    <TextView
+        android:id="@+id/selectedConditionsTV"
+        style="@style/SingleLineTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small_margin"
+        android:textColor="?attr/colorOnBackground"
+        android:textSize="@dimen/big_text_size"
+        app:layout_constraintEnd_toEndOf="@+id/selectedLocationsTV"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectedLocationsTV"
+        tools:text="Temperature, Wind Power" />
+
+    <FrameLayout
+        android:id="@+id/deleteTriggerIVLayout"
+        android:layout_width="@dimen/common_icon_layout_size"
+        android:layout_height="@dimen/common_icon_layout_size"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/deleteTriggerIV"
+            android:layout_width="@dimen/common_icon_size"
+            android:layout_height="@dimen/common_icon_size"
+            android:layout_gravity="center"
+            android:contentDescription="@string/favorite_icon"
+            app:tint="?attr/colorOnBackground"
+            tools:src="@drawable/icon_delete_outline_24" />
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

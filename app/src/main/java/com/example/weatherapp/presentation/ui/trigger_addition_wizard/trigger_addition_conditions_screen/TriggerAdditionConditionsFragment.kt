@@ -22,6 +22,7 @@ class TriggerAdditionConditionsFragment : Fragment() {
     private lateinit var conditionsAdapter: ConditionsAdapter
 
     private val viewModel: TriggerAdditionConditionsViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -32,8 +33,6 @@ class TriggerAdditionConditionsFragment : Fragment() {
         binding.conditionsRV.addVerticalDividerItemDecoration(requireContext())
         conditionsAdapter = ConditionsAdapter(viewModel)
         binding.conditionsRV.adapter = conditionsAdapter
-
-
 
         return binding.root
     }

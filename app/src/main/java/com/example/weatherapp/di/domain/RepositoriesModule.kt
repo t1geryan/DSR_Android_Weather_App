@@ -41,4 +41,10 @@ abstract class RepositoriesModule {
     abstract fun bindsGeocoderRepository(
         geocoderRepositoryImpl: GeocoderRepositoryImpl
     ): GeocoderRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindsTriggersRepository(
+        triggersRepositoryImpl: TriggersRepositoryImpl
+    ): TriggersRepository
 }

@@ -57,7 +57,7 @@ abstract class BaseLocationsListViewModel(
         }
     }
 
-    override fun changeFavoriteStatus(locationItem: LocationItem) {
+    override fun onFavoriteStatusButtonClickListener(locationItem: LocationItem) {
         viewModelScopeIO.launch {
             _isLoadingState.value = false
             locationsWeatherRepository.changeLocationFavoriteStatusById(locationItem.location.id)
@@ -65,7 +65,7 @@ abstract class BaseLocationsListViewModel(
         }
     }
 
-    override fun showDetails(locationItem: LocationItem) {
+    override fun onItemClickListener(locationItem: LocationItem) {
         viewModelScopeIO.launch {
             _showDetailsEvent.emit(SingleEvent(locationItem))
         }

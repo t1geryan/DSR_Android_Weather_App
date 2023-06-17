@@ -12,7 +12,7 @@ import com.example.weatherapp.presentation.ui.trigger_addition_wizard.trigger_ad
 
 class ConditionsAdapter(
     private val listener: ConditionItemClickListener,
-) : RecyclerView.Adapter<ConditionsAdapter.ConditionViewHolder>() {
+) : RecyclerView.Adapter<ConditionsAdapter.ConditionsViewHolder>() {
 
     var conditions: List<ConditionItem> = emptyList()
         set(value) {
@@ -22,21 +22,21 @@ class ConditionsAdapter(
             diffResult.dispatchUpdatesTo(this)
         }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConditionViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConditionsViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemConditionBinding.inflate(inflater, parent, false)
-        return ConditionViewHolder(binding)
+        return ConditionsViewHolder(binding)
     }
 
     override fun getItemCount(): Int = conditions.size
 
 
-    override fun onBindViewHolder(holder: ConditionViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ConditionsViewHolder, position: Int) {
         val itemCondition = conditions[position]
         holder.bind(itemCondition)
     }
 
-    inner class ConditionViewHolder(
+    inner class ConditionsViewHolder(
         private val binding: ItemConditionBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
@@ -60,7 +60,7 @@ class ConditionsAdapter(
         fun bind(conditionItem: ConditionItem) {
             with(binding) {
                 deleteConditionLayout.setOnClickListener {
-                    listener.deleteConditionItem(conditionItem)
+                    listener.onDeleteButtonClickListener(conditionItem)
                 }
 
                 conditionTypeSelectTV.setText(

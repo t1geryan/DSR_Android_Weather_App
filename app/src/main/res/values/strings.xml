@@ -53,17 +53,26 @@
     <string name="units_preference_category_title">Units</string>
     <string name="app_info_preference_category_title">Application info</string>
 
-    <!--Trigger Addition Screen-->
+    <!--Trigger List Screen-->
+    <string name="trigger_name">Trigger #%1$d</string>
+
+    <!--Trigger Addition Locations Screen-->
+    <string name="choose_locations">Choose Locations:</string>
+    <string name="no_locations_while_creating_trigger_message">You don\'t have any added locations.\nPlease add locations before creating triggers.</string>
+
+    <!--Trigger Addition Conditions Screen-->
+    <string name="add_conditions">Add conditions:</string>
+    <string name="add_new_condition">Add new condition</string>
+
+    <!-- Trigger Condition Item-->
     <string name="select_condition_type">Select condition type</string>
     <string name="input_amount">Input amount</string>
     <string name="select_expression">Select expression</string>
-    <string name="add_new_condition">Add new condition</string>
+
+    <!--Trigger Addition Time Screen-->
     <string name="concrete_date_period">Concrete date period</string>
     <string name="input_date_period">Input date period</string>
     <string name="select_time_period">Select time period:</string>
-    <string name="add_conditions">Add conditions:</string>
-    <string name="choose_locations">Choose Locations:</string>
-    <string name="no_locations_while_creating_trigger_message">You don\'t have any added locations.\nPlease add locations before creating triggers.</string>
     <string name="the_next_day">The next day</string>
 
     <!--Weather Details-->
@@ -99,6 +108,7 @@
     <string name="navigate_up">navigate up</string>
     <string name="search">Search</string>
     <string name="clear_text">clear text</string>
+    <string name="delete_condition">delete condition</string>
 
     <!--Toolbar Actions Titles -->
     <string name="delete_location">delete location</string>

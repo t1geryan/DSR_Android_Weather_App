@@ -84,4 +84,6 @@
     <string name="themes_preference_category_title">Темы и стили</string>
     <string name="units_preference_category_title">Единицы измерения</string>
     <string name="app_info_preference_category_title">Информация о приложении</string>
+    <string name="delete_condition">удалить условие триггера</string>
+    <string name="trigger_name">Триггер #%1$d</string>
 </resources>

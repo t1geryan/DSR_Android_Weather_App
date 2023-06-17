@@ -19,7 +19,7 @@
             android:layout_width="@dimen/common_icon_size"
             android:layout_height="@dimen/common_icon_size"
             android:layout_gravity="center"
-            android:contentDescription="@string/favorite_icon"
+            android:contentDescription="@string/delete_condition"
             android:src="@drawable/icon_delete_outline_24"
             app:tint="?attr/colorOnBackground" />
     </FrameLayout>

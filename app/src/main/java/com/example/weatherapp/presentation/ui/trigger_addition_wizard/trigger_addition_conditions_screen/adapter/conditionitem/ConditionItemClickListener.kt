@@ -2,5 +2,5 @@ package com.example.weatherapp.presentation.ui.trigger_addition_wizard.trigger_a
 
 interface ConditionItemClickListener {
 
-    fun deleteConditionItem(conditionItem: ConditionItem)
+    fun onDeleteButtonClickListener(conditionItem: ConditionItem)
 }

@@ -44,17 +44,6 @@ class LocationsAdapter(
         private val binding: ItemLocationBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        private fun setOnClickListeners(locationItem: LocationItem) {
-            with(binding) {
-                root.setOnClickListener {
-                    listener.showDetails(locationItem)
-                }
-                favoriteStatusLayout.setOnClickListener {
-                    listener.changeFavoriteStatus(locationItem)
-                }
-            }
-        }
-
         fun bind(locationItem: LocationItem) {
             setOnClickListeners(locationItem)
             val context = binding.root.context
@@ -96,6 +85,19 @@ class LocationsAdapter(
                     else
                         R.drawable.icon_favorite_border_24
                 )
+            }
+
+
+        }
+
+        private fun setOnClickListeners(locationItem: LocationItem) {
+            with(binding) {
+                root.setOnClickListener {
+                    listener.onItemClickListener(locationItem)
+                }
+                favoriteStatusLayout.setOnClickListener {
+                    listener.onFavoriteStatusButtonClickListener(locationItem)
+                }
             }
         }
 

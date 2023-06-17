@@ -18,7 +18,7 @@ class TriggerAdditionConditionsViewModel @Inject constructor(
     val conditionItems: StateFlow<List<ConditionItem>>
         get() = _conditionItems.asStateFlow()
 
-    override fun deleteConditionItem(conditionItem: ConditionItem) {
+    override fun onDeleteButtonClickListener(conditionItem: ConditionItem) {
         TODO("not yet implemented")
     }
 }

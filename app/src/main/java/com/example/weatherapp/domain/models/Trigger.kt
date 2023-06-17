@@ -2,7 +2,7 @@ package com.example.weatherapp.domain.models
 
 data class Trigger(
     val id: Long,
-    val latLng: LatLng,
+    val locations: List<Location>,
     val conditions: List<TriggerCondition>,
 )
 
