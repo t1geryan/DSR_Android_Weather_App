@@ -86,4 +86,5 @@
     <string name="app_info_preference_category_title">Информация о приложении</string>
     <string name="delete_condition">удалить условие триггера</string>
     <string name="trigger_name">Триггер #%1$d</string>
+    <string name="no_locations_choosen_message">Пожалуйста, выберите хотя бы одно местоположение</string>
 </resources>

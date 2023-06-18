@@ -9,13 +9,8 @@
         android:id="@+id/locationCB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:checked="true" />
-
-    <TextView
-        android:id="@+id/locationNameTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:textColor="?attr/colorOnBackground"
         android:textSize="@dimen/big_text_size"
+        tools:checked="true"
         tools:text="Voronezh, Russia" />
 </androidx.appcompat.widget.LinearLayoutCompat>

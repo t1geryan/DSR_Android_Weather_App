@@ -59,7 +59,7 @@
     <!--Trigger Addition Locations Screen-->
     <string name="choose_locations">Choose Locations:</string>
     <string name="no_locations_while_creating_trigger_message">You don\'t have any added locations.\nPlease add locations before creating triggers.</string>
-
+    <string name="no_locations_choosen_message">Please select at least one location</string>
     <!--Trigger Addition Conditions Screen-->
     <string name="add_conditions">Add conditions:</string>
     <string name="add_new_condition">Add new condition</string>
