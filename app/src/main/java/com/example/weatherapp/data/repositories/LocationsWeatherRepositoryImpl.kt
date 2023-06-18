@@ -41,18 +41,14 @@ class LocationsWeatherRepositoryImpl @Inject constructor(
     private val currentLocaleProvider: CurrentLocaleProvider,
 ) : LocationsWeatherRepository {
 
-    private fun getLocationsFromDatabase(onlyFavorites: Boolean) =
-        if (onlyFavorites) {
-            locationsDao.getFavoriteLocations()
-        } else {
-            locationsDao.getAllLocations()
+    override fun getAllLocations(onlyFavorites: Boolean): Flow<List<Location>> =
+        getLocationsFromDatabase(onlyFavorites) { locationEntity ->
+            locationMapper.reverseMap(locationEntity)
         }
 
     override fun getAllLocationsWeather(onlyFavorites: Boolean): Flow<List<LocationWeather>> =
-        getLocationsFromDatabase(onlyFavorites).map { list ->
-            list.map { locationEntity ->
-                createLocationWeatherByLocationEntity(locationEntity)
-            }
+        getLocationsFromDatabase(onlyFavorites) { locationEntity ->
+            createLocationWeatherByLocationEntity(locationEntity)
         }
 
     override fun getLocationWeatherById(locationId: Long): Flow<LocationWeather> =
@@ -72,6 +68,22 @@ class LocationsWeatherRepositoryImpl @Inject constructor(
 
     override suspend fun changeLocationFavoriteStatusById(locationId: Long) {
         locationsDao.changeLocationFavoriteStatusById(locationId)
+    }
+
+    private fun <T> getLocationsFromDatabase(
+        onlyFavorites: Boolean,
+        locationEntityMapper: suspend (LocationEntity) -> T
+    ): Flow<List<T>> {
+        val locationsEntitiesFlow = if (onlyFavorites) {
+            locationsDao.getFavoriteLocations()
+        } else {
+            locationsDao.getAllLocations()
+        }
+        return locationsEntitiesFlow.map { list ->
+            list.map { locationEntity ->
+                locationEntityMapper(locationEntity)
+            }
+        }
     }
 
     /**

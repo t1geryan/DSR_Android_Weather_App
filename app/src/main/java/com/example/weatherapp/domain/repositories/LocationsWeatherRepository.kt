@@ -9,6 +9,12 @@ import kotlinx.coroutines.flow.Flow
 interface LocationsWeatherRepository {
 
     /**
+     * The function for getting list of [Location] for all/favorite locations
+     * @throws AppException
+     */
+    fun getAllLocations(onlyFavorites: Boolean = false): Flow<List<Location>>
+
+    /**
      * The function for getting list of [LocationWeather] for all/favorite locations.
      * Returns unupdated data if there is no network connection
      * @throws BackendException

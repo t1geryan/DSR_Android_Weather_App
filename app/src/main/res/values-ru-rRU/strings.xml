@@ -79,8 +79,8 @@
     <string name="trigger_addition_conditions_title">Условия триггера</string>
     <string name="trigger_addition_time_title">Время триггера</string>
     <string name="app_version_title">Версия приложения</string>
-    <string name="units_system_summary">Нажмите чтобы выбрать систему единиц измерения</string>
-    <string name="app_theme_summary">Выберите тему приложения</string>
+    <string name="units_system_summary">Нажмите, чтобы выбрать систему единиц измерения</string>
+    <string name="app_theme_summary">Нажмите, чтобы выбрать тему приложения</string>
     <string name="themes_preference_category_title">Темы и стили</string>
     <string name="units_preference_category_title">Единицы измерения</string>
     <string name="app_info_preference_category_title">Информация о приложении</string>
