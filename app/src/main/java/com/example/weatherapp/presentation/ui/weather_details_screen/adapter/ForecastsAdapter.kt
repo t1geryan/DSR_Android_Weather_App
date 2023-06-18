@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ItemForecastBinding
 import com.example.weatherapp.presentation.contract.UnitsSystemApi
+import com.example.weatherapp.presentation.ui.weather_details_screen.adapter.forecastitem.ForecastItem
 import com.example.weatherapp.presentation.ui_utils.getTemperatureString
 import com.example.weatherapp.presentation.ui_utils.unixUtcSecondsTimeToPattern
 import com.example.weatherapp.utils.Constants

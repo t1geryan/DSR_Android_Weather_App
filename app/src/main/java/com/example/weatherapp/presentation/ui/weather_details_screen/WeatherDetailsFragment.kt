@@ -20,8 +20,8 @@ import com.example.weatherapp.presentation.contract.toolbar.HasCustomActionToolb
 import com.example.weatherapp.presentation.contract.toolbar.HasCustomTitleToolbar
 import com.example.weatherapp.presentation.contract.toolbar.ToolbarAction
 import com.example.weatherapp.presentation.state.UiState
-import com.example.weatherapp.presentation.ui.weather_details_screen.adapter.ForecastItem
 import com.example.weatherapp.presentation.ui.weather_details_screen.adapter.ForecastsAdapter
+import com.example.weatherapp.presentation.ui.weather_details_screen.adapter.forecastitem.ForecastToForecastItemMapper
 import com.example.weatherapp.presentation.ui_utils.*
 import com.example.weatherapp.utils.Constants
 import com.example.weatherapp.utils.locale.CurrentLocaleProvider
@@ -50,6 +50,9 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
 
     @Inject
     lateinit var currentLocaleProvider: CurrentLocaleProvider
+
+    @Inject
+    lateinit var forecastToForecastItemMapper: ForecastToForecastItemMapper
 
     private val viewModel: WeatherDetailsViewModel by viewModelCreator {
         factory.create(args.locationId)
@@ -126,8 +129,8 @@ class WeatherDetailsFragment : Fragment(), HasCustomTitleToolbar, HasCustomActio
             }
         }
         // show forecasts
-        adapter.forecastsList = locationWeather.weatherForecasts.map {
-            ForecastItem.fromForecast(it)
+        adapter.forecastsList = locationWeather.weatherForecasts.map { forecast ->
+            forecastToForecastItemMapper.map(forecast)
         }
 
         // show current weather

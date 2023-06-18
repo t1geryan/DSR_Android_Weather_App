@@ -1,6 +1,7 @@
 package com.example.weatherapp.presentation.ui.weather_details_screen.adapter
 
 import androidx.recyclerview.widget.DiffUtil
+import com.example.weatherapp.presentation.ui.weather_details_screen.adapter.forecastitem.ForecastItem
 
 class ForecastsDiffCallback(
     private val oldList: List<ForecastItem>,
