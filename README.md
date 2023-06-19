@@ -37,7 +37,7 @@
 - AndroidX Preference library for Preference Screen
 - Glide
 - Yandex MapKit
-- Location play services
+- Location Google Play Service
 - MpAndroidChart
 
 ## Контакты для связи:
