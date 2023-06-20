@@ -12,6 +12,7 @@ import com.example.weatherapp.data.mappers.location.LocationDomainEntityMapper
 import com.example.weatherapp.data.pref_datastore.settings_datastore.dao.SettingsDao
 import com.example.weatherapp.data.pref_datastore.settings_datastore.entities.UnitsSystemEntity
 import com.example.weatherapp.data.remote.weather.api.WeatherApi
+import com.example.weatherapp.domain.AppException
 import com.example.weatherapp.domain.ConnectionException
 import com.example.weatherapp.domain.models.CurrentWeather
 import com.example.weatherapp.domain.models.Forecast
@@ -74,15 +75,19 @@ class LocationsWeatherRepositoryImpl @Inject constructor(
         onlyFavorites: Boolean,
         locationEntityMapper: suspend (LocationEntity) -> T
     ): Flow<List<T>> {
-        val locationsEntitiesFlow = if (onlyFavorites) {
-            locationsDao.getFavoriteLocations()
-        } else {
-            locationsDao.getAllLocations()
-        }
-        return locationsEntitiesFlow.map { list ->
-            list.map { locationEntity ->
-                locationEntityMapper(locationEntity)
+        try {
+            val locationsEntitiesFlow = if (onlyFavorites) {
+                locationsDao.getFavoriteLocations()
+            } else {
+                locationsDao.getAllLocations()
             }
+            return locationsEntitiesFlow.map { list ->
+                list.map { locationEntity ->
+                    locationEntityMapper(locationEntity)
+                }
+            }
+        } catch (e: Exception) {
+            throw AppException(e)
         }
     }
 
