@@ -1,5 +1,6 @@
 package com.example.weatherapp.data.repositories
 
+import com.example.weatherapp.BuildConfig
 import com.example.weatherapp.data.databases.location_database.dao.CurrentWeatherDao
 import com.example.weatherapp.data.databases.location_database.dao.LocationsDao
 import com.example.weatherapp.data.databases.location_database.dao.WeatherForecastsDao
@@ -127,7 +128,7 @@ class LocationsWeatherRepositoryImpl @Inject constructor(
         val forecastResponse = weatherApi.getLocationEvery3HoursWeatherForecast(
             locationEntity.lat,
             locationEntity.lon,
-            apiKey = Constants.OPEN_WEATHER_API_KEY,
+            apiKey = BuildConfig.OPEN_WEATHER_API_KEY,
             units = getCurrentUnitsSystem(),
             timestampsCount = Constants.Weather.FORECASTS_COUNT_FOR_3_DAYS,
             language = getApiRequestLocale(),
@@ -148,7 +149,7 @@ class LocationsWeatherRepositoryImpl @Inject constructor(
         val currentWeatherResponse = weatherApi.getLocationCurrentWeather(
             locationEntity.lat,
             locationEntity.lon,
-            apiKey = Constants.OPEN_WEATHER_API_KEY,
+            apiKey = BuildConfig.OPEN_WEATHER_API_KEY,
             units = getCurrentUnitsSystem(),
             language = getApiRequestLocale(),
         )
