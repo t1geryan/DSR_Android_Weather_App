@@ -7,10 +7,6 @@
     <string name="location_addition_name_title">Location name</string>
     <string name="location_addition_details_title">Weather details</string>
     <string name="settings_title">Settings</string>
-    <string name="triggers_title">Triggers</string>
-    <string name="trigger_addition_locations_title">Trigger locations</string>
-    <string name="trigger_addition_conditions_title">Trigger conditions</string>
-    <string name="trigger_addition_time_title">Trigger time</string>
 
     <!--Locations Screen-->
     <string name="empty_locations_list_message">You don\'t have any added locations.\nTap the button below to get started.</string>
@@ -53,28 +49,6 @@
     <string name="units_preference_category_title">Units</string>
     <string name="app_info_preference_category_title">Application info</string>
 
-    <!--Trigger List Screen-->
-    <string name="trigger_name">Trigger #%1$d</string>
-
-    <!--Trigger Addition Locations Screen-->
-    <string name="choose_locations">Choose Locations:</string>
-    <string name="no_locations_while_creating_trigger_message">You don\'t have any added locations.\nPlease add locations before creating triggers.</string>
-    <string name="no_locations_choosen_message">Please select at least one location</string>
-    <!--Trigger Addition Conditions Screen-->
-    <string name="add_conditions">Add conditions:</string>
-    <string name="add_new_condition">Add new condition</string>
-
-    <!-- Trigger Condition Item-->
-    <string name="select_condition_type">Select condition type</string>
-    <string name="input_amount">Input amount</string>
-    <string name="select_expression">Select expression</string>
-
-    <!--Trigger Addition Time Screen-->
-    <string name="concrete_date_period">Concrete date period</string>
-    <string name="input_date_period">Input date period</string>
-    <string name="select_time_period">Select time period:</string>
-    <string name="the_next_day">The next day</string>
-
     <!--Weather Details-->
     <!--p1 is weather icon name e.g. 10d-->
     <string name="weather_icon_path" translatable="false">"https://openweathermap.org/img/wn/%1$s@2x.png"</string>
@@ -97,7 +71,6 @@
 
     <!--Bottom Navigation Items-->
     <string name="locations">Locations</string>
-    <string name="triggers">Triggers</string>
     <string name="settings">Settings</string>
 
     <!--Content Descriptions -->
@@ -107,8 +80,6 @@
     <string name="forecast_icon">forecast icon</string>
     <string name="navigate_up">navigate up</string>
     <string name="search">Search</string>
-    <string name="clear_text">clear text</string>
-    <string name="delete_condition">delete condition</string>
 
     <!--Toolbar Actions Titles -->
     <string name="delete_location">delete location</string>
@@ -121,8 +92,6 @@
     <string name="location_list_loading_exception">An error occurred while getting the list of locations</string>
     <string name="location_weather_loading_exception">An error occurred while getting the location weather data</string>
     <string name="current_location_permissions_exception">No permission to get current location</string>
-    <string name="check_internet_connection_message">"Please check your internet connection!"</string>
-    <string name="unable_to_get_data">Unable to get data!</string>
 
     <!--Other -->
     <string name="refresh">Try Again</string>
@@ -131,7 +100,6 @@
     <string name="location_delete_message">The location will be permanently deleted</string>
     <string name="confirm">Confirm</string>
     <string name="deny">Deny</string>
-    <string name="ok">OK</string>
     <string name="error">Error!</string>
     <string name="network_error">Network Error!</string>
 </resources>

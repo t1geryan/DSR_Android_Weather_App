@@ -7,12 +7,6 @@
         android:iconTint="@color/icon_color"
         android:title="@string/locations" />
     <item
-        android:id="@id/triggers"
-        android:enabled="true"
-        android:icon="@drawable/icon_bell_24"
-        android:iconTint="@color/icon_color"
-        android:title="@string/triggers" />
-    <item
         android:id="@id/settings"
         android:enabled="true"
         android:icon="@drawable/icon_settings_24"

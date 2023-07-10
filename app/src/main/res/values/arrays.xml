@@ -21,24 +21,6 @@
         <item>NW</item>
     </string-array>
 
-    <!--Trigger Condition-->
-    <string-array name="condition_types">
-        <item>Temperature</item>
-        <item>Pressure</item>
-        <item>Humidity</item>
-        <item>Wind Speed</item>
-        <item>Wind Direction</item>
-    </string-array>
-
-    <string-array name="condition_expression_types">
-        <item> Greater </item>
-        <item> Less </item>
-        <item> Greater or equal</item>
-        <item> Less or equal</item>
-        <item> Equal </item>
-        <item> Not equal </item>
-    </string-array>
-
     <!-- Settings -->
     <string-array name="units_system_settings" translatable="false">
         <item>@string/metric_units</item>

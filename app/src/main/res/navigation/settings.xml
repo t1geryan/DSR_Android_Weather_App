@@ -9,5 +9,5 @@
         android:id="@+id/settingsFragment"
         android:name="com.example.weatherapp.presentation.ui.settings_screen.SettingsFragment"
         android:label="@string/settings_title"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@xml/fragment_settings" />
 </navigation>

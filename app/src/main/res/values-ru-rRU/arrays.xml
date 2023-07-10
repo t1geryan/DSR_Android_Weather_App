@@ -1,23 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--See common arrays.xml file for documentation-->
-    <string-array name="condition_types">
-        <item>Температура</item>
-        <item>Давление</item>
-        <item>Влажность</item>
-        <item>Скорость ветра</item>
-        <item>Направление ветра</item>
-    </string-array>
-
-    <string-array name="condition_expression_types">
-        <item>Больше</item>
-        <item>Меньше</item>
-        <item>Больше или равно</item>
-        <item>Меньше или равно</item>
-        <item>Равно</item>
-        <item>Не равно</item>
-    </string-array>
-
     <string-array name="wind_speed_units">
         <item>м/с</item>
         <item>ми/ч</item>

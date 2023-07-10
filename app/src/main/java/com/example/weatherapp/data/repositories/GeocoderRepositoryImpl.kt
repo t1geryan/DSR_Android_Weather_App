@@ -15,7 +15,6 @@ class GeocoderRepositoryImpl @Inject constructor(
     private val addressToGeocodingResultMapper: AddressToGeocodingResultMapper,
 ) : GeocoderRepository {
 
-    @Suppress("DEPRECATION")
     override fun getCoordinatesByLocationName(
         locationName: String,
         callback: GeocodingCallback

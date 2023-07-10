@@ -3,6 +3,5 @@
     app:startDestination="@id/locations">
 
     <include app:graph="@navigation/locations" />
-    <include app:graph="@navigation/triggers" />
     <include app:graph="@navigation/settings" />
 </navigation>

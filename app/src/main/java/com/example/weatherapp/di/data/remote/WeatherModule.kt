@@ -1,6 +1,5 @@
 package com.example.weatherapp.di.data.remote
 
-import com.example.weatherapp.data.remote.weather.api.TriggersApi
 import com.example.weatherapp.data.remote.weather.api.WeatherApi
 import dagger.Module
 import dagger.Provides
@@ -17,10 +16,4 @@ object WeatherModule {
     fun providesWeatherApi(
         retrofit: Retrofit
     ): WeatherApi = retrofit.create(WeatherApi::class.java)
-
-    @Provides
-    @Singleton
-    fun providesTriggersApi(
-        retrofit: Retrofit
-    ): TriggersApi = retrofit.create(TriggersApi::class.java)
 }

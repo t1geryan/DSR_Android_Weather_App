@@ -24,14 +24,6 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/bottomNavigationFragment" />
-        <action
-            android:id="@+id/action_bottomNavigationFragment_to_triggerAdditionsLocationsFragment"
-            app:destination="@id/triggerAdditionsLocationsFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@id/bottomNavigationFragment" />
     </fragment>
     <fragment
         android:id="@+id/locationAdditionMapFragment"
@@ -95,49 +87,5 @@
         <argument
             android:name="title"
             app:argType="string" />
-    </fragment>
-    <fragment
-        android:id="@+id/triggerAdditionsLocationsFragment"
-        android:name="com.example.weatherapp.presentation.ui.trigger_addition_wizard.trigger_addition_locations_screen.TriggerAdditionLocationsFragment"
-        android:label="@string/trigger_addition_locations_title"
-        tools:layout="@layout/fragment_trigger_addition_locations">
-        <action
-            android:id="@+id/action_triggerAdditionsLocationsFragment_to_triggerAdditionConditionsFragment"
-            app:destination="@id/triggerAdditionConditionsFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@id/triggerAdditionsLocationsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/triggerAdditionConditionsFragment"
-        android:name="com.example.weatherapp.presentation.ui.trigger_addition_wizard.trigger_addition_conditions_screen.TriggerAdditionConditionsFragment"
-        android:label="@string/trigger_addition_conditions_title"
-        tools:layout="@layout/fragment_trigger_addition_conditions">
-        <action
-            android:id="@+id/action_triggerAdditionConditionsFragment_to_triggerAdditionTimeFragment"
-            app:destination="@id/triggerAdditionTimeFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@id/triggerAdditionConditionsFragment" />
-        <argument
-            android:name="selectedLocationsId"
-            app:argType="long[]" />
-    </fragment>
-    <fragment
-        android:id="@+id/triggerAdditionTimeFragment"
-        android:name="com.example.weatherapp.presentation.ui.trigger_addition_wizard.trigger_addition_time_screen.TriggerAdditionTimeFragment"
-        android:label="@string/trigger_addition_time_title"
-        tools:layout="@layout/fragment_trigger_addition_time">
-        <action
-            android:id="@+id/action_triggerAdditionTimeFragment_to_bottomNavigationFragment"
-            app:destination="@id/bottomNavigationFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 </navigation>
